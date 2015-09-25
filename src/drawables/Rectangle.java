@@ -21,22 +21,19 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package graphicaleditor;
+package drawables;
 
-import GUI.Editor;
+import java.awt.Graphics;
+import javax.swing.JComponent;
 
 /**
  *
  * @author Moreno
  */
-public class GraphicalEditor {
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) {
-        Editor editor = new Editor();
-        editor.setVisible(true);
-    }
+public class Rectangle extends JComponent {
     
+    @Override
+    public void paint(Graphics g) {
+        g.drawRect(10, 10, 200, 200);
+    }
 }
