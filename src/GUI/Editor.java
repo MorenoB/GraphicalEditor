@@ -23,9 +23,9 @@
  */
 package GUI;
 
-import drawables.Ellipse;
+import drawables.Drawable;
+import drawables.Circle;
 import drawables.Rectangle;
-import javax.swing.JFrame;
 
 /**
  *
@@ -33,26 +33,16 @@ import javax.swing.JFrame;
  */
 public class Editor extends javax.swing.JFrame {
 
-    final int GRAPHICWIDTH = 500;
-    final int GRAPHICHEIGHT = 500;
     //private GraphicArea graphicArea;
-    private JFrame graphicArea;
     /**
      * Creates new form Editor
      */
     public Editor() {
         initComponents();
-        initGraphicArea();
+        
+        
     }
 
-    private void initGraphicArea()
-    {
-        graphicArea = new JFrame("Graphics Area");
-        graphicArea.setSize(GRAPHICWIDTH,GRAPHICHEIGHT);
-        graphicArea.setLocation(100,100);
-        graphicArea.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        graphicArea.setVisible(true);
-    }
     
     /**
      * This method is called from within the constructor to initialize the form.
@@ -63,27 +53,39 @@ public class Editor extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        b_CreateRectangle = new javax.swing.JButton();
-        b_CreateEllipse = new javax.swing.JButton();
-        l_CreationTools = new javax.swing.JLabel();
+        button_CreateRectangle = new javax.swing.JButton();
+        button_CreateEllipse = new javax.swing.JButton();
+        label_CreationTools = new javax.swing.JLabel();
+        panel_DrawArea = new GUI.DrawingPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        b_CreateRectangle.setText("Rectangle");
-        b_CreateRectangle.addActionListener(new java.awt.event.ActionListener() {
+        button_CreateRectangle.setText("Rectangle");
+        button_CreateRectangle.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                b_CreateRectangleActionPerformed(evt);
+                button_CreateRectangleActionPerformed(evt);
             }
         });
 
-        b_CreateEllipse.setText("Ellipse");
-        b_CreateEllipse.addActionListener(new java.awt.event.ActionListener() {
+        button_CreateEllipse.setText("Ellipse");
+        button_CreateEllipse.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                b_CreateEllipseActionPerformed(evt);
+                button_CreateEllipseActionPerformed(evt);
             }
         });
 
-        l_CreationTools.setText("Creation Tools");
+        label_CreationTools.setText("Creation Tools");
+
+        javax.swing.GroupLayout panel_DrawAreaLayout = new javax.swing.GroupLayout(panel_DrawArea);
+        panel_DrawArea.setLayout(panel_DrawAreaLayout);
+        panel_DrawAreaLayout.setHorizontalGroup(
+            panel_DrawAreaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 544, Short.MAX_VALUE)
+        );
+        panel_DrawAreaLayout.setVerticalGroup(
+            panel_DrawAreaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -92,39 +94,41 @@ public class Editor extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(b_CreateEllipse, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(b_CreateRectangle, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(l_CreationTools, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(button_CreateEllipse, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(button_CreateRectangle, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(label_CreationTools, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(panel_DrawArea, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(l_CreationTools)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(b_CreateRectangle)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(b_CreateEllipse)
-                .addContainerGap(121, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(panel_DrawArea, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addComponent(label_CreationTools)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(button_CreateRectangle)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(button_CreateEllipse)
+                        .addGap(0, 218, Short.MAX_VALUE)))
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void b_CreateRectangleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_b_CreateRectangleActionPerformed
+    private void button_CreateRectangleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_CreateRectangleActionPerformed
+        Rectangle rectangle = new Rectangle(50, 50, 50, 50);
+        panel_DrawArea.AddShape(rectangle);       
+    }//GEN-LAST:event_button_CreateRectangleActionPerformed
 
-        graphicArea.add(new Rectangle());
-        graphicArea.setVisible(true);       
-        
-    }//GEN-LAST:event_b_CreateRectangleActionPerformed
-
-    private void b_CreateEllipseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_b_CreateEllipseActionPerformed
-        
-        graphicArea.add(new Ellipse());
-        graphicArea.setVisible(true);
-        
-    }//GEN-LAST:event_b_CreateEllipseActionPerformed
+    private void button_CreateEllipseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_CreateEllipseActionPerformed
+        Circle circle = new Circle(50, 50, 50, 50);
+        panel_DrawArea.AddShape(circle);
+    }//GEN-LAST:event_button_CreateEllipseActionPerformed
 
     /**
      * @param args the command line arguments
@@ -163,8 +167,9 @@ public class Editor extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton b_CreateEllipse;
-    private javax.swing.JButton b_CreateRectangle;
-    private javax.swing.JLabel l_CreationTools;
+    private javax.swing.JButton button_CreateEllipse;
+    private javax.swing.JButton button_CreateRectangle;
+    private javax.swing.JLabel label_CreationTools;
+    private GUI.DrawingPanel panel_DrawArea;
     // End of variables declaration//GEN-END:variables
 }

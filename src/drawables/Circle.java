@@ -29,11 +29,11 @@ import java.awt.Graphics;
  *
  * @author Moreno
  */
-public class Rectangle extends Shape {
-    
+public class Circle extends Shape{
+
     private final int x, y, width, height;
 
-    public Rectangle(int x, int y, int width, int height) {
+    public Circle(int x, int y, int width, int height) {
         this.x = x;
         this.y = y;
         this.width = width;
@@ -42,6 +42,6 @@ public class Rectangle extends Shape {
 
     @Override
     public void draw(Graphics g) {
-        g.drawRect(x, y, width, height);
+        g.drawOval(x, y, width, height);
     }
 }

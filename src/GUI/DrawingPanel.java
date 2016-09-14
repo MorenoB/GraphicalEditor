@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright 2015 Moreno.
+ * Copyright 2016 Moreno.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,19 +21,38 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package drawables;
+package GUI;
 
+import drawables.Circle;
+import drawables.Shape;
+import java.awt.Dimension;
 import java.awt.Graphics;
-import javax.swing.JComponent;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.JPanel;
 
 /**
  *
  * @author Moreno
  */
-public class Ellipse extends JComponent {
+public class DrawingPanel extends JPanel {
+
+    private List<Shape> shapes;
+
+    public DrawingPanel() {
+        this.shapes = new ArrayList<>();
+    }
 
     @Override
-    public void paint(Graphics g) {
-        g.drawOval(10, 10, 200, 200);
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        for (Shape shape : shapes) {
+            shape.draw(g);
+        }
+    }
+
+    public void AddShape(Shape shape) {
+        shapes.add(shape);
+        repaint();
     }
 }

@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright 2015 Moreno.
+ * Copyright 2016 Moreno.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -29,19 +29,8 @@ import java.awt.Graphics;
  *
  * @author Moreno
  */
-public class Rectangle extends Shape {
-    
-    private final int x, y, width, height;
-
-    public Rectangle(int x, int y, int width, int height) {
-        this.x = x;
-        this.y = y;
-        this.width = width;
-        this.height = height;
-    }
-
-    @Override
+public abstract class Shape {
     public void draw(Graphics g) {
-        g.drawRect(x, y, width, height);
+        System.out.println("WARNING; No shape class set!");
     }
 }

@@ -26,49 +26,72 @@
           <Group type="102" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                  <Component id="b_CreateEllipse" max="32767" attributes="0"/>
-                  <Component id="b_CreateRectangle" alignment="0" max="32767" attributes="0"/>
-                  <Component id="l_CreationTools" alignment="0" max="32767" attributes="0"/>
+                  <Component id="button_CreateEllipse" max="32767" attributes="0"/>
+                  <Component id="button_CreateRectangle" alignment="0" max="32767" attributes="0"/>
+                  <Component id="label_CreationTools" alignment="0" max="32767" attributes="0"/>
               </Group>
-              <EmptySpace max="32767" attributes="0"/>
+              <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
+              <Component id="panel_DrawArea" max="32767" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" alignment="0" attributes="0">
+          <Group type="102" alignment="1" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="l_CreationTools" min="-2" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="1" attributes="0">
+                  <Component id="panel_DrawArea" max="32767" attributes="0"/>
+                  <Group type="102" alignment="0" attributes="0">
+                      <Component id="label_CreationTools" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="button_CreateRectangle" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="button_CreateEllipse" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="0" pref="218" max="32767" attributes="0"/>
+                  </Group>
+              </Group>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="b_CreateRectangle" min="-2" max="-2" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
-              <Component id="b_CreateEllipse" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="121" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Component class="javax.swing.JButton" name="b_CreateRectangle">
+    <Component class="javax.swing.JButton" name="button_CreateRectangle">
       <Properties>
         <Property name="text" type="java.lang.String" value="Rectangle"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="b_CreateRectangleActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="button_CreateRectangleActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="b_CreateEllipse">
+    <Component class="javax.swing.JButton" name="button_CreateEllipse">
       <Properties>
         <Property name="text" type="java.lang.String" value="Ellipse"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="b_CreateEllipseActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="button_CreateEllipseActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JLabel" name="l_CreationTools">
+    <Component class="javax.swing.JLabel" name="label_CreationTools">
       <Properties>
         <Property name="text" type="java.lang.String" value="Creation Tools"/>
       </Properties>
     </Component>
+    <Container class="GUI.DrawingPanel" name="panel_DrawArea">
+
+      <Layout>
+        <DimensionLayout dim="0">
+          <Group type="103" groupAlignment="0" attributes="0">
+              <EmptySpace min="0" pref="544" max="32767" attributes="0"/>
+          </Group>
+        </DimensionLayout>
+        <DimensionLayout dim="1">
+          <Group type="103" groupAlignment="0" attributes="0">
+              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+          </Group>
+        </DimensionLayout>
+      </Layout>
+    </Container>
   </SubComponents>
 </Form>
