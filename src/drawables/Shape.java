@@ -41,13 +41,13 @@ public abstract class Shape extends JComponent {
 
     protected int x, y, width, height;
 
-    private final int POINT_SIZE = 7;
+    private final int POINT_SIZE = 9;
 
     private final ShapeResizeHandler customMouseListener = new ShapeResizeHandler();
 
     private final List<Rectangle2D> points = new ArrayList<>();
     private final Rectangle2D selectedRectangle = new Rectangle2D.Double();
-    
+
     public boolean isSelected = false;
 
     public Shape(int x, int y, int width, int height) {
@@ -55,9 +55,9 @@ public abstract class Shape extends JComponent {
         this.y = y;
         this.width = width;
         this.height = height;
-        
-        int pointXLoc = x - POINT_SIZE/2;
-        int pointYLoc = y - POINT_SIZE/2;
+
+        int pointXLoc = x - POINT_SIZE / 2;
+        int pointYLoc = y - POINT_SIZE / 2;
 
         Rectangle2D r1 = new Rectangle2D.Double(pointXLoc, pointYLoc, POINT_SIZE, POINT_SIZE);
         Rectangle2D r2 = new Rectangle2D.Double(pointXLoc + width, pointYLoc + height, POINT_SIZE, POINT_SIZE);
@@ -70,10 +70,10 @@ public abstract class Shape extends JComponent {
     public void draw(Graphics g) {
 
         Graphics2D g2 = (Graphics2D) g;
-        
+
         Rectangle2D firstPoint = points.get(0);
         Rectangle2D secondPoint = points.get(1);
-        
+
         selectedRectangle.setRect(firstPoint.getCenterX(), firstPoint.getCenterY(),
                 Math.abs(firstPoint.getCenterX() - secondPoint.getCenterX()),
                 Math.abs(firstPoint.getCenterY() - secondPoint.getCenterY()));
@@ -82,25 +82,23 @@ public abstract class Shape extends JComponent {
         this.y = (int) selectedRectangle.getY();
         this.width = (int) selectedRectangle.getWidth();
         this.height = (int) selectedRectangle.getHeight();
-        
-        if(isSelected)
+
+        if (isSelected) {
             ResizeShape(g2);
+        }
 
     }
-    
-    private void ResizeShape(Graphics2D g2)
-    {
+
+    private void ResizeShape(Graphics2D g2) {
         for (Rectangle2D point : points) {
             g2.fill(point);
         }
-        
+
         g2.draw(selectedRectangle);
     }
-    
-    public boolean IsInsideSelectedRectangle(Point p)
-    {
-        if(selectedRectangle == null)
-        {
+
+    public boolean IsInsideSelectedRectangle(Point p) {
+        if (selectedRectangle == null) {
             System.out.println("Object has no selectable rectangle!");
             return false;
         }
@@ -118,6 +116,8 @@ public abstract class Shape extends JComponent {
         @Override
         public void mousePressed(MouseEvent event) {
             super.mousePressed(event);
+            
+            if(!isSelected) return;
 
             Point p = event.getPoint();
             for (int i = 0; i < points.size(); i++) {
@@ -139,22 +139,31 @@ public abstract class Shape extends JComponent {
         @Override
         public void mouseDragged(MouseEvent event) {
             super.mouseDragged(event);
+            
+            if(!isSelected) return;
 
-            if (pos == -1) {
-                return;
-            }
-
-            Rectangle2D point = points.get(pos);
             Point selectedPoint = event.getPoint();
-            if (point == null || selectedPoint == null) {
+
+            if (selectedPoint == null) {
                 return;
             }
             
             x = selectedPoint.x;
             y = selectedPoint.y;
+            
+            if (pos == -1) {
+                return;
+            }
 
-            point.setRect(selectedPoint.x, selectedPoint.y, point.getWidth(),
-                    point.getHeight());
+            Rectangle2D point = points.get(pos);
+
+            if(point != null)
+            {
+                    point.setRect(selectedPoint.x,
+                                selectedPoint.y,
+                                point.getWidth(),
+                                point.getHeight());
+            }
             
             repaint();
         }
