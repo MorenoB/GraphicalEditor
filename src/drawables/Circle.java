@@ -39,6 +39,6 @@ public class Circle extends Shape{
     public void draw(Graphics g) {
         super.draw(g);
         
-        g.drawOval(x, y, width, height);
+        g.fillOval(x, y, width, height);
     }
 }

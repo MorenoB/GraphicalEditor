@@ -39,6 +39,6 @@ public class Rectangle extends Shape {
     public void draw(Graphics g) {
         super.draw(g);
         
-        g.drawRect(x, y, width, height);
+        g.fillRect(x, y, width, height);
     }
 }

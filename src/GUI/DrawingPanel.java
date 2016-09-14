@@ -25,12 +25,15 @@ package GUI;
 
 import drawables.Shape;
 import java.awt.Graphics;
+import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 
 /**
  *
@@ -44,43 +47,7 @@ public class DrawingPanel extends JPanel {
     public DrawingPanel() {
         this.shapes = new ArrayList<>();
 
-        MouseAdapter l = new MouseAdapter() {
-
-            @Override
-            public void mousePressed(MouseEvent e) {
-                super.mousePressed(e);
-                
-                /*if(lastSelectedShape != null)
-                {
-                    lastSelectedShape.isSelected = false;
-                    lastSelectedShape = null;
-                }
-                
-                Shape selectedObj = (Shape)e.getComponent();
-                
-                if(selectedObj != null)
-                {
-                    if(shapes.contains(selectedObj))
-                    {
-                        selectedObj.isSelected = true;
-                        lastSelectedShape = selectedObj;
-                    }
-                }*/
-                repaint();
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent e) {
-                super.mouseReleased(e);
-                repaint();
-            }
-
-            @Override
-            public void mouseDragged(MouseEvent e) {
-                super.mouseDragged(e);
-                repaint();
-            }
-        };
+        MouseAdapter l = new MouseHandler(this);
 
         addMouseListener(l);
         addMouseMotionListener(l);
@@ -104,5 +71,58 @@ public class DrawingPanel extends JPanel {
 
         shapes.add(shape);
         repaint();
+    }
+
+    class MouseHandler extends MouseAdapter {
+
+        private JPanel jpanelSource;
+
+        public MouseHandler(JPanel jpanelSource) {
+            super();
+
+            this.jpanelSource = jpanelSource;
+        }
+
+        @Override
+        public void mousePressed(MouseEvent e) {
+            super.mousePressed(e);
+
+            if (lastSelectedShape != null) {
+                lastSelectedShape.isSelected = false;
+                lastSelectedShape = null;
+            }
+
+            Point selectedPoint = e.getPoint();
+
+            if (selectedPoint != null) {
+                for (Shape shape : shapes) {
+                    Point convertPoint = SwingUtilities.convertPoint(e.getComponent(), selectedPoint, shape);
+                    if (shape.IsInsideSelectedRectangle(selectedPoint)) {
+
+                        if (lastSelectedShape != shape) {
+                            lastSelectedShape = shape;
+                            lastSelectedShape.isSelected = true;
+                        } else {
+
+                        }
+                        break;
+                    }
+                }
+            }
+
+            repaint();
+        }
+
+        @Override
+        public void mouseReleased(MouseEvent e) {
+            super.mouseReleased(e);
+            repaint();
+        }
+
+        @Override
+        public void mouseDragged(MouseEvent e) {
+            super.mouseDragged(e);
+            repaint();
+        }
     }
 }
