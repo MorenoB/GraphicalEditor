@@ -31,17 +31,14 @@ import java.awt.Graphics;
  */
 public class Circle extends Shape{
 
-    private final int x, y, width, height;
-
     public Circle(int x, int y, int width, int height) {
-        this.x = x;
-        this.y = y;
-        this.width = width;
-        this.height = height;
+        super(x, y, width, height);
     }
 
     @Override
     public void draw(Graphics g) {
+        super.draw(g);
+        
         g.drawOval(x, y, width, height);
     }
 }

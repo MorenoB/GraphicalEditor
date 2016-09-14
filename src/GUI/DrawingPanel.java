@@ -23,10 +23,11 @@
  */
 package GUI;
 
-import drawables.Circle;
 import drawables.Shape;
-import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JPanel;
@@ -38,9 +39,52 @@ import javax.swing.JPanel;
 public class DrawingPanel extends JPanel {
 
     private List<Shape> shapes;
+    private Shape lastSelectedShape;
 
     public DrawingPanel() {
         this.shapes = new ArrayList<>();
+
+        MouseAdapter l = new MouseAdapter() {
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+                super.mousePressed(e);
+                
+                /*if(lastSelectedShape != null)
+                {
+                    lastSelectedShape.isSelected = false;
+                    lastSelectedShape = null;
+                }
+                
+                Shape selectedObj = (Shape)e.getComponent();
+                
+                if(selectedObj != null)
+                {
+                    if(shapes.contains(selectedObj))
+                    {
+                        selectedObj.isSelected = true;
+                        lastSelectedShape = selectedObj;
+                    }
+                }*/
+                repaint();
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                super.mouseReleased(e);
+                repaint();
+            }
+
+            @Override
+            public void mouseDragged(MouseEvent e) {
+                super.mouseDragged(e);
+                repaint();
+            }
+        };
+
+        addMouseListener(l);
+        addMouseMotionListener(l);
+
     }
 
     @Override
@@ -52,6 +96,12 @@ public class DrawingPanel extends JPanel {
     }
 
     public void AddShape(Shape shape) {
+
+        MouseAdapter mouseListener = shape.GetMouseListener();
+
+        addMouseListener(mouseListener);
+        addMouseMotionListener(mouseListener);
+
         shapes.add(shape);
         repaint();
     }

@@ -23,9 +23,10 @@
  */
 package GUI;
 
-import drawables.Drawable;
 import drawables.Circle;
 import drawables.Rectangle;
+import drawables.Shape;
+import java.awt.event.MouseAdapter;
 
 /**
  *
@@ -76,11 +77,13 @@ public class Editor extends javax.swing.JFrame {
 
         label_CreationTools.setText("Creation Tools");
 
+        panel_DrawArea.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
+
         javax.swing.GroupLayout panel_DrawAreaLayout = new javax.swing.GroupLayout(panel_DrawArea);
         panel_DrawArea.setLayout(panel_DrawAreaLayout);
         panel_DrawAreaLayout.setHorizontalGroup(
             panel_DrawAreaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 544, Short.MAX_VALUE)
+            .addGap(0, 548, Short.MAX_VALUE)
         );
         panel_DrawAreaLayout.setVerticalGroup(
             panel_DrawAreaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -97,7 +100,7 @@ public class Editor extends javax.swing.JFrame {
                     .addComponent(button_CreateEllipse, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(button_CreateRectangle, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(label_CreationTools, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(panel_DrawArea, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
@@ -122,6 +125,7 @@ public class Editor extends javax.swing.JFrame {
 
     private void button_CreateRectangleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_CreateRectangleActionPerformed
         Rectangle rectangle = new Rectangle(50, 50, 50, 50);
+
         panel_DrawArea.AddShape(rectangle);       
     }//GEN-LAST:event_button_CreateRectangleActionPerformed
 

@@ -30,18 +30,15 @@ import java.awt.Graphics;
  * @author Moreno
  */
 public class Rectangle extends Shape {
-    
-    private final int x, y, width, height;
 
     public Rectangle(int x, int y, int width, int height) {
-        this.x = x;
-        this.y = y;
-        this.width = width;
-        this.height = height;
+        super(x, y, width, height);
     }
 
     @Override
     public void draw(Graphics g) {
+        super.draw(g);
+        
         g.drawRect(x, y, width, height);
     }
 }
