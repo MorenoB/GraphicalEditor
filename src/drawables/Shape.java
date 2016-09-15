@@ -50,17 +50,19 @@ public abstract class Shape extends JComponent {
 
     public boolean isSelected = false;
 
+    private boolean isResizing = false;
+    private boolean isMoving = false;
+
     public Shape(int x, int y, int width, int height) {
         this.x = x;
         this.y = y;
         this.width = width;
         this.height = height;
 
-        int pointXLoc = x - POINT_SIZE / 2;
-        int pointYLoc = y - POINT_SIZE / 2;
+        Point pointLoc = GetSelectedPointLocation();
 
-        Rectangle2D r1 = new Rectangle2D.Double(pointXLoc, pointYLoc, POINT_SIZE, POINT_SIZE);
-        Rectangle2D r2 = new Rectangle2D.Double(pointXLoc + width, pointYLoc + height, POINT_SIZE, POINT_SIZE);
+        Rectangle2D r1 = new Rectangle2D.Double(pointLoc.x, pointLoc.y, POINT_SIZE, POINT_SIZE);
+        Rectangle2D r2 = new Rectangle2D.Double(pointLoc.x + width, pointLoc.y + height, POINT_SIZE, POINT_SIZE);
 
         points.add(r1);
         points.add(r2);
@@ -69,7 +71,19 @@ public abstract class Shape extends JComponent {
 
     public void draw(Graphics g) {
 
+        System.out.println("IsSelected " + isSelected + " is moving " + isMoving + " isresizing " + isResizing);
+
         Graphics2D g2 = (Graphics2D) g;
+
+        if (isMoving) {
+            Point pointLoc = GetSelectedPointLocation();
+
+            Rectangle2D newFirstPoint = new Rectangle2D.Double(pointLoc.x, pointLoc.y, POINT_SIZE, POINT_SIZE);
+            Rectangle2D newSecondPoint = new Rectangle2D.Double(pointLoc.x + width, pointLoc.y + height, POINT_SIZE, POINT_SIZE);
+
+            points.set(0, newFirstPoint);
+            points.set(1, newSecondPoint);
+        }
 
         Rectangle2D firstPoint = points.get(0);
         Rectangle2D secondPoint = points.get(1);
@@ -78,18 +92,15 @@ public abstract class Shape extends JComponent {
                 Math.abs(firstPoint.getCenterX() - secondPoint.getCenterX()),
                 Math.abs(firstPoint.getCenterY() - secondPoint.getCenterY()));
 
-        this.x = (int) selectedRectangle.getX();
-        this.y = (int) selectedRectangle.getY();
-        this.width = (int) selectedRectangle.getWidth();
-        this.height = (int) selectedRectangle.getHeight();
-
         if (isSelected) {
-            ResizeShape(g2);
+            DrawSelectedRectangle(g2);
         }
 
+        this.width = (int) selectedRectangle.getWidth();
+        this.height = (int) selectedRectangle.getHeight();
     }
 
-    private void ResizeShape(Graphics2D g2) {
+    private void DrawSelectedRectangle(Graphics2D g2) {
         for (Rectangle2D point : points) {
             g2.fill(point);
         }
@@ -109,6 +120,14 @@ public abstract class Shape extends JComponent {
         return customMouseListener;
     }
 
+    private Point GetSelectedPointLocation() {
+        int X = x - POINT_SIZE / 2;
+        int Y = y - POINT_SIZE / 2;
+        Point pointLoc = new Point(X, Y);
+
+        return pointLoc;
+    }
+
     class ShapeResizeHandler extends MouseAdapter {
 
         private int pos = -1;
@@ -116,17 +135,23 @@ public abstract class Shape extends JComponent {
         @Override
         public void mousePressed(MouseEvent event) {
             super.mousePressed(event);
-            
-            if(!isSelected) return;
+
+            if (!isSelected) {
+                return;
+            }
 
             Point p = event.getPoint();
+
+            //Check wether user has pressed a point
             for (int i = 0; i < points.size(); i++) {
                 if (points.get(i).contains(p)) {
                     pos = i;
-                    System.out.println("Selected point " + i);
+                    isResizing = true;
                     return;
                 }
             }
+
+            isMoving = true;
         }
 
         @Override
@@ -134,37 +159,38 @@ public abstract class Shape extends JComponent {
             super.mouseReleased(event);
 
             pos = -1;
+            isMoving = false;
+            isResizing = false;
         }
 
         @Override
         public void mouseDragged(MouseEvent event) {
             super.mouseDragged(event);
-            
-            if(!isSelected) return;
+
+            if (!isSelected) {
+                return;
+            }
 
             Point selectedPoint = event.getPoint();
 
             if (selectedPoint == null) {
                 return;
             }
-            
+
             x = selectedPoint.x;
             y = selectedPoint.y;
-            
-            if (pos == -1) {
-                return;
-            }
 
-            Rectangle2D point = points.get(pos);
+            if (pos != -1) {
+                Rectangle2D point = points.get(pos);
 
-            if(point != null)
-            {
+                if (point != null) {
                     point.setRect(selectedPoint.x,
-                                selectedPoint.y,
-                                point.getWidth(),
-                                point.getHeight());
+                            selectedPoint.y,
+                            point.getWidth(),
+                            point.getHeight());
+                }
             }
-            
+
             repaint();
         }
     }

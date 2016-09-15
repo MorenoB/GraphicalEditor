@@ -28,12 +28,9 @@ import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
 
 /**
  *
@@ -41,13 +38,13 @@ import javax.swing.SwingUtilities;
  */
 public class DrawingPanel extends JPanel {
 
-    private List<Shape> shapes;
+    private final List<Shape> shapes;
     private Shape lastSelectedShape;
 
     public DrawingPanel() {
         this.shapes = new ArrayList<>();
 
-        MouseAdapter l = new MouseHandler(this);
+        MouseAdapter l = new MouseHandler();
 
         addMouseListener(l);
         addMouseMotionListener(l);
@@ -75,14 +72,6 @@ public class DrawingPanel extends JPanel {
 
     class MouseHandler extends MouseAdapter {
 
-        private JPanel jpanelSource;
-
-        public MouseHandler(JPanel jpanelSource) {
-            super();
-
-            this.jpanelSource = jpanelSource;
-        }
-
         @Override
         public void mousePressed(MouseEvent e) {
             super.mousePressed(e);
@@ -96,14 +85,14 @@ public class DrawingPanel extends JPanel {
 
             if (selectedPoint != null) {
                 for (Shape shape : shapes) {
-                    Point convertPoint = SwingUtilities.convertPoint(e.getComponent(), selectedPoint, shape);
+                    
                     if (shape.IsInsideSelectedRectangle(selectedPoint)) {
-
+                        System.out.print(shape);
                         if (lastSelectedShape != shape) {
                             lastSelectedShape = shape;
                             lastSelectedShape.isSelected = true;
                         } else {
-
+                            
                         }
                         break;
                     }

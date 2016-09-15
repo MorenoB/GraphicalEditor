@@ -25,8 +25,6 @@ package GUI;
 
 import drawables.Circle;
 import drawables.Rectangle;
-import drawables.Shape;
-import java.awt.event.MouseAdapter;
 
 /**
  *
