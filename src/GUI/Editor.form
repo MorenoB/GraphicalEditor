@@ -23,63 +23,67 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" attributes="0">
+          <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                  <Component id="button_CreateEllipse" max="32767" attributes="0"/>
-                  <Component id="button_CreateRectangle" alignment="0" max="32767" attributes="0"/>
+                  <Component id="button_CirclelTool" max="32767" attributes="0"/>
+                  <Component id="button_RectangleTool" alignment="0" max="32767" attributes="0"/>
                   <Component id="label_CreationTools" alignment="0" max="32767" attributes="0"/>
                   <Component id="jSeparator1" max="32767" attributes="0"/>
                   <Component id="label_SelectionTools" max="32767" attributes="0"/>
-                  <Component id="button_Selection" max="32767" attributes="0"/>
+                  <Component id="button_SelectionTool" max="32767" attributes="0"/>
               </Group>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
-              <Component id="panel_DrawArea" max="32767" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="label_StatusLabel" pref="552" max="32767" attributes="0"/>
+                  <Component id="panel_DrawArea" max="32767" attributes="0"/>
+              </Group>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" alignment="1" attributes="0">
+          <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="1" attributes="0">
-                  <Component id="panel_DrawArea" max="32767" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="panel_DrawArea" min="-2" max="-2" attributes="0"/>
                   <Group type="102" attributes="0">
                       <Component id="label_SelectionTools" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="button_Selection" min="-2" max="-2" attributes="0"/>
+                      <Component id="button_SelectionTool" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="35" max="-2" attributes="0"/>
                       <Component id="jSeparator1" min="-2" pref="10" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="label_CreationTools" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="button_CreateRectangle" min="-2" max="-2" attributes="0"/>
+                      <Component id="button_RectangleTool" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="button_CreateEllipse" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="0" pref="124" max="32767" attributes="0"/>
+                      <Component id="button_CirclelTool" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="label_StatusLabel" pref="19" max="32767" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Component class="javax.swing.JButton" name="button_CreateRectangle">
+    <Component class="javax.swing.JButton" name="button_RectangleTool">
       <Properties>
         <Property name="text" type="java.lang.String" value="Rectangle"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="button_CreateRectangleActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="button_RectangleToolActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="button_CreateEllipse">
+    <Component class="javax.swing.JButton" name="button_CirclelTool">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Ellipse"/>
+        <Property name="text" type="java.lang.String" value="Circle"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="button_CreateEllipseActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="button_CirclelToolActionPerformed"/>
       </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="label_CreationTools">
@@ -100,12 +104,12 @@
       <Layout>
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
-              <EmptySpace min="0" pref="548" max="32767" attributes="0"/>
+              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
           </Group>
         </DimensionLayout>
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
-              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+              <EmptySpace min="0" pref="273" max="32767" attributes="0"/>
           </Group>
         </DimensionLayout>
       </Layout>
@@ -118,9 +122,18 @@
         <Property name="text" type="java.lang.String" value="Selection"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JButton" name="button_Selection">
+    <Component class="javax.swing.JButton" name="button_SelectionTool">
       <Properties>
         <Property name="text" type="java.lang.String" value="Select"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="button_SelectionToolActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JLabel" name="label_StatusLabel">
+      <Properties>
+        <Property name="horizontalAlignment" type="int" value="0"/>
+        <Property name="text" type="java.lang.String" value="Status Label!"/>
       </Properties>
     </Component>
   </SubComponents>

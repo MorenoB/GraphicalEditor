@@ -47,6 +47,8 @@ public abstract class Shape extends JComponent {
 
     private final List<Rectangle2D> scalePoints = new ArrayList<>();
     private final Rectangle2D selectedRectangle = new Rectangle2D.Double();
+    
+    protected String shapeName;
 
     public boolean isSelected = false;
 
@@ -55,6 +57,7 @@ public abstract class Shape extends JComponent {
     public boolean isMoving = false;
 
     public Shape(int x, int y, int width, int height) {
+        this.shapeName = "Shape";
         this.x = x;
         this.y = y;
         this.width = width;
@@ -71,8 +74,6 @@ public abstract class Shape extends JComponent {
     }
 
     public void draw(Graphics g) {
-
-        System.out.println("IsSelected " + isSelected + " is moving " + isMoving + " isresizing " + isScaling);
 
         Graphics2D g2 = (Graphics2D) g;
 
@@ -122,6 +123,11 @@ public abstract class Shape extends JComponent {
 
     public MouseHandler GetMouseListener() {
         return customMouseListener;
+    }
+    
+    public String GetShapeName()
+    {
+        return shapeName;
     }
 
     private Point CalculatePointLocation() {

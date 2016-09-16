@@ -35,7 +35,8 @@ public class Editor extends javax.swing.JFrame {
      */
     public Editor() {
         initComponents();
-
+        
+        panel_DrawArea.SetStatusLabel(label_StatusLabel);
     }
 
     /**
@@ -47,27 +48,28 @@ public class Editor extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        button_CreateRectangle = new javax.swing.JButton();
-        button_CreateEllipse = new javax.swing.JButton();
+        button_RectangleTool = new javax.swing.JButton();
+        button_CirclelTool = new javax.swing.JButton();
         label_CreationTools = new javax.swing.JLabel();
         panel_DrawArea = new GUI.DrawingPanel();
         jSeparator1 = new javax.swing.JSeparator();
         label_SelectionTools = new javax.swing.JLabel();
-        button_Selection = new javax.swing.JButton();
+        button_SelectionTool = new javax.swing.JButton();
+        label_StatusLabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        button_CreateRectangle.setText("Rectangle");
-        button_CreateRectangle.addActionListener(new java.awt.event.ActionListener() {
+        button_RectangleTool.setText("Rectangle");
+        button_RectangleTool.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                button_CreateRectangleActionPerformed(evt);
+                button_RectangleToolActionPerformed(evt);
             }
         });
 
-        button_CreateEllipse.setText("Ellipse");
-        button_CreateEllipse.addActionListener(new java.awt.event.ActionListener() {
+        button_CirclelTool.setText("Circle");
+        button_CirclelTool.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                button_CreateEllipseActionPerformed(evt);
+                button_CirclelToolActionPerformed(evt);
             }
         });
 
@@ -80,17 +82,25 @@ public class Editor extends javax.swing.JFrame {
         panel_DrawArea.setLayout(panel_DrawAreaLayout);
         panel_DrawAreaLayout.setHorizontalGroup(
             panel_DrawAreaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 548, Short.MAX_VALUE)
+            .addGap(0, 0, Short.MAX_VALUE)
         );
         panel_DrawAreaLayout.setVerticalGroup(
             panel_DrawAreaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGap(0, 273, Short.MAX_VALUE)
         );
 
         label_SelectionTools.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         label_SelectionTools.setText("Selection");
 
-        button_Selection.setText("Select");
+        button_SelectionTool.setText("Select");
+        button_SelectionTool.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                button_SelectionToolActionPerformed(evt);
+            }
+        });
+
+        label_StatusLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        label_StatusLabel.setText("Status Label!");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -99,51 +109,82 @@ public class Editor extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(button_CreateEllipse, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(button_CreateRectangle, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(button_CirclelTool, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(button_RectangleTool, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(label_CreationTools, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jSeparator1)
                     .addComponent(label_SelectionTools, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(button_Selection, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(button_SelectionTool, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(panel_DrawArea, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(label_StatusLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 552, Short.MAX_VALUE)
+                    .addComponent(panel_DrawArea, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(panel_DrawArea, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(panel_DrawArea, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(label_SelectionTools)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(button_Selection)
+                        .addComponent(button_SelectionTool)
                         .addGap(35, 35, 35)
                         .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(label_CreationTools)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(button_CreateRectangle)
+                        .addComponent(button_RectangleTool)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(button_CreateEllipse)
-                        .addGap(0, 124, Short.MAX_VALUE)))
+                        .addComponent(button_CirclelTool)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(label_StatusLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 19, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void button_CreateRectangleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_CreateRectangleActionPerformed
+    private void button_RectangleToolActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_RectangleToolActionPerformed
+        
+        ChangeTool(DrawingPanel.ChosenTool.CREATE_RECTANGLE);        
+    }//GEN-LAST:event_button_RectangleToolActionPerformed
 
-        panel_DrawArea.CurrentToolMode = DrawingPanel.ChosenTool.CREATE_RECTANGLE;
-    }//GEN-LAST:event_button_CreateRectangleActionPerformed
+    private void button_CirclelToolActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_CirclelToolActionPerformed
+        
+        ChangeTool(DrawingPanel.ChosenTool.CREATE_CIRCLE);
+    }//GEN-LAST:event_button_CirclelToolActionPerformed
 
-    private void button_CreateEllipseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_CreateEllipseActionPerformed
-
-        panel_DrawArea.CurrentToolMode = DrawingPanel.ChosenTool.CREATE_CIRCLE;
-
-    }//GEN-LAST:event_button_CreateEllipseActionPerformed
+    private void button_SelectionToolActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_SelectionToolActionPerformed
+        ChangeTool(DrawingPanel.ChosenTool.SELECT);
+    }//GEN-LAST:event_button_SelectionToolActionPerformed
+    
+    private void ChangeTool(DrawingPanel.ChosenTool newTool) {
+        panel_DrawArea.CurrentToolMode = newTool;
+        OnToolChanged();
+    }
+    
+    private void OnToolChanged() {
+        String statusLabelTxt = null;
+        //Update status label
+        switch (panel_DrawArea.CurrentToolMode) {
+            case NONE:
+                break;
+            case CREATE_CIRCLE:
+                statusLabelTxt = "Circle tool.";
+                break;
+            case CREATE_RECTANGLE:
+                statusLabelTxt = "Rectangle tool.";
+                break;
+            case SELECT:
+                statusLabelTxt = "Selection tool.";
+                break;
+        }
+        
+        label_StatusLabel.setText(statusLabelTxt);
+    }
 
     /**
      * @param args the command line arguments
@@ -182,12 +223,13 @@ public class Editor extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton button_CreateEllipse;
-    private javax.swing.JButton button_CreateRectangle;
-    private javax.swing.JButton button_Selection;
+    private javax.swing.JButton button_CirclelTool;
+    private javax.swing.JButton button_RectangleTool;
+    private javax.swing.JButton button_SelectionTool;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JLabel label_CreationTools;
     private javax.swing.JLabel label_SelectionTools;
+    private javax.swing.JLabel label_StatusLabel;
     private GUI.DrawingPanel panel_DrawArea;
     // End of variables declaration//GEN-END:variables
 }

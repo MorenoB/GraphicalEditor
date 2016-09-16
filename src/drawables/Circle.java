@@ -33,6 +33,8 @@ public class Circle extends Shape{
 
     public Circle(int x, int y, int width, int height) {
         super(x, y, width, height);
+        
+        this.shapeName = "Circle";
     }
 
     @Override

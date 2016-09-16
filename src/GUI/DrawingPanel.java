@@ -32,6 +32,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 /**
@@ -42,6 +43,8 @@ public class DrawingPanel extends JPanel {
 
     private final List<Shape> shapes;
     private Shape lastSelectedShape;
+
+    private JLabel statusLabel;
 
     public enum ChosenTool {
         NONE, SELECT, CREATE_RECTANGLE, CREATE_CIRCLE
@@ -56,6 +59,10 @@ public class DrawingPanel extends JPanel {
         addMouseListener(l);
         addMouseMotionListener(l);
 
+    }
+
+    public void SetStatusLabel(JLabel statusLabel) {
+        this.statusLabel = statusLabel;
     }
 
     @Override
@@ -101,7 +108,6 @@ public class DrawingPanel extends JPanel {
         for (Shape shape : shapes) {
 
             if (shape.IsInsideSelectedRectangle(selectedPoint)) {
-                System.out.print(shape);
                 if (lastSelectedShape != shape) {
                     lastSelectedShape = shape;
                     lastSelectedShape.isSelected = true;
@@ -127,24 +133,37 @@ public class DrawingPanel extends JPanel {
                 CurrentToolMode = ChosenTool.NONE;
             }
 
+            String statusLabelTxt = null;
+
             switch (CurrentToolMode) {
                 case NONE:
                     break;
                 case SELECT:
                     SelectAtPoint(selectedPoint);
+
+                    if (lastSelectedShape != null) {
+                        statusLabelTxt = "Selected " + lastSelectedShape.GetShapeName();
+                    }
+
                     break;
                 case CREATE_CIRCLE:
 
                     Circle circle = new Circle(selectedPoint.x, selectedPoint.y, 50, 50);
+
+                    statusLabelTxt = "Created " + circle.GetShapeName();
 
                     AddShape(circle);
                     break;
                 case CREATE_RECTANGLE:
                     Rectangle rectangle = new Rectangle(selectedPoint.x, selectedPoint.y, 50, 50);
 
+                    statusLabelTxt = "Created " + rectangle.GetShapeName();
+
                     AddShape(rectangle);
                     break;
             }
+
+            statusLabel.setText(statusLabelTxt);
 
             repaint();
         }
