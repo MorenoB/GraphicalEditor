@@ -39,7 +39,7 @@ import javax.swing.JPanel;
 public class Drawable extends JPanel {
 
     private final int SIZE = 8;
-    private Rectangle2D[] points = {new Rectangle2D.Double(50, 50, SIZE, SIZE), new Rectangle2D.Double(150, 100, SIZE, SIZE)};
+    private final Rectangle2D[] points = {new Rectangle2D.Double(50, 50, SIZE, SIZE), new Rectangle2D.Double(150, 100, SIZE, SIZE)};
     Rectangle2D s = new Rectangle2D.Double();
     ShapeResizeHandler ada = new ShapeResizeHandler();
 

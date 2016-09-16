@@ -24,16 +24,23 @@
 package drawables;
 
 import java.awt.Graphics;
-import javax.swing.JComponent;
 
 /**
  *
  * @author Moreno
  */
-public class Rectangle extends JComponent {
-    
+public class Rectangle extends Shape {
+
+    public Rectangle(int x, int y, int width, int height) {
+        super(x, y, width, height);
+        
+        this.shapeName = "Rectangle";
+    }
+
     @Override
-    public void paint(Graphics g) {
-        g.drawRect(10, 10, 200, 200);
+    public void draw(Graphics g) {
+        super.draw(g);
+        
+        g.fillRect(x, y, width, height);
     }
 }

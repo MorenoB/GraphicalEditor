@@ -21,22 +21,26 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package graphicaleditor;
+package drawables;
 
-import GUI.Editor;
+import java.awt.Graphics;
 
 /**
  *
  * @author Moreno
  */
-public class GraphicalEditor {
+public class Circle extends Shape{
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) {
-        Editor editor = new Editor();
-        editor.setVisible(true);
+    public Circle(int x, int y, int width, int height) {
+        super(x, y, width, height);
+        
+        this.shapeName = "Circle";
     }
-    
+
+    @Override
+    public void draw(Graphics g) {
+        super.draw(g);
+        
+        g.fillOval(x, y, width, height);
+    }
 }
