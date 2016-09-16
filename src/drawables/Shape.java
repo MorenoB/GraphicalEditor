@@ -23,6 +23,7 @@
  */
 package drawables;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
@@ -42,6 +43,8 @@ public abstract class Shape extends JComponent {
     protected int x, y, width, height;
 
     private final int POINT_SIZE = 9;
+
+    private final int OUTLINING_THICKNESS = 2;
 
     private final MouseHandler customMouseListener = new MouseHandler();
 
@@ -169,11 +172,27 @@ public abstract class Shape extends JComponent {
     }
 
     private void DrawSelectedRectangle(Graphics2D g2) {
+
+        g2.setColor(Color.BLUE);
+
+        //Blue outlining
+        Rectangle2D outlining = new Rectangle2D.Double(
+                selectedRectangle.getX() - OUTLINING_THICKNESS / 2,
+                selectedRectangle.getY() - OUTLINING_THICKNESS / 2,
+                selectedRectangle.getWidth() + OUTLINING_THICKNESS,
+                selectedRectangle.getHeight() + OUTLINING_THICKNESS);
+
+        g2.draw(outlining);
+
+        //Black inlining & black points aroudn the shape 
+        g2.setColor(Color.BLACK);
+
+        g2.draw(selectedRectangle);
+
         for (Rectangle2D point : scalePoints) {
             g2.fill(point);
         }
 
-        g2.draw(selectedRectangle);
     }
 
     class MouseHandler extends MouseAdapter {
