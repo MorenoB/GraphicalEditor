@@ -59,7 +59,7 @@ public abstract class Shape extends JComponent {
         this.width = width;
         this.height = height;
 
-        Point pointLoc = GetSelectedPointLocation();
+        Point pointLoc = CalculatePointLocation();
 
         Rectangle2D r1 = new Rectangle2D.Double(pointLoc.x, pointLoc.y, POINT_SIZE, POINT_SIZE);
         Rectangle2D r2 = new Rectangle2D.Double(pointLoc.x + width, pointLoc.y + height, POINT_SIZE, POINT_SIZE);
@@ -76,7 +76,7 @@ public abstract class Shape extends JComponent {
         Graphics2D g2 = (Graphics2D) g;
 
         if (isMoving && !isResizing) {
-            Point pointLoc = GetSelectedPointLocation();
+            Point pointLoc = CalculatePointLocation();
 
             Rectangle2D newFirstPoint = new Rectangle2D.Double(pointLoc.x, pointLoc.y, POINT_SIZE, POINT_SIZE);
             Rectangle2D newSecondPoint = new Rectangle2D.Double(pointLoc.x + width, pointLoc.y + height, POINT_SIZE, POINT_SIZE);
@@ -96,13 +96,13 @@ public abstract class Shape extends JComponent {
             DrawSelectedRectangle(g2);
         }
 
-        if(isResizing && !isMoving)
-        {
-            
+        if (isResizing && !isMoving) {
+            this.x = (int) selectedRectangle.getX();
+            this.y = (int) selectedRectangle.getY();
             this.width = (int) selectedRectangle.getWidth();
             this.height = (int) selectedRectangle.getHeight();
         }
-        
+
     }
 
     private void DrawSelectedRectangle(Graphics2D g2) {
@@ -125,7 +125,7 @@ public abstract class Shape extends JComponent {
         return customMouseListener;
     }
 
-    private Point GetSelectedPointLocation() {
+    private Point CalculatePointLocation() {
         int X = x - POINT_SIZE / 2;
         int Y = y - POINT_SIZE / 2;
         Point pointLoc = new Point(X, Y);
@@ -182,8 +182,7 @@ public abstract class Shape extends JComponent {
                 return;
             }
 
-            if(isMoving)
-            {
+            if (isMoving) {
                 x = selectedPoint.x;
                 y = selectedPoint.y;
             }
