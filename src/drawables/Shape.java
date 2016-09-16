@@ -75,7 +75,7 @@ public abstract class Shape extends JComponent {
 
         Graphics2D g2 = (Graphics2D) g;
 
-        if (isMoving) {
+        if (isMoving && !isResizing) {
             Point pointLoc = GetSelectedPointLocation();
 
             Rectangle2D newFirstPoint = new Rectangle2D.Double(pointLoc.x, pointLoc.y, POINT_SIZE, POINT_SIZE);
@@ -96,8 +96,13 @@ public abstract class Shape extends JComponent {
             DrawSelectedRectangle(g2);
         }
 
-        this.width = (int) selectedRectangle.getWidth();
-        this.height = (int) selectedRectangle.getHeight();
+        if(isResizing && !isMoving)
+        {
+            
+            this.width = (int) selectedRectangle.getWidth();
+            this.height = (int) selectedRectangle.getHeight();
+        }
+        
     }
 
     private void DrawSelectedRectangle(Graphics2D g2) {
@@ -177,8 +182,11 @@ public abstract class Shape extends JComponent {
                 return;
             }
 
-            x = selectedPoint.x;
-            y = selectedPoint.y;
+            if(isMoving)
+            {
+                x = selectedPoint.x;
+                y = selectedPoint.y;
+            }
 
             if (pos != -1) {
                 Rectangle2D point = points.get(pos);

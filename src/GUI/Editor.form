@@ -29,8 +29,11 @@
                   <Component id="button_CreateEllipse" max="32767" attributes="0"/>
                   <Component id="button_CreateRectangle" alignment="0" max="32767" attributes="0"/>
                   <Component id="label_CreationTools" alignment="0" max="32767" attributes="0"/>
+                  <Component id="jSeparator1" max="32767" attributes="0"/>
+                  <Component id="label_SelectionTools" max="32767" attributes="0"/>
+                  <Component id="button_Selection" max="32767" attributes="0"/>
               </Group>
-              <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Component id="panel_DrawArea" max="32767" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
@@ -42,13 +45,19 @@
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="1" attributes="0">
                   <Component id="panel_DrawArea" max="32767" attributes="0"/>
-                  <Group type="102" alignment="0" attributes="0">
+                  <Group type="102" attributes="0">
+                      <Component id="label_SelectionTools" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="button_Selection" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="35" max="-2" attributes="0"/>
+                      <Component id="jSeparator1" min="-2" pref="10" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
                       <Component id="label_CreationTools" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="button_CreateRectangle" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="button_CreateEllipse" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="0" pref="218" max="32767" attributes="0"/>
+                      <EmptySpace min="0" pref="124" max="32767" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
@@ -75,7 +84,8 @@
     </Component>
     <Component class="javax.swing.JLabel" name="label_CreationTools">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Creation Tools"/>
+        <Property name="horizontalAlignment" type="int" value="0"/>
+        <Property name="text" type="java.lang.String" value="Creation"/>
       </Properties>
     </Component>
     <Container class="GUI.DrawingPanel" name="panel_DrawArea">
@@ -100,5 +110,21 @@
         </DimensionLayout>
       </Layout>
     </Container>
+    <Component class="javax.swing.JSeparator" name="jSeparator1">
+    </Component>
+    <Component class="javax.swing.JLabel" name="label_SelectionTools">
+      <Properties>
+        <Property name="horizontalAlignment" type="int" value="0"/>
+        <Property name="text" type="java.lang.String" value="Selection"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JButton" name="button_Selection">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Select"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="button_SelectionActionPerformed"/>
+      </Events>
+    </Component>
   </SubComponents>
 </Form>

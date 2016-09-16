@@ -23,6 +23,8 @@
  */
 package GUI;
 
+import drawables.Circle;
+import drawables.Rectangle;
 import drawables.Shape;
 import java.awt.Graphics;
 import java.awt.Point;
@@ -40,6 +42,11 @@ public class DrawingPanel extends JPanel {
 
     private final List<Shape> shapes;
     private Shape lastSelectedShape;
+
+    public enum ChosenTool {
+        NONE, SELECT, CREATE_RECTANGLE, CREATE_CIRCLE
+    }
+    public ChosenTool CurrentToolMode = ChosenTool.NONE;
 
     public DrawingPanel() {
         this.shapes = new ArrayList<>();
@@ -70,33 +77,62 @@ public class DrawingPanel extends JPanel {
         repaint();
     }
 
+    private void SelectAtPoint(Point selectedPoint) {
+
+        if (lastSelectedShape != null) {
+            lastSelectedShape.isSelected = false;
+            lastSelectedShape = null;
+        }
+
+        if (selectedPoint == null) {
+            return;
+        }
+
+        for (Shape shape : shapes) {
+
+            if (shape.IsInsideSelectedRectangle(selectedPoint)) {
+                System.out.print(shape);
+                if (lastSelectedShape != shape) {
+                    lastSelectedShape = shape;
+                    lastSelectedShape.isSelected = true;
+                } else {
+                    //Already selected
+                }
+                break;
+            }
+        }
+
+    }
+
     class MouseHandler extends MouseAdapter {
 
         @Override
         public void mousePressed(MouseEvent e) {
             super.mousePressed(e);
 
-            if (lastSelectedShape != null) {
-                lastSelectedShape.isSelected = false;
-                lastSelectedShape = null;
-            }
-
             Point selectedPoint = e.getPoint();
+            
+            //Go back to default mode
+            if(e.getButton() == MouseEvent.BUTTON2)
+                CurrentToolMode = ChosenTool.NONE;
 
-            if (selectedPoint != null) {
-                for (Shape shape : shapes) {
-                    
-                    if (shape.IsInsideSelectedRectangle(selectedPoint)) {
-                        System.out.print(shape);
-                        if (lastSelectedShape != shape) {
-                            lastSelectedShape = shape;
-                            lastSelectedShape.isSelected = true;
-                        } else {
-                            
-                        }
-                        break;
-                    }
-                }
+            switch (CurrentToolMode) {
+                case NONE:
+                    break;
+                case SELECT:
+                    SelectAtPoint(selectedPoint);
+                    break;
+                case CREATE_CIRCLE:
+
+                    Circle circle = new Circle(selectedPoint.x, selectedPoint.y, 50, 50);
+
+                    AddShape(circle);
+                    break;
+                case CREATE_RECTANGLE:
+                    Rectangle rectangle = new Rectangle(selectedPoint.x, selectedPoint.y, 50, 50);
+
+                    AddShape(rectangle);
+                    break;
             }
 
             repaint();
