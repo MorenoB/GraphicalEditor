@@ -47,7 +47,7 @@ public abstract class Shape extends JComponent {
 
     private final List<Rectangle2D> scalePoints = new ArrayList<>();
     private final Rectangle2D selectedRectangle = new Rectangle2D.Double();
-    
+
     protected String shapeName;
 
     public boolean isSelected = false;
@@ -77,22 +77,11 @@ public abstract class Shape extends JComponent {
 
         Graphics2D g2 = (Graphics2D) g;
 
-        if (isMoving && !isScaling) {
-            Point pointLoc = CalculatePointLocation();
-
-            Rectangle2D newFirstPoint = new Rectangle2D.Double(pointLoc.x, pointLoc.y, POINT_SIZE, POINT_SIZE);
-            Rectangle2D newSecondPoint = new Rectangle2D.Double(pointLoc.x + width, pointLoc.y + height, POINT_SIZE, POINT_SIZE);
-
-            scalePoints.set(0, newFirstPoint);
-            scalePoints.set(1, newSecondPoint);
+        if (isMoving) {
+            RecalculateScalePoints();
         }
 
-        Rectangle2D firstPoint = scalePoints.get(0);
-        Rectangle2D secondPoint = scalePoints.get(1);
-
-        selectedRectangle.setRect(firstPoint.getCenterX(), firstPoint.getCenterY(),
-                Math.abs(firstPoint.getCenterX() - secondPoint.getCenterX()),
-                Math.abs(firstPoint.getCenterY() - secondPoint.getCenterY()));
+        CaclulateSelectedRectangle();
 
         if (isSelected) {
             DrawSelectedRectangle(g2);
@@ -105,6 +94,48 @@ public abstract class Shape extends JComponent {
             this.height = (int) selectedRectangle.getHeight();
         }
 
+    }
+
+    private void CaclulateSelectedRectangle() {
+
+        Rectangle2D firstPoint = scalePoints.get(0);
+        Rectangle2D secondPoint = scalePoints.get(1);
+
+        boolean isOutsideXBounds = secondPoint.getCenterX() - firstPoint.getCenterX() < 0;
+        boolean isOutsideYBounds = secondPoint.getCenterY() - firstPoint.getCenterY() < 0;
+
+        if (isOutsideXBounds && isOutsideYBounds) {
+            selectedRectangle.setRect(secondPoint.getCenterX(), secondPoint.getCenterY(),
+                    Math.abs(firstPoint.getCenterX() - secondPoint.getCenterX()),
+                    Math.abs(firstPoint.getCenterY() - secondPoint.getCenterY()));
+            return;
+        }
+
+        if (isOutsideYBounds) {
+            selectedRectangle.setRect(firstPoint.getCenterX(), secondPoint.getCenterY(),
+                    Math.abs(firstPoint.getCenterX() - secondPoint.getCenterX()),
+                    Math.abs(firstPoint.getCenterY() - secondPoint.getCenterY()));
+
+        } else if (isOutsideXBounds) {
+            selectedRectangle.setRect(secondPoint.getCenterX(), firstPoint.getCenterY(),
+                    Math.abs(firstPoint.getCenterX() - secondPoint.getCenterX()),
+                    Math.abs(firstPoint.getCenterY() - secondPoint.getCenterY()));
+
+        } else {
+            selectedRectangle.setRect(firstPoint.getCenterX(), firstPoint.getCenterY(),
+                    Math.abs(firstPoint.getCenterX() - secondPoint.getCenterX()),
+                    Math.abs(firstPoint.getCenterY() - secondPoint.getCenterY()));
+        }
+    }
+
+    private void RecalculateScalePoints() {
+        Point pointLoc = CalculatePointLocation();
+
+        Rectangle2D newFirstPoint = new Rectangle2D.Double(pointLoc.x, pointLoc.y, POINT_SIZE, POINT_SIZE);
+        Rectangle2D newSecondPoint = new Rectangle2D.Double(pointLoc.x + width, pointLoc.y + height, POINT_SIZE, POINT_SIZE);
+
+        scalePoints.set(0, newFirstPoint);
+        scalePoints.set(1, newSecondPoint);
     }
 
     public void ForceInitialScaling() {
@@ -124,9 +155,8 @@ public abstract class Shape extends JComponent {
     public MouseHandler GetMouseListener() {
         return customMouseListener;
     }
-    
-    public String GetShapeName()
-    {
+
+    public String GetShapeName() {
         return shapeName;
     }
 
