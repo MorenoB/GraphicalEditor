@@ -68,12 +68,22 @@ public class DrawingPanel extends JPanel {
 
     public void AddShape(Shape shape) {
 
+        if (lastSelectedShape != null) {
+            lastSelectedShape.isSelected = false;
+        }
+
+        lastSelectedShape = shape;
+        lastSelectedShape.ForceInitialScaling();
+
         MouseAdapter mouseListener = shape.GetMouseListener();
 
         addMouseListener(mouseListener);
         addMouseMotionListener(mouseListener);
 
         shapes.add(shape);
+
+        CurrentToolMode = ChosenTool.SELECT;
+
         repaint();
     }
 
@@ -111,10 +121,11 @@ public class DrawingPanel extends JPanel {
             super.mousePressed(e);
 
             Point selectedPoint = e.getPoint();
-            
+
             //Go back to default mode
-            if(e.getButton() == MouseEvent.BUTTON2)
+            if (e.getButton() == MouseEvent.BUTTON2) {
                 CurrentToolMode = ChosenTool.NONE;
+            }
 
             switch (CurrentToolMode) {
                 case NONE:

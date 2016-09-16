@@ -45,13 +45,14 @@ public abstract class Shape extends JComponent {
 
     private final MouseHandler customMouseListener = new MouseHandler();
 
-    private final List<Rectangle2D> points = new ArrayList<>();
+    private final List<Rectangle2D> scalePoints = new ArrayList<>();
     private final Rectangle2D selectedRectangle = new Rectangle2D.Double();
 
     public boolean isSelected = false;
 
-    private boolean isScaling = false;
-    private boolean isMoving = false;
+    private boolean isInitScaling = false;
+    public boolean isScaling = false;
+    public boolean isMoving = false;
 
     public Shape(int x, int y, int width, int height) {
         this.x = x;
@@ -64,8 +65,8 @@ public abstract class Shape extends JComponent {
         Rectangle2D r1 = new Rectangle2D.Double(pointLoc.x, pointLoc.y, POINT_SIZE, POINT_SIZE);
         Rectangle2D r2 = new Rectangle2D.Double(pointLoc.x + width, pointLoc.y + height, POINT_SIZE, POINT_SIZE);
 
-        points.add(r1);
-        points.add(r2);
+        scalePoints.add(r1);
+        scalePoints.add(r2);
 
     }
 
@@ -81,12 +82,12 @@ public abstract class Shape extends JComponent {
             Rectangle2D newFirstPoint = new Rectangle2D.Double(pointLoc.x, pointLoc.y, POINT_SIZE, POINT_SIZE);
             Rectangle2D newSecondPoint = new Rectangle2D.Double(pointLoc.x + width, pointLoc.y + height, POINT_SIZE, POINT_SIZE);
 
-            points.set(0, newFirstPoint);
-            points.set(1, newSecondPoint);
+            scalePoints.set(0, newFirstPoint);
+            scalePoints.set(1, newSecondPoint);
         }
 
-        Rectangle2D firstPoint = points.get(0);
-        Rectangle2D secondPoint = points.get(1);
+        Rectangle2D firstPoint = scalePoints.get(0);
+        Rectangle2D secondPoint = scalePoints.get(1);
 
         selectedRectangle.setRect(firstPoint.getCenterX(), firstPoint.getCenterY(),
                 Math.abs(firstPoint.getCenterX() - secondPoint.getCenterX()),
@@ -105,12 +106,10 @@ public abstract class Shape extends JComponent {
 
     }
 
-    private void DrawSelectedRectangle(Graphics2D g2) {
-        for (Rectangle2D point : points) {
-            g2.fill(point);
-        }
-
-        g2.draw(selectedRectangle);
+    public void ForceInitialScaling() {
+        isSelected = true;
+        isScaling = true;
+        isInitScaling = true;
     }
 
     public boolean IsInsideSelectedRectangle(Point p) {
@@ -133,6 +132,14 @@ public abstract class Shape extends JComponent {
         return pointLoc;
     }
 
+    private void DrawSelectedRectangle(Graphics2D g2) {
+        for (Rectangle2D point : scalePoints) {
+            g2.fill(point);
+        }
+
+        g2.draw(selectedRectangle);
+    }
+
     class MouseHandler extends MouseAdapter {
 
         private int pos = -1;
@@ -145,11 +152,11 @@ public abstract class Shape extends JComponent {
                 return;
             }
 
-            Point p = event.getPoint();
+            Point pressedPoint = event.getPoint();
 
             //Check wether user has pressed a point
-            for (int i = 0; i < points.size(); i++) {
-                if (points.get(i).contains(p)) {
+            for (int i = 0; i < scalePoints.size(); i++) {
+                if (scalePoints.get(i).contains(pressedPoint)) {
                     pos = i;
                     isScaling = true;
                     return;
@@ -166,6 +173,7 @@ public abstract class Shape extends JComponent {
             pos = -1;
             isMoving = false;
             isScaling = false;
+            isInitScaling = false;
         }
 
         @Override
@@ -182,19 +190,31 @@ public abstract class Shape extends JComponent {
                 return;
             }
 
+            if (isInitScaling) {
+                Rectangle2D secondScalePoint = scalePoints.get(1);
+
+                if (secondScalePoint != null) {
+                    secondScalePoint.setRect(selectedPoint.x,
+                            selectedPoint.y,
+                            secondScalePoint.getWidth(),
+                            secondScalePoint.getHeight());
+                }
+                return;
+            }
+
             if (isMoving) {
                 x = selectedPoint.x;
                 y = selectedPoint.y;
             }
 
             if (pos != -1) {
-                Rectangle2D point = points.get(pos);
+                Rectangle2D scalePoint = scalePoints.get(pos);
 
-                if (point != null) {
-                    point.setRect(selectedPoint.x,
+                if (scalePoint != null) {
+                    scalePoint.setRect(selectedPoint.x,
                             selectedPoint.y,
-                            point.getWidth(),
-                            point.getHeight());
+                            scalePoint.getWidth(),
+                            scalePoint.getHeight());
                 }
             }
 

@@ -122,9 +122,6 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Select"/>
       </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="button_SelectionActionPerformed"/>
-      </Events>
     </Component>
   </SubComponents>
 </Form>

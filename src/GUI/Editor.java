@@ -23,9 +23,6 @@
  */
 package GUI;
 
-import drawables.Circle;
-import drawables.Rectangle;
-
 /**
  *
  * @author Moreno
@@ -94,11 +91,6 @@ public class Editor extends javax.swing.JFrame {
         label_SelectionTools.setText("Selection");
 
         button_Selection.setText("Select");
-        button_Selection.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                button_SelectionActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -152,10 +144,6 @@ public class Editor extends javax.swing.JFrame {
         panel_DrawArea.CurrentToolMode = DrawingPanel.ChosenTool.CREATE_CIRCLE;
 
     }//GEN-LAST:event_button_CreateEllipseActionPerformed
-
-    private void button_SelectionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_SelectionActionPerformed
-        panel_DrawArea.CurrentToolMode = DrawingPanel.ChosenTool.SELECT;
-    }//GEN-LAST:event_button_SelectionActionPerformed
 
     /**
      * @param args the command line arguments
