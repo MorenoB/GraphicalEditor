@@ -43,14 +43,14 @@ public abstract class Shape extends JComponent {
 
     private final int POINT_SIZE = 9;
 
-    private final ShapeResizeHandler customMouseListener = new ShapeResizeHandler();
+    private final MouseHandler customMouseListener = new MouseHandler();
 
     private final List<Rectangle2D> points = new ArrayList<>();
     private final Rectangle2D selectedRectangle = new Rectangle2D.Double();
 
     public boolean isSelected = false;
 
-    private boolean isResizing = false;
+    private boolean isScaling = false;
     private boolean isMoving = false;
 
     public Shape(int x, int y, int width, int height) {
@@ -71,11 +71,11 @@ public abstract class Shape extends JComponent {
 
     public void draw(Graphics g) {
 
-        System.out.println("IsSelected " + isSelected + " is moving " + isMoving + " isresizing " + isResizing);
+        System.out.println("IsSelected " + isSelected + " is moving " + isMoving + " isresizing " + isScaling);
 
         Graphics2D g2 = (Graphics2D) g;
 
-        if (isMoving && !isResizing) {
+        if (isMoving && !isScaling) {
             Point pointLoc = CalculatePointLocation();
 
             Rectangle2D newFirstPoint = new Rectangle2D.Double(pointLoc.x, pointLoc.y, POINT_SIZE, POINT_SIZE);
@@ -96,7 +96,7 @@ public abstract class Shape extends JComponent {
             DrawSelectedRectangle(g2);
         }
 
-        if (isResizing && !isMoving) {
+        if (isScaling && !isMoving) {
             this.x = (int) selectedRectangle.getX();
             this.y = (int) selectedRectangle.getY();
             this.width = (int) selectedRectangle.getWidth();
@@ -121,7 +121,7 @@ public abstract class Shape extends JComponent {
         return selectedRectangle.contains(p);
     }
 
-    public ShapeResizeHandler GetMouseListener() {
+    public MouseHandler GetMouseListener() {
         return customMouseListener;
     }
 
@@ -133,7 +133,7 @@ public abstract class Shape extends JComponent {
         return pointLoc;
     }
 
-    class ShapeResizeHandler extends MouseAdapter {
+    class MouseHandler extends MouseAdapter {
 
         private int pos = -1;
 
@@ -151,7 +151,7 @@ public abstract class Shape extends JComponent {
             for (int i = 0; i < points.size(); i++) {
                 if (points.get(i).contains(p)) {
                     pos = i;
-                    isResizing = true;
+                    isScaling = true;
                     return;
                 }
             }
@@ -165,7 +165,7 @@ public abstract class Shape extends JComponent {
 
             pos = -1;
             isMoving = false;
-            isResizing = false;
+            isScaling = false;
         }
 
         @Override
