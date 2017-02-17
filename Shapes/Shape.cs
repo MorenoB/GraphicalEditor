@@ -1,6 +1,8 @@
-﻿namespace GraphicalEditor.Shapes
+﻿using System.Drawing;
+
+namespace GraphicalEditor.Shapes
 {
-    class Shape
+    public class Shape
     {
         public int Location_X
         {
@@ -47,6 +49,20 @@
                 dirty = true;
             }
         }
+
+        public Color Color
+        {
+            get { return color; }
+            set
+            {
+                if (value == color) return;
+
+                color = value;
+                dirty = true;
+            }
+        }
+
+
         public ShapeTypeEnum ShapeType { get { return shapeType; } }
 
         public enum ShapeTypeEnum { RECTANGLE, CIRCLE };
@@ -56,19 +72,22 @@
 
         private bool dirty;
 
+        private Color color;
+
         private int location_x;
         private int location_y;
 
         private int width;
         private int length;
 
-        public Shape(ShapeTypeEnum shapeType, int location_x, int location_y, int width, int length)
+        public Shape(ShapeTypeEnum shapeType, Color color, int location_x, int location_y, int width, int length)
         {
             this.location_x = location_x;
             this.location_y = location_y;
             this.width = width;
             this.length = length;
             this.shapeType = shapeType;
+            this.color = color;
             this.dirty = true;
         }
     }
