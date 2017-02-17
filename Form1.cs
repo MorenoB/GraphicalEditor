@@ -18,6 +18,8 @@ namespace GraphicalEditor
 
         private int mouseLocationX, mouseLocationY = 0;
         private Item selectedItem;
+        
+        private DrawHandler DrawHandlerInstance { get { return DrawHandler.Instance; } }
 
 
         public Form()
@@ -27,7 +29,7 @@ namespace GraphicalEditor
 
         public enum Item
         {
-            Rectangle, Ellipse, Line, Text, Brush, Pencil, eraser, ColorPicker
+            Rectangle, Ellipse, Line, Brush, Pencil, eraser, ColorPicker
         }
 
         private void PictureBox_ColorPicker_MouseDown(object sender, MouseEventArgs e)
@@ -154,264 +156,6 @@ namespace GraphicalEditor
             selectedItem = Item.ColorPicker;
         }
 
-        private void Button_Text_Click(object sender, EventArgs e)
-        {
-            selectedItem = Item.Text;
-        }
-
-        private void Button_Apply_TextToDraw_Click(object sender, EventArgs e)
-        {
-            Graphics g = PictureBox_DrawArea.CreateGraphics();
-            if (selectedItem == Item.Text)
-            {
-                if (Combobox_FontStyle.Text == "Regular")
-                {
-                    g.DrawString(Textbox_TextToDraw.Text, new Font(ComboBox_FontName.Text, Convert.ToInt32(Combobox_FontSize.Text), FontStyle.Regular), new SolidBrush(paintcolor), new PointF(mouseLocationX, mouseLocationY));
-                }
-                else if (Combobox_FontStyle.Text == "Bold")
-                {
-                    g.DrawString(Textbox_TextToDraw.Text, new Font(ComboBox_FontName.Text, Convert.ToInt32(Combobox_FontSize.Text), FontStyle.Bold), new SolidBrush(paintcolor), new PointF(mouseLocationX, mouseLocationY));
-                }
-                else if (Combobox_FontStyle.Text == "Underline")
-                {
-                    g.DrawString(Textbox_TextToDraw.Text, new Font(ComboBox_FontName.Text, Convert.ToInt32(Combobox_FontSize.Text), FontStyle.Underline), new SolidBrush(paintcolor), new PointF(mouseLocationX, mouseLocationY));
-                }
-                else if (Combobox_FontStyle.Text == "Strikeout")
-                {
-                    g.DrawString(Textbox_TextToDraw.Text, new Font(ComboBox_FontName.Text, Convert.ToInt32(Combobox_FontSize.Text), FontStyle.Strikeout), new SolidBrush(paintcolor), new PointF(mouseLocationX, mouseLocationY));
-                }
-                else if (Combobox_FontStyle.Text == "Italic")
-                {
-                    g.DrawString(Textbox_TextToDraw.Text, new Font(ComboBox_FontName.Text, Convert.ToInt32(Combobox_FontSize.Text), FontStyle.Italic), new SolidBrush(paintcolor), new PointF(mouseLocationX, mouseLocationY));
-                }
-                if(ComboBox_TextShadow.Text == "SE")
-                {
-                    if (Combobox_FontStyle.Text == "Regular")
-                    {
-                        g.DrawString(Textbox_TextToDraw.Text, new Font(ComboBox_FontName.Text, Convert.ToInt32(Combobox_FontSize.Text), FontStyle.Regular), new SolidBrush(Color.Gray), new PointF(mouseLocationX + 5, mouseLocationY + 5));
-                        g.DrawString(Textbox_TextToDraw.Text, new Font(ComboBox_FontName.Text, Convert.ToInt32(Combobox_FontSize.Text), FontStyle.Regular), new SolidBrush(paintcolor), new PointF(mouseLocationX, mouseLocationY));
-                    }
-                    else if (Combobox_FontStyle.Text == "Bold")
-                    {
-                        g.DrawString(Textbox_TextToDraw.Text, new Font(ComboBox_FontName.Text, Convert.ToInt32(Combobox_FontSize.Text), FontStyle.Bold), new SolidBrush(Color.Gray), new PointF(mouseLocationX + 5, mouseLocationY + 5));
-                        g.DrawString(Textbox_TextToDraw.Text, new Font(ComboBox_FontName.Text, Convert.ToInt32(Combobox_FontSize.Text), FontStyle.Bold), new SolidBrush(paintcolor), new PointF(mouseLocationX, mouseLocationY));
-                    }
-                    else if (Combobox_FontStyle.Text == "Underline")
-                    {
-                        g.DrawString(Textbox_TextToDraw.Text, new Font(ComboBox_FontName.Text, Convert.ToInt32(Combobox_FontSize.Text), FontStyle.Underline), new SolidBrush(Color.Gray), new PointF(mouseLocationX + 5, mouseLocationY + 5));
-                        g.DrawString(Textbox_TextToDraw.Text, new Font(ComboBox_FontName.Text, Convert.ToInt32(Combobox_FontSize.Text), FontStyle.Underline), new SolidBrush(paintcolor), new PointF(mouseLocationX, mouseLocationY));
-                    }
-                    else if (Combobox_FontStyle.Text == "Strikeout")
-                    {
-                        g.DrawString(Textbox_TextToDraw.Text, new Font(ComboBox_FontName.Text, Convert.ToInt32(Combobox_FontSize.Text), FontStyle.Strikeout), new SolidBrush(Color.Gray), new PointF(mouseLocationX + 5, mouseLocationY + 5));
-                        g.DrawString(Textbox_TextToDraw.Text, new Font(ComboBox_FontName.Text, Convert.ToInt32(Combobox_FontSize.Text), FontStyle.Strikeout), new SolidBrush(paintcolor), new PointF(mouseLocationX, mouseLocationY));
-                    }
-                    else if (Combobox_FontStyle.Text == "Italic")
-                    {
-                        g.DrawString(Textbox_TextToDraw.Text, new Font(ComboBox_FontName.Text, Convert.ToInt32(Combobox_FontSize.Text), FontStyle.Italic), new SolidBrush(Color.Gray), new PointF(mouseLocationX + 5, mouseLocationY + 5));
-                        g.DrawString(Textbox_TextToDraw.Text, new Font(ComboBox_FontName.Text, Convert.ToInt32(Combobox_FontSize.Text), FontStyle.Italic), new SolidBrush(paintcolor), new PointF(mouseLocationX, mouseLocationY));
-                    }
-                }
-                else if (ComboBox_TextShadow.Text == "SW")
-                {
-                    if (Combobox_FontStyle.Text == "Regular")
-                    {
-                        g.DrawString(Textbox_TextToDraw.Text, new Font(ComboBox_FontName.Text, Convert.ToInt32(Combobox_FontSize.Text), FontStyle.Regular), new SolidBrush(Color.Gray), new PointF(mouseLocationX - 5, mouseLocationY + 5));
-                        g.DrawString(Textbox_TextToDraw.Text, new Font(ComboBox_FontName.Text, Convert.ToInt32(Combobox_FontSize.Text), FontStyle.Regular), new SolidBrush(paintcolor), new PointF(mouseLocationX, mouseLocationY));
-                    }
-                    else if (Combobox_FontStyle.Text == "Bold")
-                    {
-                        g.DrawString(Textbox_TextToDraw.Text, new Font(ComboBox_FontName.Text, Convert.ToInt32(Combobox_FontSize.Text), FontStyle.Bold), new SolidBrush(Color.Gray), new PointF(mouseLocationX - 5, mouseLocationY + 5));
-                        g.DrawString(Textbox_TextToDraw.Text, new Font(ComboBox_FontName.Text, Convert.ToInt32(Combobox_FontSize.Text), FontStyle.Bold), new SolidBrush(paintcolor), new PointF(mouseLocationX, mouseLocationY));
-                    }
-                    else if (Combobox_FontStyle.Text == "Underline")
-                    {
-                        g.DrawString(Textbox_TextToDraw.Text, new Font(ComboBox_FontName.Text, Convert.ToInt32(Combobox_FontSize.Text), FontStyle.Underline), new SolidBrush(Color.Gray), new PointF(mouseLocationX - 5, mouseLocationY + 5));
-                        g.DrawString(Textbox_TextToDraw.Text, new Font(ComboBox_FontName.Text, Convert.ToInt32(Combobox_FontSize.Text), FontStyle.Underline), new SolidBrush(paintcolor), new PointF(mouseLocationX, mouseLocationY));
-                    }
-                    else if (Combobox_FontStyle.Text == "Strikeout")
-                    {
-                        g.DrawString(Textbox_TextToDraw.Text, new Font(ComboBox_FontName.Text, Convert.ToInt32(Combobox_FontSize.Text), FontStyle.Strikeout), new SolidBrush(Color.Gray), new PointF(mouseLocationX - 5, mouseLocationY + 5));
-                        g.DrawString(Textbox_TextToDraw.Text, new Font(ComboBox_FontName.Text, Convert.ToInt32(Combobox_FontSize.Text), FontStyle.Strikeout), new SolidBrush(paintcolor), new PointF(mouseLocationX, mouseLocationY));
-                    }
-                    else if (Combobox_FontStyle.Text == "Italic")
-                    {
-                        g.DrawString(Textbox_TextToDraw.Text, new Font(ComboBox_FontName.Text, Convert.ToInt32(Combobox_FontSize.Text), FontStyle.Italic), new SolidBrush(Color.Gray), new PointF(mouseLocationX - 5, mouseLocationY + 5));
-                        g.DrawString(Textbox_TextToDraw.Text, new Font(ComboBox_FontName.Text, Convert.ToInt32(Combobox_FontSize.Text), FontStyle.Italic), new SolidBrush(paintcolor), new PointF(mouseLocationX, mouseLocationY));
-                    }
-                }
-                else if (ComboBox_TextShadow.Text == "NE")
-                {
-                    if (Combobox_FontStyle.Text == "Regular")
-                    {
-                        g.DrawString(Textbox_TextToDraw.Text, new Font(ComboBox_FontName.Text, Convert.ToInt32(Combobox_FontSize.Text), FontStyle.Regular), new SolidBrush(Color.Gray), new PointF(mouseLocationX + 5, mouseLocationY - 5));
-                        g.DrawString(Textbox_TextToDraw.Text, new Font(ComboBox_FontName.Text, Convert.ToInt32(Combobox_FontSize.Text), FontStyle.Regular), new SolidBrush(paintcolor), new PointF(mouseLocationX, mouseLocationY));
-                    }
-                    else if (Combobox_FontStyle.Text == "Bold")
-                    {
-                        g.DrawString(Textbox_TextToDraw.Text, new Font(ComboBox_FontName.Text, Convert.ToInt32(Combobox_FontSize.Text), FontStyle.Bold), new SolidBrush(Color.Gray), new PointF(mouseLocationX + 5, mouseLocationY - 5));
-                        g.DrawString(Textbox_TextToDraw.Text, new Font(ComboBox_FontName.Text, Convert.ToInt32(Combobox_FontSize.Text), FontStyle.Bold), new SolidBrush(paintcolor), new PointF(mouseLocationX, mouseLocationY));
-                    }
-                    else if (Combobox_FontStyle.Text == "Underline")
-                    {
-                        g.DrawString(Textbox_TextToDraw.Text, new Font(ComboBox_FontName.Text, Convert.ToInt32(Combobox_FontSize.Text), FontStyle.Underline), new SolidBrush(Color.Gray), new PointF(mouseLocationX + 5, mouseLocationY - 5));
-                        g.DrawString(Textbox_TextToDraw.Text, new Font(ComboBox_FontName.Text, Convert.ToInt32(Combobox_FontSize.Text), FontStyle.Underline), new SolidBrush(paintcolor), new PointF(mouseLocationX, mouseLocationY));
-                    }
-                    else if (Combobox_FontStyle.Text == "Strikeout")
-                    {
-                        g.DrawString(Textbox_TextToDraw.Text, new Font(ComboBox_FontName.Text, Convert.ToInt32(Combobox_FontSize.Text), FontStyle.Strikeout), new SolidBrush(Color.Gray), new PointF(mouseLocationX + 5, mouseLocationY - 5));
-                        g.DrawString(Textbox_TextToDraw.Text, new Font(ComboBox_FontName.Text, Convert.ToInt32(Combobox_FontSize.Text), FontStyle.Strikeout), new SolidBrush(paintcolor), new PointF(mouseLocationX, mouseLocationY));
-                    }
-                    else if (Combobox_FontStyle.Text == "Italic")
-                    {
-                        g.DrawString(Textbox_TextToDraw.Text, new Font(ComboBox_FontName.Text, Convert.ToInt32(Combobox_FontSize.Text), FontStyle.Italic), new SolidBrush(Color.Gray), new PointF(mouseLocationX + 5, mouseLocationY - 5));
-                        g.DrawString(Textbox_TextToDraw.Text, new Font(ComboBox_FontName.Text, Convert.ToInt32(Combobox_FontSize.Text), FontStyle.Italic), new SolidBrush(paintcolor), new PointF(mouseLocationX, mouseLocationY));
-                    }
-                }
-                else if (ComboBox_TextShadow.Text == "NW")
-                {
-                    if (Combobox_FontStyle.Text == "Regular")
-                    {
-                        g.DrawString(Textbox_TextToDraw.Text, new Font(ComboBox_FontName.Text, Convert.ToInt32(Combobox_FontSize.Text), FontStyle.Regular), new SolidBrush(Color.Gray), new PointF(mouseLocationX - 5, mouseLocationY - 5));
-                        g.DrawString(Textbox_TextToDraw.Text, new Font(ComboBox_FontName.Text, Convert.ToInt32(Combobox_FontSize.Text), FontStyle.Regular), new SolidBrush(paintcolor), new PointF(mouseLocationX, mouseLocationY));
-                    }
-                    else if (Combobox_FontStyle.Text == "Bold")
-                    {
-                        g.DrawString(Textbox_TextToDraw.Text, new Font(ComboBox_FontName.Text, Convert.ToInt32(Combobox_FontSize.Text), FontStyle.Bold), new SolidBrush(Color.Gray), new PointF(mouseLocationX - 5, mouseLocationY - 5));
-                        g.DrawString(Textbox_TextToDraw.Text, new Font(ComboBox_FontName.Text, Convert.ToInt32(Combobox_FontSize.Text), FontStyle.Bold), new SolidBrush(paintcolor), new PointF(mouseLocationX, mouseLocationY));
-                    }
-                    else if (Combobox_FontStyle.Text == "Underline")
-                    {
-                        g.DrawString(Textbox_TextToDraw.Text, new Font(ComboBox_FontName.Text, Convert.ToInt32(Combobox_FontSize.Text), FontStyle.Underline), new SolidBrush(Color.Gray), new PointF(mouseLocationX - 5, mouseLocationY - 5));
-                        g.DrawString(Textbox_TextToDraw.Text, new Font(ComboBox_FontName.Text, Convert.ToInt32(Combobox_FontSize.Text), FontStyle.Underline), new SolidBrush(paintcolor), new PointF(mouseLocationX, mouseLocationY));
-                    }
-                    else if (Combobox_FontStyle.Text == "Strikeout")
-                    {
-                        g.DrawString(Textbox_TextToDraw.Text, new Font(ComboBox_FontName.Text, Convert.ToInt32(Combobox_FontSize.Text), FontStyle.Strikeout), new SolidBrush(Color.Gray), new PointF(mouseLocationX - 5, mouseLocationY - 5));
-                        g.DrawString(Textbox_TextToDraw.Text, new Font(ComboBox_FontName.Text, Convert.ToInt32(Combobox_FontSize.Text), FontStyle.Strikeout), new SolidBrush(paintcolor), new PointF(mouseLocationX, mouseLocationY));
-                    }
-                    else if (Combobox_FontStyle.Text == "Italic")
-                    {
-                        g.DrawString(Textbox_TextToDraw.Text, new Font(ComboBox_FontName.Text, Convert.ToInt32(Combobox_FontSize.Text), FontStyle.Italic), new SolidBrush(Color.Gray), new PointF(mouseLocationX - 5, mouseLocationY - 5));
-                        g.DrawString(Textbox_TextToDraw.Text, new Font(ComboBox_FontName.Text, Convert.ToInt32(Combobox_FontSize.Text), FontStyle.Italic), new SolidBrush(paintcolor), new PointF(mouseLocationX, mouseLocationY));
-                    }
-                }
-                 else if (ComboBox_TextShadow.Text == "S")
-                {
-                    if (Combobox_FontStyle.Text == "Regular")
-                    {
-                        g.DrawString(Textbox_TextToDraw.Text, new Font(ComboBox_FontName.Text, Convert.ToInt32(Combobox_FontSize.Text), FontStyle.Regular), new SolidBrush(Color.Gray), new PointF(mouseLocationX, mouseLocationY + 5));
-                        g.DrawString(Textbox_TextToDraw.Text, new Font(ComboBox_FontName.Text, Convert.ToInt32(Combobox_FontSize.Text), FontStyle.Regular), new SolidBrush(paintcolor), new PointF(mouseLocationX, mouseLocationY));
-                    }
-                    else if (Combobox_FontStyle.Text == "Bold")
-                    {
-                        g.DrawString(Textbox_TextToDraw.Text, new Font(ComboBox_FontName.Text, Convert.ToInt32(Combobox_FontSize.Text), FontStyle.Bold), new SolidBrush(Color.Gray), new PointF(mouseLocationX, mouseLocationY + 5));
-                        g.DrawString(Textbox_TextToDraw.Text, new Font(ComboBox_FontName.Text, Convert.ToInt32(Combobox_FontSize.Text), FontStyle.Bold), new SolidBrush(paintcolor), new PointF(mouseLocationX, mouseLocationY));
-                    }
-                    else if (Combobox_FontStyle.Text == "Underline")
-                    {
-                        g.DrawString(Textbox_TextToDraw.Text, new Font(ComboBox_FontName.Text, Convert.ToInt32(Combobox_FontSize.Text), FontStyle.Underline), new SolidBrush(Color.Gray), new PointF(mouseLocationX, mouseLocationY + 5));
-                        g.DrawString(Textbox_TextToDraw.Text, new Font(ComboBox_FontName.Text, Convert.ToInt32(Combobox_FontSize.Text), FontStyle.Underline), new SolidBrush(paintcolor), new PointF(mouseLocationX, mouseLocationY));
-                    }
-                    else if (Combobox_FontStyle.Text == "Strikeout")
-                    {
-                        g.DrawString(Textbox_TextToDraw.Text, new Font(ComboBox_FontName.Text, Convert.ToInt32(Combobox_FontSize.Text), FontStyle.Strikeout), new SolidBrush(Color.Gray), new PointF(mouseLocationX, mouseLocationY + 5));
-                        g.DrawString(Textbox_TextToDraw.Text, new Font(ComboBox_FontName.Text, Convert.ToInt32(Combobox_FontSize.Text), FontStyle.Strikeout), new SolidBrush(paintcolor), new PointF(mouseLocationX, mouseLocationY));
-                    }
-                    else if (Combobox_FontStyle.Text == "Italic")
-                    {
-                        g.DrawString(Textbox_TextToDraw.Text, new Font(ComboBox_FontName.Text, Convert.ToInt32(Combobox_FontSize.Text), FontStyle.Italic), new SolidBrush(Color.Gray), new PointF(mouseLocationX, mouseLocationY + 5));
-                        g.DrawString(Textbox_TextToDraw.Text, new Font(ComboBox_FontName.Text, Convert.ToInt32(Combobox_FontSize.Text), FontStyle.Italic), new SolidBrush(paintcolor), new PointF(mouseLocationX, mouseLocationY));
-                    }
-                }
-                else if (ComboBox_TextShadow.Text == "N")
-                {
-                    if (Combobox_FontStyle.Text == "Regular")
-                    {
-                        g.DrawString(Textbox_TextToDraw.Text, new Font(ComboBox_FontName.Text, Convert.ToInt32(Combobox_FontSize.Text), FontStyle.Regular), new SolidBrush(Color.Gray), new PointF(mouseLocationX, mouseLocationY - 5));
-                        g.DrawString(Textbox_TextToDraw.Text, new Font(ComboBox_FontName.Text, Convert.ToInt32(Combobox_FontSize.Text), FontStyle.Regular), new SolidBrush(paintcolor), new PointF(mouseLocationX, mouseLocationY));
-                    }
-                    else if (Combobox_FontStyle.Text == "Bold")
-                    {
-                        g.DrawString(Textbox_TextToDraw.Text, new Font(ComboBox_FontName.Text, Convert.ToInt32(Combobox_FontSize.Text), FontStyle.Bold), new SolidBrush(Color.Gray), new PointF(mouseLocationX, mouseLocationY - 5));
-                        g.DrawString(Textbox_TextToDraw.Text, new Font(ComboBox_FontName.Text, Convert.ToInt32(Combobox_FontSize.Text), FontStyle.Bold), new SolidBrush(paintcolor), new PointF(mouseLocationX, mouseLocationY));
-                    }
-                    else if (Combobox_FontStyle.Text == "Underline")
-                    {
-                        g.DrawString(Textbox_TextToDraw.Text, new Font(ComboBox_FontName.Text, Convert.ToInt32(Combobox_FontSize.Text), FontStyle.Underline), new SolidBrush(Color.Gray), new PointF(mouseLocationX, mouseLocationY - 5));
-                        g.DrawString(Textbox_TextToDraw.Text, new Font(ComboBox_FontName.Text, Convert.ToInt32(Combobox_FontSize.Text), FontStyle.Underline), new SolidBrush(paintcolor), new PointF(mouseLocationX, mouseLocationY));
-                    }
-                    else if (Combobox_FontStyle.Text == "Strikeout")
-                    {
-                        g.DrawString(Textbox_TextToDraw.Text, new Font(ComboBox_FontName.Text, Convert.ToInt32(Combobox_FontSize.Text), FontStyle.Strikeout), new SolidBrush(Color.Gray), new PointF(mouseLocationX, mouseLocationY - 5));
-                        g.DrawString(Textbox_TextToDraw.Text, new Font(ComboBox_FontName.Text, Convert.ToInt32(Combobox_FontSize.Text), FontStyle.Strikeout), new SolidBrush(paintcolor), new PointF(mouseLocationX, mouseLocationY));
-                    }
-                    else if (Combobox_FontStyle.Text == "Italic")
-                    {
-                        g.DrawString(Textbox_TextToDraw.Text, new Font(ComboBox_FontName.Text, Convert.ToInt32(Combobox_FontSize.Text), FontStyle.Italic), new SolidBrush(Color.Gray), new PointF(mouseLocationX, mouseLocationY - 5));
-                        g.DrawString(Textbox_TextToDraw.Text, new Font(ComboBox_FontName.Text, Convert.ToInt32(Combobox_FontSize.Text), FontStyle.Italic), new SolidBrush(paintcolor), new PointF(mouseLocationX, mouseLocationY));
-                    }
-                }
-                else if (ComboBox_TextShadow.Text == "W")
-                {
-                    if (Combobox_FontStyle.Text == "Regular")
-                    {
-                        g.DrawString(Textbox_TextToDraw.Text, new Font(ComboBox_FontName.Text, Convert.ToInt32(Combobox_FontSize.Text), FontStyle.Regular), new SolidBrush(Color.Gray), new PointF(mouseLocationX - 5, mouseLocationY));
-                        g.DrawString(Textbox_TextToDraw.Text, new Font(ComboBox_FontName.Text, Convert.ToInt32(Combobox_FontSize.Text), FontStyle.Regular), new SolidBrush(paintcolor), new PointF(mouseLocationX, mouseLocationY));
-                    }
-                    else if (Combobox_FontStyle.Text == "Bold")
-                    {
-                        g.DrawString(Textbox_TextToDraw.Text, new Font(ComboBox_FontName.Text, Convert.ToInt32(Combobox_FontSize.Text), FontStyle.Bold), new SolidBrush(Color.Gray), new PointF(mouseLocationX - 5, mouseLocationY));
-                        g.DrawString(Textbox_TextToDraw.Text, new Font(ComboBox_FontName.Text, Convert.ToInt32(Combobox_FontSize.Text), FontStyle.Bold), new SolidBrush(paintcolor), new PointF(mouseLocationX, mouseLocationY));
-                    }
-                    else if (Combobox_FontStyle.Text == "Underline")
-                    {
-                        g.DrawString(Textbox_TextToDraw.Text, new Font(ComboBox_FontName.Text, Convert.ToInt32(Combobox_FontSize.Text), FontStyle.Underline), new SolidBrush(Color.Gray), new PointF(mouseLocationX - 5, mouseLocationY));
-                        g.DrawString(Textbox_TextToDraw.Text, new Font(ComboBox_FontName.Text, Convert.ToInt32(Combobox_FontSize.Text), FontStyle.Underline), new SolidBrush(paintcolor), new PointF(mouseLocationX, mouseLocationY));
-                    }
-                    else if (Combobox_FontStyle.Text == "Strikeout")
-                    {
-                        g.DrawString(Textbox_TextToDraw.Text, new Font(ComboBox_FontName.Text, Convert.ToInt32(Combobox_FontSize.Text), FontStyle.Strikeout), new SolidBrush(Color.Gray), new PointF(mouseLocationX - 5, mouseLocationY));
-                        g.DrawString(Textbox_TextToDraw.Text, new Font(ComboBox_FontName.Text, Convert.ToInt32(Combobox_FontSize.Text), FontStyle.Strikeout), new SolidBrush(paintcolor), new PointF(mouseLocationX, mouseLocationY));
-                    }
-                    else if (Combobox_FontStyle.Text == "Italic")
-                    {
-                        g.DrawString(Textbox_TextToDraw.Text, new Font(ComboBox_FontName.Text, Convert.ToInt32(Combobox_FontSize.Text), FontStyle.Italic), new SolidBrush(Color.Gray), new PointF(mouseLocationX - 5, mouseLocationY));
-                        g.DrawString(Textbox_TextToDraw.Text, new Font(ComboBox_FontName.Text, Convert.ToInt32(Combobox_FontSize.Text), FontStyle.Italic), new SolidBrush(paintcolor), new PointF(mouseLocationX, mouseLocationY));
-                    }
-                }
-                else if (ComboBox_TextShadow.Text == "E")
-                {
-                    if (Combobox_FontStyle.Text == "Regular")
-                    {
-                        g.DrawString(Textbox_TextToDraw.Text, new Font(ComboBox_FontName.Text, Convert.ToInt32(Combobox_FontSize.Text), FontStyle.Regular), new SolidBrush(Color.Gray), new PointF(mouseLocationX + 5, mouseLocationY));
-                        g.DrawString(Textbox_TextToDraw.Text, new Font(ComboBox_FontName.Text, Convert.ToInt32(Combobox_FontSize.Text), FontStyle.Regular), new SolidBrush(paintcolor), new PointF(mouseLocationX, mouseLocationY));
-                    }
-                    else if (Combobox_FontStyle.Text == "Bold")
-                    {
-                        g.DrawString(Textbox_TextToDraw.Text, new Font(ComboBox_FontName.Text, Convert.ToInt32(Combobox_FontSize.Text), FontStyle.Bold), new SolidBrush(Color.Gray), new PointF(mouseLocationX + 5, mouseLocationY));
-                        g.DrawString(Textbox_TextToDraw.Text, new Font(ComboBox_FontName.Text, Convert.ToInt32(Combobox_FontSize.Text), FontStyle.Bold), new SolidBrush(paintcolor), new PointF(mouseLocationX, mouseLocationY));
-                    }
-                    else if (Combobox_FontStyle.Text == "Underline")
-                    {
-                        g.DrawString(Textbox_TextToDraw.Text, new Font(ComboBox_FontName.Text, Convert.ToInt32(Combobox_FontSize.Text), FontStyle.Underline), new SolidBrush(Color.Gray), new PointF(mouseLocationX + 5, mouseLocationY));
-                        g.DrawString(Textbox_TextToDraw.Text, new Font(ComboBox_FontName.Text, Convert.ToInt32(Combobox_FontSize.Text), FontStyle.Underline), new SolidBrush(paintcolor), new PointF(mouseLocationX, mouseLocationY));
-                    }
-                    else if (Combobox_FontStyle.Text == "Strikeout")
-                    {
-                        g.DrawString(Textbox_TextToDraw.Text, new Font(ComboBox_FontName.Text, Convert.ToInt32(Combobox_FontSize.Text), FontStyle.Strikeout), new SolidBrush(Color.Gray), new PointF(mouseLocationX + 5, mouseLocationY));
-                        g.DrawString(Textbox_TextToDraw.Text, new Font(ComboBox_FontName.Text, Convert.ToInt32(Combobox_FontSize.Text), FontStyle.Strikeout), new SolidBrush(paintcolor), new PointF(mouseLocationX, mouseLocationY));
-                    }
-                    else if (Combobox_FontStyle.Text == "Italic")
-                    {
-                        g.DrawString(Textbox_TextToDraw.Text, new Font(ComboBox_FontName.Text, Convert.ToInt32(Combobox_FontSize.Text), FontStyle.Italic), new SolidBrush(Color.Gray), new PointF(mouseLocationX + 5, mouseLocationY));
-                        g.DrawString(Textbox_TextToDraw.Text, new Font(ComboBox_FontName.Text, Convert.ToInt32(Combobox_FontSize.Text), FontStyle.Italic), new SolidBrush(paintcolor), new PointF(mouseLocationX, mouseLocationY));
-                    }
-                }
-                g.Dispose();
-            }
-        }
-
         private void Button_New_Click(object sender, EventArgs e)
         {
             PictureBox_DrawArea.Refresh();
@@ -461,15 +205,6 @@ namespace GraphicalEditor
                 {
                     bmp.Save(s.FileName, ImageFormat.Bmp);
                 }
-            }
-        }
-
-        private void Form1_Load(object sender, EventArgs e)
-        {
-            FontFamily[] family = FontFamily.Families;
-            foreach (FontFamily font in family)
-            {
-                ComboBox_FontName.Items.Add(font.GetName(1).ToString());
             }
         }
 

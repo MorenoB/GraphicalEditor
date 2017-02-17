@@ -53,30 +53,15 @@
             this.Button_Pencil = new System.Windows.Forms.ToolStripButton();
             this.Button_ColorPicker = new System.Windows.Forms.ToolStripButton();
             this.Button_Eraser = new System.Windows.Forms.ToolStripButton();
-            this.Button_Text = new System.Windows.Forms.ToolStripButton();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.Button_New = new System.Windows.Forms.ToolStripButton();
             this.Button_Load = new System.Windows.Forms.ToolStripButton();
             this.Button_Save = new System.Windows.Forms.ToolStripButton();
-            this.toolStrip3 = new System.Windows.Forms.ToolStrip();
-            this.Label_TextToDraw = new System.Windows.Forms.ToolStripLabel();
-            this.Textbox_TextToDraw = new System.Windows.Forms.ToolStripTextBox();
-            this.Button_Apply_TextToDraw = new System.Windows.Forms.ToolStripButton();
-            this.Label_FontName = new System.Windows.Forms.ToolStripLabel();
-            this.ComboBox_FontName = new System.Windows.Forms.ToolStripComboBox();
-            this.Label_FontSize = new System.Windows.Forms.ToolStripLabel();
-            this.Combobox_FontSize = new System.Windows.Forms.ToolStripComboBox();
-            this.Label_FontStyle = new System.Windows.Forms.ToolStripLabel();
-            this.Combobox_FontStyle = new System.Windows.Forms.ToolStripComboBox();
-            this.Button_Apply_Font = new System.Windows.Forms.ToolStripButton();
             this.toolStrip2 = new System.Windows.Forms.ToolStrip();
             this.Button_Clear = new System.Windows.Forms.ToolStripButton();
             this.Label_BrushSize = new System.Windows.Forms.ToolStripLabel();
             this.Textbox_BrushSize = new System.Windows.Forms.ToolStripTextBox();
             this.Button_Apply_BrushSize = new System.Windows.Forms.ToolStripButton();
-            this.Label_TextShadow = new System.Windows.Forms.ToolStripLabel();
-            this.ComboBox_TextShadow = new System.Windows.Forms.ToolStripComboBox();
-            this.Button_Apply_TextShadow = new System.Windows.Forms.ToolStripButton();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.LeftToolStripPanel.SuspendLayout();
             this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
@@ -91,7 +76,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.PictureBox_ColorPicker)).BeginInit();
             this.toolStrip4.SuspendLayout();
             this.toolStrip1.SuspendLayout();
-            this.toolStrip3.SuspendLayout();
             this.toolStrip2.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -103,7 +87,7 @@
             this.toolStripContainer1.ContentPanel.Controls.Add(this.PictureBox_DrawArea);
             this.toolStripContainer1.ContentPanel.Controls.Add(this.Panel_Colorpicker);
             this.toolStripContainer1.ContentPanel.Margin = new System.Windows.Forms.Padding(4);
-            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(1396, 678);
+            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(1396, 707);
             this.toolStripContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
             // 
             // toolStripContainer1.LeftToolStripPanel
@@ -119,7 +103,6 @@
             // toolStripContainer1.TopToolStripPanel
             // 
             this.toolStripContainer1.TopToolStripPanel.Controls.Add(this.toolStrip1);
-            this.toolStripContainer1.TopToolStripPanel.Controls.Add(this.toolStrip3);
             this.toolStripContainer1.TopToolStripPanel.Controls.Add(this.toolStrip2);
             // 
             // PictureBox_DrawArea
@@ -129,7 +112,7 @@
             this.PictureBox_DrawArea.Location = new System.Drawing.Point(0, 0);
             this.PictureBox_DrawArea.Margin = new System.Windows.Forms.Padding(4);
             this.PictureBox_DrawArea.Name = "PictureBox_DrawArea";
-            this.PictureBox_DrawArea.Size = new System.Drawing.Size(1019, 678);
+            this.PictureBox_DrawArea.Size = new System.Drawing.Size(1019, 707);
             this.PictureBox_DrawArea.TabIndex = 1;
             this.PictureBox_DrawArea.TabStop = false;
             this.PictureBox_DrawArea.MouseClick += new System.Windows.Forms.MouseEventHandler(this.PictureBox_DrawArea_MouseClick);
@@ -157,7 +140,7 @@
             this.Panel_Colorpicker.Location = new System.Drawing.Point(1019, 0);
             this.Panel_Colorpicker.Margin = new System.Windows.Forms.Padding(4);
             this.Panel_Colorpicker.Name = "Panel_Colorpicker";
-            this.Panel_Colorpicker.Size = new System.Drawing.Size(377, 678);
+            this.Panel_Colorpicker.Size = new System.Drawing.Size(377, 707);
             this.Panel_Colorpicker.TabIndex = 0;
             // 
             // Picturebox_CurrentColor
@@ -317,11 +300,10 @@
             this.Button_Brush,
             this.Button_Pencil,
             this.Button_ColorPicker,
-            this.Button_Eraser,
-            this.Button_Text});
+            this.Button_Eraser});
             this.toolStrip4.Location = new System.Drawing.Point(0, 3);
             this.toolStrip4.Name = "toolStrip4";
-            this.toolStrip4.Size = new System.Drawing.Size(25, 227);
+            this.toolStrip4.Size = new System.Drawing.Size(25, 200);
             this.toolStrip4.TabIndex = 0;
             // 
             // Button_Rectangle
@@ -396,16 +378,6 @@
             this.Button_Eraser.Text = "Eraser";
             this.Button_Eraser.Click += new System.EventHandler(this.Button_Eraser_Click);
             // 
-            // Button_Text
-            // 
-            this.Button_Text.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.Button_Text.Image = global::GraphicalEditor.Properties.Resources.text;
-            this.Button_Text.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.Button_Text.Name = "Button_Text";
-            this.Button_Text.Size = new System.Drawing.Size(23, 24);
-            this.Button_Text.Text = "Draw text";
-            this.Button_Text.Click += new System.EventHandler(this.Button_Text_Click);
-            // 
             // toolStrip1
             // 
             this.toolStrip1.Dock = System.Windows.Forms.DockStyle.None;
@@ -449,113 +421,6 @@
             this.Button_Save.Text = "Save";
             this.Button_Save.Click += new System.EventHandler(this.Button_Save_Click);
             // 
-            // toolStrip3
-            // 
-            this.toolStrip3.Dock = System.Windows.Forms.DockStyle.None;
-            this.toolStrip3.ImageScalingSize = new System.Drawing.Size(20, 20);
-            this.toolStrip3.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.Label_TextToDraw,
-            this.Textbox_TextToDraw,
-            this.Button_Apply_TextToDraw,
-            this.Label_FontName,
-            this.ComboBox_FontName,
-            this.Label_FontSize,
-            this.Combobox_FontSize,
-            this.Label_FontStyle,
-            this.Combobox_FontStyle,
-            this.Button_Apply_Font});
-            this.toolStrip3.Location = new System.Drawing.Point(87, 0);
-            this.toolStrip3.Name = "toolStrip3";
-            this.toolStrip3.Size = new System.Drawing.Size(852, 28);
-            this.toolStrip3.TabIndex = 2;
-            // 
-            // Label_TextToDraw
-            // 
-            this.Label_TextToDraw.Name = "Label_TextToDraw";
-            this.Label_TextToDraw.Size = new System.Drawing.Size(94, 25);
-            this.Label_TextToDraw.Text = "Text to draw:";
-            // 
-            // Textbox_TextToDraw
-            // 
-            this.Textbox_TextToDraw.Name = "Textbox_TextToDraw";
-            this.Textbox_TextToDraw.Size = new System.Drawing.Size(100, 28);
-            // 
-            // Button_Apply_TextToDraw
-            // 
-            this.Button_Apply_TextToDraw.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.Button_Apply_TextToDraw.Image = global::GraphicalEditor.Properties.Resources.text;
-            this.Button_Apply_TextToDraw.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.Button_Apply_TextToDraw.Name = "Button_Apply_TextToDraw";
-            this.Button_Apply_TextToDraw.Size = new System.Drawing.Size(24, 25);
-            this.Button_Apply_TextToDraw.Text = "Draw";
-            this.Button_Apply_TextToDraw.Click += new System.EventHandler(this.Button_Apply_TextToDraw_Click);
-            // 
-            // Label_FontName
-            // 
-            this.Label_FontName.Name = "Label_FontName";
-            this.Label_FontName.Size = new System.Drawing.Size(82, 25);
-            this.Label_FontName.Text = "Font name:";
-            // 
-            // ComboBox_FontName
-            // 
-            this.ComboBox_FontName.Name = "ComboBox_FontName";
-            this.ComboBox_FontName.Size = new System.Drawing.Size(121, 28);
-            // 
-            // Label_FontSize
-            // 
-            this.Label_FontSize.Name = "Label_FontSize";
-            this.Label_FontSize.Size = new System.Drawing.Size(70, 25);
-            this.Label_FontSize.Text = "Font size:";
-            // 
-            // Combobox_FontSize
-            // 
-            this.Combobox_FontSize.Items.AddRange(new object[] {
-            "8",
-            "9",
-            "10",
-            "11",
-            "12",
-            "14",
-            "16",
-            "18",
-            "20",
-            "22",
-            "24",
-            "28",
-            "36",
-            "48",
-            "72"});
-            this.Combobox_FontSize.Name = "Combobox_FontSize";
-            this.Combobox_FontSize.Size = new System.Drawing.Size(121, 28);
-            this.Combobox_FontSize.Text = "12";
-            // 
-            // Label_FontStyle
-            // 
-            this.Label_FontStyle.Name = "Label_FontStyle";
-            this.Label_FontStyle.Size = new System.Drawing.Size(75, 25);
-            this.Label_FontStyle.Text = "Font style:";
-            // 
-            // Combobox_FontStyle
-            // 
-            this.Combobox_FontStyle.Items.AddRange(new object[] {
-            "Bold",
-            "Italic",
-            "Underline",
-            "Regular",
-            "Strikeout"});
-            this.Combobox_FontStyle.Name = "Combobox_FontStyle";
-            this.Combobox_FontStyle.Size = new System.Drawing.Size(121, 28);
-            this.Combobox_FontStyle.Text = "Regular";
-            // 
-            // Button_Apply_Font
-            // 
-            this.Button_Apply_Font.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.Button_Apply_Font.Image = global::GraphicalEditor.Properties.Resources.apply;
-            this.Button_Apply_Font.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.Button_Apply_Font.Name = "Button_Apply_Font";
-            this.Button_Apply_Font.Size = new System.Drawing.Size(24, 25);
-            this.Button_Apply_Font.Text = "Apply";
-            // 
             // toolStrip2
             // 
             this.toolStrip2.Dock = System.Windows.Forms.DockStyle.None;
@@ -564,13 +429,10 @@
             this.Button_Clear,
             this.Label_BrushSize,
             this.Textbox_BrushSize,
-            this.Button_Apply_BrushSize,
-            this.Label_TextShadow,
-            this.ComboBox_TextShadow,
-            this.Button_Apply_TextShadow});
-            this.toolStrip2.Location = new System.Drawing.Point(3, 28);
+            this.Button_Apply_BrushSize});
+            this.toolStrip2.Location = new System.Drawing.Point(93, 0);
             this.toolStrip2.Name = "toolStrip2";
-            this.toolStrip2.Size = new System.Drawing.Size(480, 28);
+            this.toolStrip2.Size = new System.Drawing.Size(278, 27);
             this.toolStrip2.TabIndex = 1;
             // 
             // Button_Clear
@@ -603,37 +465,6 @@
             this.Button_Apply_BrushSize.Size = new System.Drawing.Size(24, 25);
             this.Button_Apply_BrushSize.Text = "Apply";
             // 
-            // Label_TextShadow
-            // 
-            this.Label_TextShadow.Name = "Label_TextShadow";
-            this.Label_TextShadow.Size = new System.Drawing.Size(94, 25);
-            this.Label_TextShadow.Text = "Text shadow:";
-            // 
-            // ComboBox_TextShadow
-            // 
-            this.ComboBox_TextShadow.Items.AddRange(new object[] {
-            "NW",
-            "NE",
-            "N",
-            "S",
-            "E",
-            "W",
-            "SE",
-            "SW",
-            "None"});
-            this.ComboBox_TextShadow.Name = "ComboBox_TextShadow";
-            this.ComboBox_TextShadow.Size = new System.Drawing.Size(121, 28);
-            this.ComboBox_TextShadow.Text = "SE";
-            // 
-            // Button_Apply_TextShadow
-            // 
-            this.Button_Apply_TextShadow.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.Button_Apply_TextShadow.Image = global::GraphicalEditor.Properties.Resources.shad;
-            this.Button_Apply_TextShadow.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.Button_Apply_TextShadow.Name = "Button_Apply_TextShadow";
-            this.Button_Apply_TextShadow.Size = new System.Drawing.Size(24, 25);
-            this.Button_Apply_TextShadow.Text = "Apply";
-            // 
             // Form
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -647,7 +478,6 @@
             this.Name = "Form";
             this.ShowIcon = false;
             this.Text = "GraphicalEditor";
-            this.Load += new System.EventHandler(this.Form1_Load);
             this.toolStripContainer1.ContentPanel.ResumeLayout(false);
             this.toolStripContainer1.LeftToolStripPanel.ResumeLayout(false);
             this.toolStripContainer1.LeftToolStripPanel.PerformLayout();
@@ -668,8 +498,6 @@
             this.toolStrip4.PerformLayout();
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
-            this.toolStrip3.ResumeLayout(false);
-            this.toolStrip3.PerformLayout();
             this.toolStrip2.ResumeLayout(false);
             this.toolStrip2.PerformLayout();
             this.ResumeLayout(false);
@@ -687,7 +515,6 @@
         private System.Windows.Forms.ToolStripButton Button_Pencil;
         private System.Windows.Forms.ToolStripButton Button_ColorPicker;
         private System.Windows.Forms.ToolStripButton Button_Eraser;
-        private System.Windows.Forms.ToolStripButton Button_Text;
         private System.Windows.Forms.ToolStrip toolStrip1;
         private System.Windows.Forms.ToolStripButton Button_New;
         private System.Windows.Forms.ToolStripButton Button_Load;
@@ -697,20 +524,6 @@
         private System.Windows.Forms.ToolStripLabel Label_BrushSize;
         private System.Windows.Forms.ToolStripTextBox Textbox_BrushSize;
         private System.Windows.Forms.ToolStripButton Button_Apply_BrushSize;
-        private System.Windows.Forms.ToolStripLabel Label_TextShadow;
-        private System.Windows.Forms.ToolStripComboBox ComboBox_TextShadow;
-        private System.Windows.Forms.ToolStripButton Button_Apply_TextShadow;
-        private System.Windows.Forms.ToolStrip toolStrip3;
-        private System.Windows.Forms.ToolStripLabel Label_TextToDraw;
-        private System.Windows.Forms.ToolStripTextBox Textbox_TextToDraw;
-        private System.Windows.Forms.ToolStripButton Button_Apply_TextToDraw;
-        private System.Windows.Forms.ToolStripLabel Label_FontName;
-        private System.Windows.Forms.ToolStripComboBox ComboBox_FontName;
-        private System.Windows.Forms.ToolStripLabel Label_FontSize;
-        private System.Windows.Forms.ToolStripComboBox Combobox_FontSize;
-        private System.Windows.Forms.ToolStripLabel Label_FontStyle;
-        private System.Windows.Forms.ToolStripComboBox Combobox_FontStyle;
-        private System.Windows.Forms.ToolStripButton Button_Apply_Font;
         private System.Windows.Forms.PictureBox PictureBox_DrawArea;
         private System.Windows.Forms.Panel Panel_Colorpicker;
         private System.Windows.Forms.PictureBox Picturebox_CurrentColor;

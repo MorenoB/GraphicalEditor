@@ -13,9 +13,15 @@ namespace GraphicalEditor
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form());
 
-        
+            Form form = new Form();
+
+            DrawHandler drawHandler = DrawHandler.Instance;
+
+            drawHandler.Initialize(form);
+
+            Application.Run(form);
+
         }
     }
 }
