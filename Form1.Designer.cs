@@ -132,11 +132,10 @@
             this.PictureBox_DrawArea.Size = new System.Drawing.Size(1019, 678);
             this.PictureBox_DrawArea.TabIndex = 1;
             this.PictureBox_DrawArea.TabStop = false;
-            this.PictureBox_DrawArea.Click += new System.EventHandler(this.pictureBox1_Click);
-            this.PictureBox_DrawArea.MouseClick += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseClick);
-            this.PictureBox_DrawArea.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseDown);
-            this.PictureBox_DrawArea.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseMove);
-            this.PictureBox_DrawArea.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseUp);
+            this.PictureBox_DrawArea.MouseClick += new System.Windows.Forms.MouseEventHandler(this.PictureBox_DrawArea_MouseClick);
+            this.PictureBox_DrawArea.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Picturebox_DrawArea_MouseDown);
+            this.PictureBox_DrawArea.MouseMove += new System.Windows.Forms.MouseEventHandler(this.PictureBox_DrawArea_MouseMove);
+            this.PictureBox_DrawArea.MouseUp += new System.Windows.Forms.MouseEventHandler(this.PictureBox_DrawArea_MouseUp);
             // 
             // Panel_Colorpicker
             // 
@@ -179,7 +178,7 @@
             this.Trackbar_Colorpicker_Alpha.Size = new System.Drawing.Size(308, 56);
             this.Trackbar_Colorpicker_Alpha.TabIndex = 12;
             this.Trackbar_Colorpicker_Alpha.TickStyle = System.Windows.Forms.TickStyle.None;
-            this.Trackbar_Colorpicker_Alpha.Scroll += new System.EventHandler(this.alpha_Scroll);
+            this.Trackbar_Colorpicker_Alpha.Scroll += new System.EventHandler(this.Trackbar_ColorPicker_Alpha_Scroll);
             // 
             // Trackbar_Colorpicker_Blue
             // 
@@ -190,7 +189,7 @@
             this.Trackbar_Colorpicker_Blue.Size = new System.Drawing.Size(308, 56);
             this.Trackbar_Colorpicker_Blue.TabIndex = 11;
             this.Trackbar_Colorpicker_Blue.TickStyle = System.Windows.Forms.TickStyle.None;
-            this.Trackbar_Colorpicker_Blue.Scroll += new System.EventHandler(this.blue_Scroll);
+            this.Trackbar_Colorpicker_Blue.Scroll += new System.EventHandler(this.Trackbar_ColorPicker_Blue_Scroll);
             // 
             // Trackbar_Colorpicker_Green
             // 
@@ -201,7 +200,7 @@
             this.Trackbar_Colorpicker_Green.Size = new System.Drawing.Size(308, 56);
             this.Trackbar_Colorpicker_Green.TabIndex = 10;
             this.Trackbar_Colorpicker_Green.TickStyle = System.Windows.Forms.TickStyle.None;
-            this.Trackbar_Colorpicker_Green.Scroll += new System.EventHandler(this.green_Scroll);
+            this.Trackbar_Colorpicker_Green.Scroll += new System.EventHandler(this.Trackbar_ColorPicker_Green_Scroll);
             // 
             // Trackbar_ColorPicker_Red
             // 
@@ -212,7 +211,7 @@
             this.Trackbar_ColorPicker_Red.Size = new System.Drawing.Size(308, 56);
             this.Trackbar_ColorPicker_Red.TabIndex = 9;
             this.Trackbar_ColorPicker_Red.TickStyle = System.Windows.Forms.TickStyle.None;
-            this.Trackbar_ColorPicker_Red.Scroll += new System.EventHandler(this.red_Scroll);
+            this.Trackbar_ColorPicker_Red.Scroll += new System.EventHandler(this.Trackbar_ColorPicker_Red_Scroll);
             // 
             // Label_Colorpicker_alphaval
             // 
@@ -303,9 +302,9 @@
             this.PictureBox_ColorPicker.Size = new System.Drawing.Size(173, 161);
             this.PictureBox_ColorPicker.TabIndex = 0;
             this.PictureBox_ColorPicker.TabStop = false;
-            this.PictureBox_ColorPicker.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pictureBox2_MouseDown);
-            this.PictureBox_ColorPicker.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pictureBox2_MouseMove);
-            this.PictureBox_ColorPicker.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pictureBox2_MouseUp);
+            this.PictureBox_ColorPicker.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PictureBox_ColorPicker_MouseDown);
+            this.PictureBox_ColorPicker.MouseMove += new System.Windows.Forms.MouseEventHandler(this.PictureBox_ColorPicker_MouseMove);
+            this.PictureBox_ColorPicker.MouseUp += new System.Windows.Forms.MouseEventHandler(this.PictureBox_ColorPicker_MouseUp);
             // 
             // toolStrip4
             // 
@@ -333,7 +332,7 @@
             this.Button_Rectangle.Name = "Button_Rectangle";
             this.Button_Rectangle.Size = new System.Drawing.Size(23, 24);
             this.Button_Rectangle.Text = "Draw rectangle";
-            this.Button_Rectangle.Click += new System.EventHandler(this.toolStripButton9_Click);
+            this.Button_Rectangle.Click += new System.EventHandler(this.Button_Rectangle_Click);
             // 
             // Button_Circle
             // 
@@ -343,7 +342,7 @@
             this.Button_Circle.Name = "Button_Circle";
             this.Button_Circle.Size = new System.Drawing.Size(23, 24);
             this.Button_Circle.Text = "Draw ellipse";
-            this.Button_Circle.Click += new System.EventHandler(this.toolStripButton10_Click);
+            this.Button_Circle.Click += new System.EventHandler(this.Button_Circle_Click);
             // 
             // Button_Line
             // 
@@ -353,7 +352,7 @@
             this.Button_Line.Name = "Button_Line";
             this.Button_Line.Size = new System.Drawing.Size(23, 24);
             this.Button_Line.Text = "Draw line";
-            this.Button_Line.Click += new System.EventHandler(this.toolStripButton11_Click);
+            this.Button_Line.Click += new System.EventHandler(this.Button_line_Click);
             // 
             // Button_Brush
             // 
@@ -363,7 +362,7 @@
             this.Button_Brush.Name = "Button_Brush";
             this.Button_Brush.Size = new System.Drawing.Size(23, 24);
             this.Button_Brush.Text = "Brush";
-            this.Button_Brush.Click += new System.EventHandler(this.toolStripButton12_Click);
+            this.Button_Brush.Click += new System.EventHandler(this.Button_Brush_Click);
             // 
             // Button_Pencil
             // 
@@ -373,7 +372,7 @@
             this.Button_Pencil.Name = "Button_Pencil";
             this.Button_Pencil.Size = new System.Drawing.Size(23, 24);
             this.Button_Pencil.Text = "Pencil";
-            this.Button_Pencil.Click += new System.EventHandler(this.toolStripButton13_Click);
+            this.Button_Pencil.Click += new System.EventHandler(this.Button_Pencil_Click);
             // 
             // Button_ColorPicker
             // 
@@ -383,7 +382,7 @@
             this.Button_ColorPicker.Name = "Button_ColorPicker";
             this.Button_ColorPicker.Size = new System.Drawing.Size(23, 24);
             this.Button_ColorPicker.Text = "Color picker";
-            this.Button_ColorPicker.Click += new System.EventHandler(this.toolStripButton14_Click);
+            this.Button_ColorPicker.Click += new System.EventHandler(this.Button_ColorPicker_Click);
             // 
             // Button_Eraser
             // 
@@ -395,7 +394,7 @@
             this.Button_Eraser.RightToLeftAutoMirrorImage = true;
             this.Button_Eraser.Size = new System.Drawing.Size(23, 24);
             this.Button_Eraser.Text = "Eraser";
-            this.Button_Eraser.Click += new System.EventHandler(this.toolStripButton15_Click);
+            this.Button_Eraser.Click += new System.EventHandler(this.Button_Eraser_Click);
             // 
             // Button_Text
             // 
@@ -405,7 +404,7 @@
             this.Button_Text.Name = "Button_Text";
             this.Button_Text.Size = new System.Drawing.Size(23, 24);
             this.Button_Text.Text = "Draw text";
-            this.Button_Text.Click += new System.EventHandler(this.toolStripButton16_Click);
+            this.Button_Text.Click += new System.EventHandler(this.Button_Text_Click);
             // 
             // toolStrip1
             // 
@@ -428,7 +427,7 @@
             this.Button_New.Name = "Button_New";
             this.Button_New.Size = new System.Drawing.Size(24, 24);
             this.Button_New.Text = "New";
-            this.Button_New.Click += new System.EventHandler(this.toolStripButton1_Click);
+            this.Button_New.Click += new System.EventHandler(this.Button_New_Click);
             // 
             // Button_Load
             // 
@@ -438,7 +437,7 @@
             this.Button_Load.Name = "Button_Load";
             this.Button_Load.Size = new System.Drawing.Size(24, 24);
             this.Button_Load.Text = "Open";
-            this.Button_Load.Click += new System.EventHandler(this.toolStripButton2_Click);
+            this.Button_Load.Click += new System.EventHandler(this.Button_Load_Click);
             // 
             // Button_Save
             // 
@@ -448,7 +447,7 @@
             this.Button_Save.Name = "Button_Save";
             this.Button_Save.Size = new System.Drawing.Size(24, 24);
             this.Button_Save.Text = "Save";
-            this.Button_Save.Click += new System.EventHandler(this.toolStripButton3_Click);
+            this.Button_Save.Click += new System.EventHandler(this.Button_Save_Click);
             // 
             // toolStrip3
             // 
@@ -467,7 +466,7 @@
             this.Button_Apply_Font});
             this.toolStrip3.Location = new System.Drawing.Point(87, 0);
             this.toolStrip3.Name = "toolStrip3";
-            this.toolStrip3.Size = new System.Drawing.Size(891, 28);
+            this.toolStrip3.Size = new System.Drawing.Size(852, 28);
             this.toolStrip3.TabIndex = 2;
             // 
             // Label_TextToDraw
@@ -489,7 +488,7 @@
             this.Button_Apply_TextToDraw.Name = "Button_Apply_TextToDraw";
             this.Button_Apply_TextToDraw.Size = new System.Drawing.Size(24, 25);
             this.Button_Apply_TextToDraw.Text = "Draw";
-            this.Button_Apply_TextToDraw.Click += new System.EventHandler(this.toolStripButton7_Click);
+            this.Button_Apply_TextToDraw.Click += new System.EventHandler(this.Button_Apply_TextToDraw_Click);
             // 
             // Label_FontName
             // 
@@ -582,7 +581,7 @@
             this.Button_Clear.Name = "Button_Clear";
             this.Button_Clear.Size = new System.Drawing.Size(24, 25);
             this.Button_Clear.Text = "Clear";
-            this.Button_Clear.Click += new System.EventHandler(this.toolStripButton4_Click);
+            this.Button_Clear.Click += new System.EventHandler(this.Button_Clear_Click);
             // 
             // Label_BrushSize
             // 
