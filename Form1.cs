@@ -17,19 +17,19 @@ namespace GraphicalEditor
         private SelectedState selectedState;
 
         private int mouseLocationX, mouseLocationY = 0;
-        private Item selectedItem;
-        private Item SelectedItem
+        private Item currentTool;
+        private Item CurrentTool
         {
             get
             {
-                return selectedItem;
+                return currentTool;
             }
             set
             {
-                if (value == selectedItem)
+                if (value == currentTool)
                     return;
 
-                selectedItem = value;
+                currentTool = value;
 
                 UpdateToolButtonsCheckedState();
             }
@@ -49,7 +49,7 @@ namespace GraphicalEditor
             InitializeComponent();
 
             brush = new SolidBrush(paintcolor);
-            SelectedItem = Item.None;
+            CurrentTool = Item.None;
         }
 
         public enum Item
@@ -101,7 +101,7 @@ namespace GraphicalEditor
         {
             holdingMouseDown = true;
 
-            switch (SelectedItem)
+            switch (CurrentTool)
             {
                 case Item.Rectangle:
 
@@ -130,7 +130,7 @@ namespace GraphicalEditor
                     break;
             }
 
-            SelectedItem = Item.None;
+            CurrentTool = Item.None;
 
             DrawHandlerInstance.SelectShapeFromPoint(e.Location);
 
@@ -147,7 +147,7 @@ namespace GraphicalEditor
             mouseLocationX = e.X;
             mouseLocationY = e.Y;
 
-            switch (SelectedItem)
+            switch (CurrentTool)
             {
                 case Item.Line:
                     Graphics g = PictureBox_DrawArea.CreateGraphics();
@@ -188,7 +188,7 @@ namespace GraphicalEditor
             Button_Rectangle.Checked = false;
             Button_ColorPicker.Checked = false;
 
-            switch(SelectedItem)
+            switch(CurrentTool)
             {
                 case Item.Brush:
                     Button_Brush.Checked = true;
@@ -224,37 +224,37 @@ namespace GraphicalEditor
 
         private void Button_Brush_Click(object sender, EventArgs e)
         {
-            SelectedItem = Item.Brush;
+            CurrentTool = Item.Brush;
         }
 
         private void Button_Rectangle_Click(object sender, EventArgs e)
         {
-            SelectedItem = Item.Rectangle;
+            CurrentTool = Item.Rectangle;
         }
 
         private void Button_Ellipse_Click(object sender, EventArgs e)
         {
-            SelectedItem = Item.Ellipse;
+            CurrentTool = Item.Ellipse;
         }
 
         private void Button_Pencil_Click(object sender, EventArgs e)
         {
-            SelectedItem = Item.Pencil;
+            CurrentTool = Item.Pencil;
         }
 
         private void Button_Eraser_Click(object sender, EventArgs e)
         {
-            SelectedItem = Item.eraser;
+            CurrentTool = Item.eraser;
         }
 
         private void Button_line_Click(object sender, EventArgs e)
         {
-            SelectedItem = Item.Line;
+            CurrentTool = Item.Line;
         }
 
         private void Button_ColorPicker_Click(object sender, EventArgs e)
         {
-            SelectedItem = Item.ColorPicker;
+            CurrentTool = Item.ColorPicker;
         }
 
         private void Button_New_Click(object sender, EventArgs e)
@@ -284,7 +284,7 @@ namespace GraphicalEditor
             Bitmap bmp = new Bitmap(PictureBox_DrawArea.Width, PictureBox_DrawArea.Height);
             Graphics g = Graphics.FromImage(bmp);
             System.Drawing.Rectangle rect = PictureBox_DrawArea.RectangleToScreen(PictureBox_DrawArea.ClientRectangle);
-            g.CopyFromScreen(rect.Location, Point.Empty, PictureBox_DrawArea.Size);
+            g.CopyFromScreen(PictureBox_DrawArea.Location, Point.Empty, PictureBox_DrawArea.Size);
             g.Dispose();
             SaveFileDialog s = new SaveFileDialog();
             s.Filter = "Png files|*.png|jpeg files|*jpg|bitmaps|*.bmp";
@@ -332,7 +332,7 @@ namespace GraphicalEditor
 
         private void PictureBox_DrawArea_MouseClick(object sender, MouseEventArgs e)
         {
-            if (SelectedItem == Item.ColorPicker)
+            if (CurrentTool == Item.ColorPicker)
             {
                 Bitmap bmp = new Bitmap(PictureBox_DrawArea.Width, PictureBox_DrawArea.Height);
                 Graphics g = Graphics.FromImage(bmp);
