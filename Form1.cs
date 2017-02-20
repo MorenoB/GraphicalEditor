@@ -106,6 +106,8 @@ namespace GraphicalEditor
 
             mouseLocationX = e.X;
             mouseLocationY = e.Y;
+
+            PictureBox_DrawArea.Invalidate();
         }
 
         private void PictureBox_DrawArea_MouseUp(object sender, MouseEventArgs e)
@@ -124,28 +126,30 @@ namespace GraphicalEditor
                     g.Dispose();
                     break;
             }
+
+            PictureBox_DrawArea.Invalidate();
         }
 
         private void PictureBox_DrawArea_MouseMove(object sender, MouseEventArgs e)
         {
             if (holdingMouseDown)
             {
-                Graphics g = PictureBox_DrawArea.CreateGraphics();
+                //Graphics g = PictureBox_DrawArea.CreateGraphics();
 
 
                 DrawHandlerInstance.ResizeSelectedShape(e.X - mouseLocationX, e.Y - mouseLocationY);
 
-                DrawHandlerInstance.RedrawAllDirtyShapes(g);
+                PictureBox_DrawArea.Invalidate();
                 
-                switch (selectedItem)
+               /* switch (selectedItem)
                 {
-                   /* case Item.Rectangle:
+                   case Item.Rectangle:
                         g.FillRectangle(brush, mouseLocationX, mouseLocationY, e.X - mouseLocationX, e.Y - mouseLocationY);
                         
                         break;
                     case Item.Ellipse:
                         g.FillEllipse(brush, mouseLocationX, mouseLocationY, e.X - mouseLocationX, e.Y - mouseLocationY);
-                        break;*/
+                        break;
                     case Item.Brush:
                         g.FillEllipse(brush, e.X - mouseLocationX + mouseLocationX, e.Y - mouseLocationY + mouseLocationY, Convert.ToInt32(Textbox_BrushSize.Text), Convert.ToInt32(Textbox_BrushSize.Text));
                         break;
@@ -157,7 +161,7 @@ namespace GraphicalEditor
                         
                         break;
                 }
-                g.Dispose();
+                g.Dispose();*/
             }
         }
         
@@ -291,6 +295,11 @@ namespace GraphicalEditor
                 Label_Colorpicker_alphaval.Text = paintcolor.A.ToString();
                 bmp.Dispose();
             }
+        }
+
+        private void PictureBox_DrawArea_Paint(object sender, PaintEventArgs e)
+        {
+            DrawHandlerInstance.RedrawAllDirtyShapes(e.Graphics);
         }
 
         private void Trackbar_ColorPicker_Alpha_Scroll(object sender, EventArgs e)

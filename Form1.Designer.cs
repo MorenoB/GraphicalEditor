@@ -115,6 +115,7 @@
             this.PictureBox_DrawArea.Size = new System.Drawing.Size(1019, 707);
             this.PictureBox_DrawArea.TabIndex = 1;
             this.PictureBox_DrawArea.TabStop = false;
+            this.PictureBox_DrawArea.Paint += new System.Windows.Forms.PaintEventHandler(this.PictureBox_DrawArea_Paint);
             this.PictureBox_DrawArea.MouseClick += new System.Windows.Forms.MouseEventHandler(this.PictureBox_DrawArea_MouseClick);
             this.PictureBox_DrawArea.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Picturebox_DrawArea_MouseDown);
             this.PictureBox_DrawArea.MouseMove += new System.Windows.Forms.MouseEventHandler(this.PictureBox_DrawArea_MouseMove);
@@ -430,9 +431,9 @@
             this.Label_BrushSize,
             this.Textbox_BrushSize,
             this.Button_Apply_BrushSize});
-            this.toolStrip2.Location = new System.Drawing.Point(93, 0);
+            this.toolStrip2.Location = new System.Drawing.Point(87, 0);
             this.toolStrip2.Name = "toolStrip2";
-            this.toolStrip2.Size = new System.Drawing.Size(278, 27);
+            this.toolStrip2.Size = new System.Drawing.Size(239, 27);
             this.toolStrip2.TabIndex = 1;
             // 
             // Button_Clear
@@ -441,20 +442,20 @@
             this.Button_Clear.Image = global::GraphicalEditor.Properties.Resources.print_prev;
             this.Button_Clear.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.Button_Clear.Name = "Button_Clear";
-            this.Button_Clear.Size = new System.Drawing.Size(24, 25);
+            this.Button_Clear.Size = new System.Drawing.Size(24, 24);
             this.Button_Clear.Text = "Clear";
             this.Button_Clear.Click += new System.EventHandler(this.Button_Clear_Click);
             // 
             // Label_BrushSize
             // 
             this.Label_BrushSize.Name = "Label_BrushSize";
-            this.Label_BrushSize.Size = new System.Drawing.Size(77, 25);
+            this.Label_BrushSize.Size = new System.Drawing.Size(77, 24);
             this.Label_BrushSize.Text = "Brush size:";
             // 
             // Textbox_BrushSize
             // 
             this.Textbox_BrushSize.Name = "Textbox_BrushSize";
-            this.Textbox_BrushSize.Size = new System.Drawing.Size(100, 28);
+            this.Textbox_BrushSize.Size = new System.Drawing.Size(100, 27);
             // 
             // Button_Apply_BrushSize
             // 
@@ -462,7 +463,7 @@
             this.Button_Apply_BrushSize.Image = global::GraphicalEditor.Properties.Resources.apply;
             this.Button_Apply_BrushSize.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.Button_Apply_BrushSize.Name = "Button_Apply_BrushSize";
-            this.Button_Apply_BrushSize.Size = new System.Drawing.Size(24, 25);
+            this.Button_Apply_BrushSize.Size = new System.Drawing.Size(24, 24);
             this.Button_Apply_BrushSize.Text = "Apply";
             // 
             // Form
@@ -471,6 +472,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1421, 734);
             this.Controls.Add(this.toolStripContainer1);
+            this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Margin = new System.Windows.Forms.Padding(4);
             this.MaximizeBox = false;

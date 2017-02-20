@@ -69,8 +69,6 @@ namespace GraphicalEditor
 
         public void RedrawAllDirtyShapes(Graphics g)
         {
-
-            g.Clear(Color.White);
             for (int i = 0; i < shapeList.Count; i++)
             {
                 Shape shape = shapeList[i];
