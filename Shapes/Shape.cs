@@ -55,6 +55,20 @@ namespace GraphicalEditor.Shapes
             }
         }
 
+        public bool IsSelected
+        {
+            get
+            {
+                return isSelected;
+            }
+            set
+            {
+                isSelected = value;
+            }
+        }
+
+        private bool isSelected;
+
 
         public ShapeTypeEnum ShapeType { get { return shapeType; } }
 
@@ -83,6 +97,11 @@ namespace GraphicalEditor.Shapes
 
         public void Draw(Graphics g)
         {
+            if (IsSelected)
+            {
+                g.DrawRectangle(Pens.Black, new Rectangle(TopLeftPoint, new Size(Width, Length)));
+            }
+
             g.FillEllipse(brush, topLeft.X, topLeft.Y, width, length);
         }
 

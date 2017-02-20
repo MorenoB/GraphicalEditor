@@ -87,7 +87,7 @@
             this.toolStripContainer1.ContentPanel.Controls.Add(this.PictureBox_DrawArea);
             this.toolStripContainer1.ContentPanel.Controls.Add(this.Panel_Colorpicker);
             this.toolStripContainer1.ContentPanel.Margin = new System.Windows.Forms.Padding(4);
-            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(1396, 707);
+            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(1381, 707);
             this.toolStripContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
             // 
             // toolStripContainer1.LeftToolStripPanel
@@ -112,7 +112,7 @@
             this.PictureBox_DrawArea.Location = new System.Drawing.Point(0, 0);
             this.PictureBox_DrawArea.Margin = new System.Windows.Forms.Padding(4);
             this.PictureBox_DrawArea.Name = "PictureBox_DrawArea";
-            this.PictureBox_DrawArea.Size = new System.Drawing.Size(1019, 707);
+            this.PictureBox_DrawArea.Size = new System.Drawing.Size(1004, 707);
             this.PictureBox_DrawArea.TabIndex = 1;
             this.PictureBox_DrawArea.TabStop = false;
             this.PictureBox_DrawArea.Paint += new System.Windows.Forms.PaintEventHandler(this.PictureBox_DrawArea_Paint);
@@ -138,7 +138,7 @@
             this.Panel_Colorpicker.Controls.Add(this.Label_ColorPicker_R);
             this.Panel_Colorpicker.Controls.Add(this.PictureBox_ColorPicker);
             this.Panel_Colorpicker.Dock = System.Windows.Forms.DockStyle.Right;
-            this.Panel_Colorpicker.Location = new System.Drawing.Point(1019, 0);
+            this.Panel_Colorpicker.Location = new System.Drawing.Point(1004, 0);
             this.Panel_Colorpicker.Margin = new System.Windows.Forms.Padding(4);
             this.Panel_Colorpicker.Name = "Panel_Colorpicker";
             this.Panel_Colorpicker.Size = new System.Drawing.Size(377, 707);
@@ -304,7 +304,7 @@
             this.Button_Eraser});
             this.toolStrip4.Location = new System.Drawing.Point(0, 3);
             this.toolStrip4.Name = "toolStrip4";
-            this.toolStrip4.Size = new System.Drawing.Size(25, 200);
+            this.toolStrip4.Size = new System.Drawing.Size(40, 224);
             this.toolStrip4.TabIndex = 0;
             // 
             // Button_Rectangle
@@ -313,7 +313,7 @@
             this.Button_Rectangle.Image = global::GraphicalEditor.Properties.Resources.drawrect;
             this.Button_Rectangle.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.Button_Rectangle.Name = "Button_Rectangle";
-            this.Button_Rectangle.Size = new System.Drawing.Size(23, 24);
+            this.Button_Rectangle.Size = new System.Drawing.Size(38, 24);
             this.Button_Rectangle.Text = "Draw rectangle";
             this.Button_Rectangle.Click += new System.EventHandler(this.Button_Rectangle_Click);
             // 
@@ -323,7 +323,7 @@
             this.Button_Circle.Image = global::GraphicalEditor.Properties.Resources.drawellip;
             this.Button_Circle.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.Button_Circle.Name = "Button_Circle";
-            this.Button_Circle.Size = new System.Drawing.Size(23, 24);
+            this.Button_Circle.Size = new System.Drawing.Size(38, 24);
             this.Button_Circle.Text = "Draw ellipse";
             this.Button_Circle.Click += new System.EventHandler(this.Button_Circle_Click);
             // 

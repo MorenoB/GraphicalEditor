@@ -14,12 +14,34 @@ namespace GraphicalEditor
 
         private bool isChoosingColor = false;
         private bool holdingMouseDown = false;
+        private SelectedState selectedState;
 
         private int mouseLocationX, mouseLocationY = 0;
         private Item selectedItem;
+        private Item SelectedItem
+        {
+            get
+            {
+                return selectedItem;
+            }
+            set
+            {
+                if (value == selectedItem)
+                    return;
+
+                selectedItem = value;
+
+                UpdateToolButtonsCheckedState();
+            }
+        }
         private SolidBrush brush;
 
         private DrawHandler DrawHandlerInstance { get { return DrawHandler.Instance; } }
+
+        public enum SelectedState
+        {
+            Resizing, Moving
+        }
 
 
         public Form()
@@ -27,7 +49,7 @@ namespace GraphicalEditor
             InitializeComponent();
 
             brush = new SolidBrush(paintcolor);
-            selectedItem = Item.None;
+            SelectedItem = Item.None;
         }
 
         public enum Item
@@ -79,7 +101,7 @@ namespace GraphicalEditor
         {
             holdingMouseDown = true;
 
-            switch (selectedItem)
+            switch (SelectedItem)
             {
                 case Item.Rectangle:
 
@@ -87,6 +109,8 @@ namespace GraphicalEditor
                     DrawHandlerInstance.AddNewShape(rectangle);
 
                     DrawHandlerInstance.SelectedShape = rectangle;
+
+                    selectedState = SelectedState.Resizing;
                     break;
 
                 case Item.Ellipse:
@@ -95,13 +119,20 @@ namespace GraphicalEditor
                     DrawHandlerInstance.AddNewShape(ellipse);
 
                     DrawHandlerInstance.SelectedShape = ellipse;
+
+                    selectedState = SelectedState.Resizing;
                     break;
 
                 case Item.None:
 
+                    selectedState = SelectedState.Moving;
                     DrawHandlerInstance.SelectedShape = null;
                     break;
             }
+
+            SelectedItem = Item.None;
+
+            DrawHandlerInstance.SelectShapeFromPoint(e.Location);
 
 
             mouseLocationX = e.X;
@@ -116,9 +147,7 @@ namespace GraphicalEditor
             mouseLocationX = e.X;
             mouseLocationY = e.Y;
 
-            //DrawHandlerInstance.ShapeList.Add(new Shape(Shape.ShapeTypeEnum.RECTANGLE, brush.Color , mouseLocationX, mouseLocationY, e.X - mouseLocationX, e.Y - mouseLocationY));
-
-            switch (selectedItem)
+            switch (SelectedItem)
             {
                 case Item.Line:
                     Graphics g = PictureBox_DrawArea.CreateGraphics();
@@ -134,71 +163,98 @@ namespace GraphicalEditor
         {
             if (holdingMouseDown)
             {
-                //Graphics g = PictureBox_DrawArea.CreateGraphics();
-
-
-                DrawHandlerInstance.ResizeSelectedShape(e.X - mouseLocationX, e.Y - mouseLocationY);
-
-                PictureBox_DrawArea.Invalidate();
-                
-               /* switch (selectedItem)
+                switch(selectedState)
                 {
-                   case Item.Rectangle:
-                        g.FillRectangle(brush, mouseLocationX, mouseLocationY, e.X - mouseLocationX, e.Y - mouseLocationY);
-                        
+                    case SelectedState.Moving:
+                        DrawHandlerInstance.MoveSelectedShape(e.Location);
                         break;
-                    case Item.Ellipse:
-                        g.FillEllipse(brush, mouseLocationX, mouseLocationY, e.X - mouseLocationX, e.Y - mouseLocationY);
-                        break;
-                    case Item.Brush:
-                        g.FillEllipse(brush, e.X - mouseLocationX + mouseLocationX, e.Y - mouseLocationY + mouseLocationY, Convert.ToInt32(Textbox_BrushSize.Text), Convert.ToInt32(Textbox_BrushSize.Text));
-                        break;
-                    case Item.Pencil:
-                        g.FillEllipse(brush, e.X - mouseLocationX + mouseLocationX, e.Y - mouseLocationY + mouseLocationY, 5, 5);
-                        break;
-                    case Item.eraser:
-                        g.FillEllipse(new SolidBrush(PictureBox_DrawArea.BackColor), e.X - mouseLocationX + mouseLocationX, e.Y - mouseLocationY + mouseLocationY, Convert.ToInt32(Textbox_BrushSize.Text), Convert.ToInt32(Textbox_BrushSize.Text));
-                        
+
+                    case SelectedState.Resizing:
+                        DrawHandlerInstance.ResizeSelectedShape(e.X - mouseLocationX, e.Y - mouseLocationY);
                         break;
                 }
-                g.Dispose();*/
+                PictureBox_DrawArea.Invalidate();
+            }
+        }
+
+        private void UpdateToolButtonsCheckedState()
+        {
+
+            Button_Brush.Checked = false;
+            Button_Circle.Checked = false;
+            Button_Eraser.Checked = false;
+            Button_Line.Checked = false;
+            Button_Pencil.Checked = false;
+            Button_Rectangle.Checked = false;
+            Button_ColorPicker.Checked = false;
+
+            switch(SelectedItem)
+            {
+                case Item.Brush:
+                    Button_Brush.Checked = true;
+                    break;
+
+                case Item.Ellipse:
+                    Button_Circle.Checked = true;
+                    break;
+
+                case Item.eraser:
+                    Button_Eraser.Checked = true;
+                    break;
+
+                case Item.Line:
+                    Button_Line.Checked = true;
+                    break;
+
+                case Item.Pencil:
+                    Button_Pencil.Checked = true;
+                    break;
+
+                case Item.Rectangle:
+                    Button_Rectangle.Checked = true;
+                    break;
+
+                case Item.ColorPicker:
+                    Button_ColorPicker.Checked = true;
+                    break;
+
             }
         }
         
 
         private void Button_Brush_Click(object sender, EventArgs e)
         {
-            selectedItem = Item.Brush;
+            SelectedItem = Item.Brush;
         }
 
         private void Button_Rectangle_Click(object sender, EventArgs e)
         {
-            selectedItem = Item.Rectangle;
+            SelectedItem = Item.Rectangle;
         }
 
         private void Button_Circle_Click(object sender, EventArgs e)
         {
-            selectedItem = Item.Ellipse;
+            SelectedItem = Item.Ellipse;
         }
 
         private void Button_Pencil_Click(object sender, EventArgs e)
         {
-            selectedItem = Item.Pencil;
+            SelectedItem = Item.Pencil;
         }
 
         private void Button_Eraser_Click(object sender, EventArgs e)
         {
-            selectedItem = Item.eraser;
+            SelectedItem = Item.eraser;
         }
 
         private void Button_line_Click(object sender, EventArgs e)
         {
-            selectedItem = Item.Line;
+            SelectedItem = Item.Line;
         }
 
         private void Button_ColorPicker_Click(object sender, EventArgs e)
         {
-            selectedItem = Item.ColorPicker;
+            SelectedItem = Item.ColorPicker;
         }
 
         private void Button_New_Click(object sender, EventArgs e)
@@ -276,7 +332,7 @@ namespace GraphicalEditor
 
         private void PictureBox_DrawArea_MouseClick(object sender, MouseEventArgs e)
         {
-            if (selectedItem == Item.ColorPicker)
+            if (SelectedItem == Item.ColorPicker)
             {
                 Bitmap bmp = new Bitmap(PictureBox_DrawArea.Width, PictureBox_DrawArea.Height);
                 Graphics g = Graphics.FromImage(bmp);

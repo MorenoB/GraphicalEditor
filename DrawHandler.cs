@@ -22,7 +22,13 @@ namespace GraphicalEditor
                 if (selectedShape == value)
                     return;
 
+                if (selectedShape != null)
+                    selectedShape.IsSelected = false;
+                
                 selectedShape = value;
+
+                if (selectedShape != null)
+                    selectedShape.IsSelected = true;
             }
         }
 
@@ -65,6 +71,18 @@ namespace GraphicalEditor
         public void AddNewShape(Shape newShape)
         {
             shapeList.Add(newShape);
+        }
+
+        public void SelectShapeFromPoint(Point clickedPoint)
+        {
+            for (int i = 0; i < shapeList.Count; i++)
+            {
+                Shape shape = shapeList[i];
+                if (shape == null) continue;
+
+                if (shape.WasClicked(clickedPoint))
+                    SelectedShape = shape;
+            }
         }
 
         public void RedrawAllDirtyShapes(Graphics g)
