@@ -83,7 +83,7 @@ namespace GraphicalEditor
             {
                 case Item.Rectangle:
 
-                    Shape rectangle = new Shape(Shape.ShapeTypeEnum.RECTANGLE, brush.Color, e.Location, e.X - mouseLocationX, e.Y - mouseLocationY);
+                    Shape rectangle = new Shape(Shape.ShapeTypeEnum.RECTANGLE, brush, e.Location, e.X - mouseLocationX, e.Y - mouseLocationY);
                     DrawHandlerInstance.AddNewShape(rectangle);
 
                     DrawHandlerInstance.SelectedShape = rectangle;
@@ -91,7 +91,7 @@ namespace GraphicalEditor
 
                 case Item.Ellipse:
 
-                    Shape ellipse = new Shape(Shape.ShapeTypeEnum.CIRCLE, brush.Color, e.Location, e.X - mouseLocationX, e.Y - mouseLocationY);
+                    Shape ellipse = new Shape(Shape.ShapeTypeEnum.CIRCLE, brush, e.Location, e.X - mouseLocationX, e.Y - mouseLocationY);
                     DrawHandlerInstance.AddNewShape(ellipse);
 
                     DrawHandlerInstance.SelectedShape = ellipse;

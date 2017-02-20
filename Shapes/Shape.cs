@@ -27,14 +27,14 @@ namespace GraphicalEditor.Shapes
             }
         }
 
-        public Color Color
+        public Brush Brush
         {
-            get { return color; }
+            get { return brush; }
             set
             {
-                if (value == color) return;
+                if (value == brush) return;
 
-                color = value;
+                brush = value;
                 dirty = true;
             }
         }
@@ -65,26 +65,25 @@ namespace GraphicalEditor.Shapes
 
         private bool dirty;
 
-        private Color color;
+        private Brush brush;
 
         private int width;
         private int length;
 
         private Point topLeft;
 
-        public Shape(ShapeTypeEnum shapeType, Color color, Point topLeft, int width, int length)
+        public Shape(ShapeTypeEnum shapeType, Brush brush, Point topLeft, int width, int length)
         {
             this.width = width;
             this.length = length;
             this.shapeType = shapeType;
-            this.color = color;
+            this.brush = brush;
             this.topLeft = topLeft;
         }
 
         public void Draw(Graphics g)
         {
-            Pen brush = new Pen(color);
-            g.DrawEllipse(brush, topLeft.X, topLeft.Y, width, length);
+            g.FillEllipse(brush, topLeft.X, topLeft.Y, width, length);
         }
 
         public bool WasClicked(Point p)
