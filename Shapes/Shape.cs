@@ -4,29 +4,6 @@ namespace GraphicalEditor.Shapes
 {
     public class Shape
     {
-        public int Location_X
-        {
-            get { return location_x; }
-            set
-            {
-                if (location_x == value) return;
-
-                location_x = value;
-                dirty = true;
-            }
-        }
-        public int Location_Y
-        {
-            get { return location_y; }
-            set
-            {
-                if (value == location_y) return;
-
-                location_y = value;
-                dirty = true;
-            }
-        }
-
         public int Width
         {
             get { return width; }
@@ -62,6 +39,22 @@ namespace GraphicalEditor.Shapes
             }
         }
 
+        public Point TopLeftPoint
+        {
+            get
+            {
+                return topLeft;
+            }
+            set
+            {
+                if (value == topLeft)
+                    return;
+
+                topLeft = value;
+                dirty = true;
+            }
+        }
+
 
         public ShapeTypeEnum ShapeType { get { return shapeType; } }
 
@@ -74,21 +67,30 @@ namespace GraphicalEditor.Shapes
 
         private Color color;
 
-        private int location_x;
-        private int location_y;
-
         private int width;
         private int length;
 
-        public Shape(ShapeTypeEnum shapeType, Color color, int location_x, int location_y, int width, int length)
+        private Point topLeft;
+
+        public Shape(ShapeTypeEnum shapeType, Color color, Point topLeft, int width, int length)
         {
-            this.location_x = location_x;
-            this.location_y = location_y;
             this.width = width;
             this.length = length;
             this.shapeType = shapeType;
             this.color = color;
-            this.dirty = true;
+            this.topLeft = topLeft;
+        }
+
+        public void Draw(Graphics g)
+        {
+            Pen brush = new Pen(color);
+            g.DrawEllipse(brush, topLeft.X, topLeft.Y, width, length);
+        }
+
+        public bool WasClicked(Point p)
+        {
+            return p.X >= topLeft.X && p.X < topLeft.X + width
+                && p.Y >= topLeft.Y && p.Y < topLeft.Y + length;
         }
     }
 }

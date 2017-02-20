@@ -10,7 +10,6 @@ namespace GraphicalEditor
 {
     public partial class Form : System.Windows.Forms.Form
     {
-        private List<Shape> shapeList = new List<Shape>();
         private Color paintcolor;
 
         private bool isChoosingColor = false;
@@ -18,18 +17,22 @@ namespace GraphicalEditor
 
         private int mouseLocationX, mouseLocationY = 0;
         private Item selectedItem;
-        
+        private SolidBrush brush;
+
         private DrawHandler DrawHandlerInstance { get { return DrawHandler.Instance; } }
 
 
         public Form()
         {
             InitializeComponent();
+
+            brush = new SolidBrush(paintcolor);
+            selectedItem = Item.None;
         }
 
         public enum Item
         {
-            Rectangle, Ellipse, Line, Brush, Pencil, eraser, ColorPicker
+            Rectangle, Ellipse, Line, Brush, Pencil, eraser, ColorPicker, None
         }
 
         private void PictureBox_ColorPicker_MouseDown(object sender, MouseEventArgs e)
@@ -67,12 +70,40 @@ namespace GraphicalEditor
                 Label_Colorpicker_blueval.Text = paintcolor.B.ToString();
                 Label_Colorpicker_alphaval.Text = paintcolor.A.ToString();
                 Picturebox_CurrentColor.BackColor = paintcolor;
+
+                brush = new SolidBrush(paintcolor);
             }
         }
 
         private void Picturebox_DrawArea_MouseDown(object sender, MouseEventArgs e)
         {
             holdingMouseDown = true;
+
+            switch (selectedItem)
+            {
+                case Item.Rectangle:
+
+                    Shape rectangle = new Shape(Shape.ShapeTypeEnum.RECTANGLE, brush.Color, e.Location, e.X - mouseLocationX, e.Y - mouseLocationY);
+                    DrawHandlerInstance.AddNewShape(rectangle);
+
+                    DrawHandlerInstance.SelectedShape = rectangle;
+                    break;
+
+                case Item.Ellipse:
+
+                    Shape ellipse = new Shape(Shape.ShapeTypeEnum.CIRCLE, brush.Color, e.Location, e.X - mouseLocationX, e.Y - mouseLocationY);
+                    DrawHandlerInstance.AddNewShape(ellipse);
+
+                    DrawHandlerInstance.SelectedShape = ellipse;
+                    break;
+
+                case Item.None:
+
+                    DrawHandlerInstance.SelectedShape = null;
+                    break;
+            }
+
+
             mouseLocationX = e.X;
             mouseLocationY = e.Y;
         }
@@ -82,13 +113,16 @@ namespace GraphicalEditor
             holdingMouseDown = false;
             mouseLocationX = e.X;
             mouseLocationY = e.Y;
-            
-            if (selectedItem == Item.Line)
-            {
-                Graphics g = PictureBox_DrawArea.CreateGraphics();
-                g.DrawLine(new Pen(new SolidBrush(paintcolor)), new Point(mouseLocationX, mouseLocationY), new Point(mouseLocationX, mouseLocationY));
-                g.Dispose();
 
+            //DrawHandlerInstance.ShapeList.Add(new Shape(Shape.ShapeTypeEnum.RECTANGLE, brush.Color , mouseLocationX, mouseLocationY, e.X - mouseLocationX, e.Y - mouseLocationY));
+
+            switch (selectedItem)
+            {
+                case Item.Line:
+                    Graphics g = PictureBox_DrawArea.CreateGraphics();
+                    g.DrawLine(new Pen(new SolidBrush(paintcolor)), new Point(mouseLocationX, mouseLocationY), new Point(mouseLocationX, mouseLocationY));
+                    g.Dispose();
+                    break;
             }
         }
 
@@ -97,23 +131,30 @@ namespace GraphicalEditor
             if (holdingMouseDown)
             {
                 Graphics g = PictureBox_DrawArea.CreateGraphics();
+
+
+                DrawHandlerInstance.ResizeSelectedShape(e.X - mouseLocationX, e.Y - mouseLocationY);
+
+                DrawHandlerInstance.RedrawAllDirtyShapes(g);
                 
                 switch (selectedItem)
                 {
-                    case Item.Rectangle:
-                        g.FillRectangle(new SolidBrush(paintcolor), mouseLocationX, mouseLocationY, e.X - mouseLocationX, e.Y - mouseLocationY);
+                   /* case Item.Rectangle:
+                        g.FillRectangle(brush, mouseLocationX, mouseLocationY, e.X - mouseLocationX, e.Y - mouseLocationY);
+                        
                         break;
                     case Item.Ellipse:
-                        g.FillEllipse(new SolidBrush(paintcolor), mouseLocationX, mouseLocationY, e.X - mouseLocationX, e.Y - mouseLocationY);
-                        break;
+                        g.FillEllipse(brush, mouseLocationX, mouseLocationY, e.X - mouseLocationX, e.Y - mouseLocationY);
+                        break;*/
                     case Item.Brush:
-                        g.FillEllipse(new SolidBrush(paintcolor), e.X - mouseLocationX + mouseLocationX, e.Y - mouseLocationY + mouseLocationY, Convert.ToInt32(Textbox_BrushSize.Text), Convert.ToInt32(Textbox_BrushSize.Text));
+                        g.FillEllipse(brush, e.X - mouseLocationX + mouseLocationX, e.Y - mouseLocationY + mouseLocationY, Convert.ToInt32(Textbox_BrushSize.Text), Convert.ToInt32(Textbox_BrushSize.Text));
                         break;
                     case Item.Pencil:
-                        g.FillEllipse(new SolidBrush(paintcolor), e.X - mouseLocationX + mouseLocationX, e.Y - mouseLocationY + mouseLocationY, 5, 5);
+                        g.FillEllipse(brush, e.X - mouseLocationX + mouseLocationX, e.Y - mouseLocationY + mouseLocationY, 5, 5);
                         break;
                     case Item.eraser:
                         g.FillEllipse(new SolidBrush(PictureBox_DrawArea.BackColor), e.X - mouseLocationX + mouseLocationX, e.Y - mouseLocationY + mouseLocationY, Convert.ToInt32(Textbox_BrushSize.Text), Convert.ToInt32(Textbox_BrushSize.Text));
+                        
                         break;
                 }
                 g.Dispose();

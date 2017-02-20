@@ -16,10 +16,6 @@ namespace GraphicalEditor
 
             Form form = new Form();
 
-            DrawHandler drawHandler = DrawHandler.Instance;
-
-            drawHandler.Initialize(form);
-
             Application.Run(form);
 
         }
