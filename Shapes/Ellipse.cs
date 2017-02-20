@@ -72,10 +72,10 @@ namespace GraphicalEditor.Shapes
         private Point topLeft;
         private Brush brush;
 
-        public Ellipse(Brush brush, Point topLeft, int width, int length)
+        public Ellipse(Brush brush, Point topLeft, int width, int height)
         {
             this.width = width;
-            this.height = length;
+            this.height = height;
             this.brush = brush;
             this.topLeft = topLeft;
         }
