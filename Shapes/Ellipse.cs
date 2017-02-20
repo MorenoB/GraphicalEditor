@@ -1,8 +1,9 @@
-﻿using System.Drawing;
+﻿using GraphicalEditor.Interfaces;
+using System.Drawing;
 
 namespace GraphicalEditor.Shapes
 {
-    public class Shape
+    public class Ellipse : IShape
     {
         public int Width
         {
@@ -12,18 +13,16 @@ namespace GraphicalEditor.Shapes
                 if (value == width) return;
 
                 width = value;
-                dirty = true;
             }
         }
-        public int Length
+        public int Height
         {
-            get { return length; }
+            get { return height; }
             set
             {
-                if (value == length) return;
+                if (value == height) return;
 
-                length = value;
-                dirty = true;
+                height = value;
             }
         }
 
@@ -35,7 +34,6 @@ namespace GraphicalEditor.Shapes
                 if (value == brush) return;
 
                 brush = value;
-                dirty = true;
             }
         }
 
@@ -51,7 +49,6 @@ namespace GraphicalEditor.Shapes
                     return;
 
                 topLeft = value;
-                dirty = true;
             }
         }
 
@@ -68,29 +65,17 @@ namespace GraphicalEditor.Shapes
         }
 
         private bool isSelected;
-
-
-        public ShapeTypeEnum ShapeType { get { return shapeType; } }
-
-        public enum ShapeTypeEnum { RECTANGLE, CIRCLE };
-
-        private ShapeTypeEnum shapeType;
-        public bool IsDirty { get { return dirty; } set { dirty = value; } }
-
-        private bool dirty;
-
-        private Brush brush;
-
+ 
         private int width;
-        private int length;
+        private int height;
 
         private Point topLeft;
+        private Brush brush;
 
-        public Shape(ShapeTypeEnum shapeType, Brush brush, Point topLeft, int width, int length)
+        public Ellipse(Brush brush, Point topLeft, int width, int length)
         {
             this.width = width;
-            this.length = length;
-            this.shapeType = shapeType;
+            this.height = length;
             this.brush = brush;
             this.topLeft = topLeft;
         }
@@ -99,16 +84,16 @@ namespace GraphicalEditor.Shapes
         {
             if (IsSelected)
             {
-                g.DrawRectangle(Pens.Black, new Rectangle(TopLeftPoint, new Size(Width, Length)));
+                g.DrawRectangle(Pens.Black, new System.Drawing.Rectangle(TopLeftPoint, new Size(Width, Height)));
             }
 
-            g.FillEllipse(brush, topLeft.X, topLeft.Y, width, length);
+            g.FillEllipse(brush, topLeft.X, topLeft.Y, width, height);
         }
 
         public bool WasClicked(Point p)
         {
             return p.X >= topLeft.X && p.X < topLeft.X + width
-                && p.Y >= topLeft.Y && p.Y < topLeft.Y + length;
+                && p.Y >= topLeft.Y && p.Y < topLeft.Y + height;
         }
     }
 }

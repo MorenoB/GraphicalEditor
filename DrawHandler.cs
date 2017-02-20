@@ -1,4 +1,5 @@
-﻿using GraphicalEditor.Shapes;
+﻿using GraphicalEditor.Interfaces;
+using GraphicalEditor.Shapes;
 using System.Collections.Generic;
 using System.Drawing;
 
@@ -6,12 +7,12 @@ namespace GraphicalEditor
 {
     public sealed class DrawHandler
     {
-        private List<Shape> shapeList = new List<Shape>();
+        private List<IShape> shapeList = new List<IShape>();
 
         private static readonly DrawHandler instance = new DrawHandler();
 
-        private Shape selectedShape;
-        public Shape SelectedShape
+        private IShape selectedShape;
+        public IShape SelectedShape
         {
             get
             {
@@ -57,7 +58,7 @@ namespace GraphicalEditor
                 return;
 
             SelectedShape.Width = newWidth;
-            SelectedShape.Length = newHeight;
+            SelectedShape.Height = newHeight;
         }
 
         public void MoveSelectedShape(Point newPoint)
@@ -68,7 +69,7 @@ namespace GraphicalEditor
             SelectedShape.TopLeftPoint = newPoint;
         }
 
-        public void AddNewShape(Shape newShape)
+        public void AddNewShape(IShape newShape)
         {
             shapeList.Add(newShape);
         }
@@ -77,7 +78,7 @@ namespace GraphicalEditor
         {
             for (int i = 0; i < shapeList.Count; i++)
             {
-                Shape shape = shapeList[i];
+                IShape shape = shapeList[i];
                 if (shape == null) continue;
 
                 if (shape.WasClicked(clickedPoint))
@@ -89,7 +90,7 @@ namespace GraphicalEditor
         {
             for (int i = 0; i < shapeList.Count; i++)
             {
-                Shape shape = shapeList[i];
+                IShape shape = shapeList[i];
 
                 if (shape == null) continue;
 

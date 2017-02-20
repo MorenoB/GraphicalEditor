@@ -105,7 +105,7 @@ namespace GraphicalEditor
             {
                 case Item.Rectangle:
 
-                    Shape rectangle = new Shape(Shape.ShapeTypeEnum.RECTANGLE, brush, e.Location, e.X - mouseLocationX, e.Y - mouseLocationY);
+                    Shapes.Rectangle rectangle = new Shapes.Rectangle(brush, e.Location, e.X - mouseLocationX, e.Y - mouseLocationY);
                     DrawHandlerInstance.AddNewShape(rectangle);
 
                     DrawHandlerInstance.SelectedShape = rectangle;
@@ -115,7 +115,7 @@ namespace GraphicalEditor
 
                 case Item.Ellipse:
 
-                    Shape ellipse = new Shape(Shape.ShapeTypeEnum.CIRCLE, brush, e.Location, e.X - mouseLocationX, e.Y - mouseLocationY);
+                    Ellipse ellipse = new Ellipse(brush, e.Location, e.X - mouseLocationX, e.Y - mouseLocationY);
                     DrawHandlerInstance.AddNewShape(ellipse);
 
                     DrawHandlerInstance.SelectedShape = ellipse;
@@ -283,7 +283,7 @@ namespace GraphicalEditor
         {
             Bitmap bmp = new Bitmap(PictureBox_DrawArea.Width, PictureBox_DrawArea.Height);
             Graphics g = Graphics.FromImage(bmp);
-            Rectangle rect = PictureBox_DrawArea.RectangleToScreen(PictureBox_DrawArea.ClientRectangle);
+            System.Drawing.Rectangle rect = PictureBox_DrawArea.RectangleToScreen(PictureBox_DrawArea.ClientRectangle);
             g.CopyFromScreen(rect.Location, Point.Empty, PictureBox_DrawArea.Size);
             g.Dispose();
             SaveFileDialog s = new SaveFileDialog();
@@ -336,7 +336,7 @@ namespace GraphicalEditor
             {
                 Bitmap bmp = new Bitmap(PictureBox_DrawArea.Width, PictureBox_DrawArea.Height);
                 Graphics g = Graphics.FromImage(bmp);
-                Rectangle rect = PictureBox_DrawArea.RectangleToScreen(PictureBox_DrawArea.ClientRectangle);
+                System.Drawing.Rectangle rect = PictureBox_DrawArea.RectangleToScreen(PictureBox_DrawArea.ClientRectangle);
                 g.CopyFromScreen(rect.Location, Point.Empty, PictureBox_DrawArea.Size);
                 g.Dispose();
                 paintcolor = bmp.GetPixel(e.X, e.Y);
