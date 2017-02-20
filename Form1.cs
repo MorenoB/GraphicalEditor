@@ -10,15 +10,31 @@ namespace GraphicalEditor
 {
     public partial class Form : System.Windows.Forms.Form
     {
-        private Color paintcolor;
+        private Color paintColor;
+        private Color PaintColor
+        {
+            get
+            {
+                return paintColor;
+            }
+            set
+            {
+                if (value == paintColor)
+                    return;
+
+                paintColor = value;
+
+                brush = new SolidBrush(paintColor);
+            }
+        }
 
         private bool isChoosingColor = false;
         private bool holdingMouseDown = false;
         private SelectedState selectedState;
 
         private int mouseLocationX, mouseLocationY = 0;
-        private Item currentTool;
-        private Item CurrentTool
+        private ToolItem currentTool;
+        private ToolItem CurrentTool
         {
             get
             {
@@ -30,6 +46,8 @@ namespace GraphicalEditor
                     return;
 
                 currentTool = value;
+
+                label_SelectedTool.Text = "Selected Tool: " + currentTool.ToString();
 
                 UpdateToolButtonsCheckedState();
             }
@@ -48,13 +66,13 @@ namespace GraphicalEditor
         {
             InitializeComponent();
 
-            brush = new SolidBrush(paintcolor);
-            CurrentTool = Item.None;
+            brush = new SolidBrush(PaintColor);
+            CurrentTool = ToolItem.None;
         }
 
-        public enum Item
+        public enum ToolItem
         {
-            Rectangle, Ellipse, Line, Brush, Pencil, eraser, ColorPicker, None
+            Rectangle, Ellipse, Line, Brush, Pencil, Eraser, ColorPicker, None
         }
 
         private void PictureBox_ColorPicker_MouseDown(object sender, MouseEventArgs e)
@@ -82,18 +100,16 @@ namespace GraphicalEditor
                 if (e.Y >= bmp.Height)
                     return;
 
-                paintcolor = bmp.GetPixel(e.X, e.Y);
-                Trackbar_ColorPicker_Red.Value = paintcolor.R;
-                Trackbar_Colorpicker_Green.Value = paintcolor.G;
-                Trackbar_Colorpicker_Blue.Value = paintcolor.B;
-                Trackbar_Colorpicker_Alpha.Value = paintcolor.A;
-                Label_Colorpicker_redval.Text = paintcolor.R.ToString();
-                Label_Colorpicker_greenval.Text = paintcolor.G.ToString();
-                Label_Colorpicker_blueval.Text = paintcolor.B.ToString();
-                Label_Colorpicker_alphaval.Text = paintcolor.A.ToString();
-                Picturebox_CurrentColor.BackColor = paintcolor;
-
-                brush = new SolidBrush(paintcolor);
+                PaintColor = bmp.GetPixel(e.X, e.Y);
+                Trackbar_ColorPicker_Red.Value = PaintColor.R;
+                Trackbar_Colorpicker_Green.Value = PaintColor.G;
+                Trackbar_Colorpicker_Blue.Value = PaintColor.B;
+                Trackbar_Colorpicker_Alpha.Value = PaintColor.A;
+                Label_Colorpicker_redval.Text = PaintColor.R.ToString();
+                Label_Colorpicker_greenval.Text = PaintColor.G.ToString();
+                Label_Colorpicker_blueval.Text = PaintColor.B.ToString();
+                Label_Colorpicker_alphaval.Text = PaintColor.A.ToString();
+                Picturebox_CurrentColor.BackColor = PaintColor;
             }
         }
 
@@ -103,7 +119,7 @@ namespace GraphicalEditor
 
             switch (CurrentTool)
             {
-                case Item.Rectangle:
+                case ToolItem.Rectangle:
 
                     Shapes.Rectangle rectangle = new Shapes.Rectangle(brush, e.Location, e.X - mouseLocationX, e.Y - mouseLocationY);
                     DrawHandlerInstance.AddNewShape(rectangle);
@@ -111,9 +127,10 @@ namespace GraphicalEditor
                     DrawHandlerInstance.SelectedShape = rectangle;
 
                     selectedState = SelectedState.Resizing;
+                    CurrentTool = ToolItem.None;
                     break;
 
-                case Item.Ellipse:
+                case ToolItem.Ellipse:
 
                     Ellipse ellipse = new Ellipse(brush, e.Location, e.X - mouseLocationX, e.Y - mouseLocationY);
                     DrawHandlerInstance.AddNewShape(ellipse);
@@ -121,19 +138,16 @@ namespace GraphicalEditor
                     DrawHandlerInstance.SelectedShape = ellipse;
 
                     selectedState = SelectedState.Resizing;
+                    CurrentTool = ToolItem.None;
                     break;
 
-                case Item.None:
+                case ToolItem.None:
 
+                    DrawHandlerInstance.SelectShapeFromPoint(e.Location);
                     selectedState = SelectedState.Moving;
                     DrawHandlerInstance.SelectedShape = null;
                     break;
             }
-
-            CurrentTool = Item.None;
-
-            DrawHandlerInstance.SelectShapeFromPoint(e.Location);
-
 
             mouseLocationX = e.X;
             mouseLocationY = e.Y;
@@ -149,9 +163,9 @@ namespace GraphicalEditor
 
             switch (CurrentTool)
             {
-                case Item.Line:
+                case ToolItem.Line:
                     Graphics g = PictureBox_DrawArea.CreateGraphics();
-                    g.DrawLine(new Pen(new SolidBrush(paintcolor)), new Point(mouseLocationX, mouseLocationY), new Point(mouseLocationX, mouseLocationY));
+                    g.DrawLine(new Pen(new SolidBrush(PaintColor)), new Point(mouseLocationX, mouseLocationY), new Point(mouseLocationX, mouseLocationY));
                     g.Dispose();
                     break;
             }
@@ -163,19 +177,27 @@ namespace GraphicalEditor
         {
             if (holdingMouseDown)
             {
-                switch(selectedState)
-                {
-                    case SelectedState.Moving:
-                        DrawHandlerInstance.MoveSelectedShape(e.Location);
-                        break;
 
-                    case SelectedState.Resizing:
-                        DrawHandlerInstance.ResizeSelectedShape(e.X - mouseLocationX, e.Y - mouseLocationY);
+                switch (CurrentTool)
+                {
+                    case ToolItem.None:
+
+                        switch (selectedState)
+                        {
+                            case SelectedState.Moving:
+                                DrawHandlerInstance.MoveSelectedShape(e.Location);
+                                break;
+
+                            case SelectedState.Resizing:
+                                DrawHandlerInstance.ResizeSelectedShape(e.X - mouseLocationX, e.Y - mouseLocationY);
+                                break;
+                        }
                         break;
                 }
-                PictureBox_DrawArea.Invalidate();
             }
+            PictureBox_DrawArea.Invalidate();
         }
+
 
         private void UpdateToolButtonsCheckedState()
         {
@@ -188,73 +210,73 @@ namespace GraphicalEditor
             Button_Rectangle.Checked = false;
             Button_ColorPicker.Checked = false;
 
-            switch(CurrentTool)
+            switch (CurrentTool)
             {
-                case Item.Brush:
+                case ToolItem.Brush:
                     Button_Brush.Checked = true;
                     break;
 
-                case Item.Ellipse:
+                case ToolItem.Ellipse:
                     Button_Ellipse.Checked = true;
                     break;
 
-                case Item.eraser:
+                case ToolItem.Eraser:
                     Button_Eraser.Checked = true;
                     break;
 
-                case Item.Line:
+                case ToolItem.Line:
                     Button_Line.Checked = true;
                     break;
 
-                case Item.Pencil:
+                case ToolItem.Pencil:
                     Button_Pencil.Checked = true;
                     break;
 
-                case Item.Rectangle:
+                case ToolItem.Rectangle:
                     Button_Rectangle.Checked = true;
                     break;
 
-                case Item.ColorPicker:
+                case ToolItem.ColorPicker:
                     Button_ColorPicker.Checked = true;
                     break;
 
             }
         }
-        
+
 
         private void Button_Brush_Click(object sender, EventArgs e)
         {
-            CurrentTool = Item.Brush;
+            CurrentTool = ToolItem.Brush;
         }
 
         private void Button_Rectangle_Click(object sender, EventArgs e)
         {
-            CurrentTool = Item.Rectangle;
+            CurrentTool = ToolItem.Rectangle;
         }
 
         private void Button_Ellipse_Click(object sender, EventArgs e)
         {
-            CurrentTool = Item.Ellipse;
+            CurrentTool = ToolItem.Ellipse;
         }
 
         private void Button_Pencil_Click(object sender, EventArgs e)
         {
-            CurrentTool = Item.Pencil;
+            CurrentTool = ToolItem.Pencil;
         }
 
         private void Button_Eraser_Click(object sender, EventArgs e)
         {
-            CurrentTool = Item.eraser;
+            CurrentTool = ToolItem.Eraser;
         }
 
         private void Button_line_Click(object sender, EventArgs e)
         {
-            CurrentTool = Item.Line;
+            CurrentTool = ToolItem.Line;
         }
 
         private void Button_ColorPicker_Click(object sender, EventArgs e)
         {
-            CurrentTool = Item.ColorPicker;
+            CurrentTool = ToolItem.ColorPicker;
         }
 
         private void Button_New_Click(object sender, EventArgs e)
@@ -311,44 +333,44 @@ namespace GraphicalEditor
 
         private void Trackbar_ColorPicker_Red_Scroll(object sender, EventArgs e)
         {
-            paintcolor = Color.FromArgb(Trackbar_Colorpicker_Alpha.Value, Trackbar_ColorPicker_Red.Value, Trackbar_Colorpicker_Green.Value, Trackbar_Colorpicker_Blue.Value);
-            Picturebox_CurrentColor.BackColor = paintcolor;
-            Label_Colorpicker_redval.Text = "R: " + paintcolor.R.ToString();
+            PaintColor = Color.FromArgb(Trackbar_Colorpicker_Alpha.Value, Trackbar_ColorPicker_Red.Value, Trackbar_Colorpicker_Green.Value, Trackbar_Colorpicker_Blue.Value);
+            Picturebox_CurrentColor.BackColor = PaintColor;
+            Label_Colorpicker_redval.Text = "R: " + PaintColor.R.ToString();
         }
 
         private void Trackbar_ColorPicker_Green_Scroll(object sender, EventArgs e)
         {
-            paintcolor = Color.FromArgb(Trackbar_Colorpicker_Alpha.Value, Trackbar_ColorPicker_Red.Value, Trackbar_Colorpicker_Green.Value, Trackbar_Colorpicker_Blue.Value);
-            Picturebox_CurrentColor.BackColor = paintcolor;
-            Label_Colorpicker_greenval.Text = "G: " + paintcolor.G.ToString();
+            PaintColor = Color.FromArgb(Trackbar_Colorpicker_Alpha.Value, Trackbar_ColorPicker_Red.Value, Trackbar_Colorpicker_Green.Value, Trackbar_Colorpicker_Blue.Value);
+            Picturebox_CurrentColor.BackColor = PaintColor;
+            Label_Colorpicker_greenval.Text = "G: " + PaintColor.G.ToString();
         }
 
         private void Trackbar_ColorPicker_Blue_Scroll(object sender, EventArgs e)
         {
-            paintcolor = Color.FromArgb(Trackbar_Colorpicker_Alpha.Value, Trackbar_ColorPicker_Red.Value, Trackbar_Colorpicker_Green.Value, Trackbar_Colorpicker_Blue.Value);
-            Picturebox_CurrentColor.BackColor = paintcolor;
-            Label_Colorpicker_blueval.Text = "B: " + paintcolor.B.ToString();
+            PaintColor = Color.FromArgb(Trackbar_Colorpicker_Alpha.Value, Trackbar_ColorPicker_Red.Value, Trackbar_Colorpicker_Green.Value, Trackbar_Colorpicker_Blue.Value);
+            Picturebox_CurrentColor.BackColor = PaintColor;
+            Label_Colorpicker_blueval.Text = "B: " + PaintColor.B.ToString();
         }
 
         private void PictureBox_DrawArea_MouseClick(object sender, MouseEventArgs e)
         {
-            if (CurrentTool == Item.ColorPicker)
+            if (CurrentTool == ToolItem.ColorPicker)
             {
                 Bitmap bmp = new Bitmap(PictureBox_DrawArea.Width, PictureBox_DrawArea.Height);
                 Graphics g = Graphics.FromImage(bmp);
                 System.Drawing.Rectangle rect = PictureBox_DrawArea.RectangleToScreen(PictureBox_DrawArea.ClientRectangle);
                 g.CopyFromScreen(rect.Location, Point.Empty, PictureBox_DrawArea.Size);
                 g.Dispose();
-                paintcolor = bmp.GetPixel(e.X, e.Y);
-                Picturebox_CurrentColor.BackColor = paintcolor;
-                Trackbar_ColorPicker_Red.Value = paintcolor.R;
-                Trackbar_Colorpicker_Green.Value = paintcolor.G;
-                Trackbar_Colorpicker_Blue.Value = paintcolor.B;
-                Trackbar_Colorpicker_Alpha.Value = paintcolor.A;
-                Label_Colorpicker_redval.Text = paintcolor.R.ToString();
-                Label_Colorpicker_greenval.Text = paintcolor.G.ToString();
-                Label_Colorpicker_blueval.Text = paintcolor.B.ToString();
-                Label_Colorpicker_alphaval.Text = paintcolor.A.ToString();
+                PaintColor = bmp.GetPixel(e.X, e.Y);
+                Picturebox_CurrentColor.BackColor = PaintColor;
+                Trackbar_ColorPicker_Red.Value = PaintColor.R;
+                Trackbar_Colorpicker_Green.Value = PaintColor.G;
+                Trackbar_Colorpicker_Blue.Value = PaintColor.B;
+                Trackbar_Colorpicker_Alpha.Value = PaintColor.A;
+                Label_Colorpicker_redval.Text = PaintColor.R.ToString();
+                Label_Colorpicker_greenval.Text = PaintColor.G.ToString();
+                Label_Colorpicker_blueval.Text = PaintColor.B.ToString();
+                Label_Colorpicker_alphaval.Text = PaintColor.A.ToString();
                 bmp.Dispose();
             }
         }
@@ -360,9 +382,9 @@ namespace GraphicalEditor
 
         private void Trackbar_ColorPicker_Alpha_Scroll(object sender, EventArgs e)
         {
-            paintcolor = Color.FromArgb(Trackbar_Colorpicker_Alpha.Value, Trackbar_ColorPicker_Red.Value, Trackbar_Colorpicker_Green.Value, Trackbar_Colorpicker_Blue.Value);
-            Picturebox_CurrentColor.BackColor = paintcolor;
-            Label_Colorpicker_alphaval.Text = "A: " + paintcolor.A.ToString();
+            PaintColor = Color.FromArgb(Trackbar_Colorpicker_Alpha.Value, Trackbar_ColorPicker_Red.Value, Trackbar_Colorpicker_Green.Value, Trackbar_Colorpicker_Blue.Value);
+            Picturebox_CurrentColor.BackColor = PaintColor;
+            Label_Colorpicker_alphaval.Text = "A: " + PaintColor.A.ToString();
         }
     }
 }
