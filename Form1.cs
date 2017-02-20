@@ -181,7 +181,7 @@ namespace GraphicalEditor
         {
 
             Button_Brush.Checked = false;
-            Button_Circle.Checked = false;
+            Button_Ellipse.Checked = false;
             Button_Eraser.Checked = false;
             Button_Line.Checked = false;
             Button_Pencil.Checked = false;
@@ -195,7 +195,7 @@ namespace GraphicalEditor
                     break;
 
                 case Item.Ellipse:
-                    Button_Circle.Checked = true;
+                    Button_Ellipse.Checked = true;
                     break;
 
                 case Item.eraser:
@@ -232,7 +232,7 @@ namespace GraphicalEditor
             SelectedItem = Item.Rectangle;
         }
 
-        private void Button_Circle_Click(object sender, EventArgs e)
+        private void Button_Ellipse_Click(object sender, EventArgs e)
         {
             SelectedItem = Item.Ellipse;
         }

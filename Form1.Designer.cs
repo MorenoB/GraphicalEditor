@@ -47,7 +47,7 @@
             this.PictureBox_ColorPicker = new System.Windows.Forms.PictureBox();
             this.toolStrip4 = new System.Windows.Forms.ToolStrip();
             this.Button_Rectangle = new System.Windows.Forms.ToolStripButton();
-            this.Button_Circle = new System.Windows.Forms.ToolStripButton();
+            this.Button_Ellipse = new System.Windows.Forms.ToolStripButton();
             this.Button_Line = new System.Windows.Forms.ToolStripButton();
             this.Button_Brush = new System.Windows.Forms.ToolStripButton();
             this.Button_Pencil = new System.Windows.Forms.ToolStripButton();
@@ -296,7 +296,7 @@
             this.toolStrip4.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.toolStrip4.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.Button_Rectangle,
-            this.Button_Circle,
+            this.Button_Ellipse,
             this.Button_Line,
             this.Button_Brush,
             this.Button_Pencil,
@@ -317,15 +317,15 @@
             this.Button_Rectangle.Text = "Draw rectangle";
             this.Button_Rectangle.Click += new System.EventHandler(this.Button_Rectangle_Click);
             // 
-            // Button_Circle
+            // Button_Ellipse
             // 
-            this.Button_Circle.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.Button_Circle.Image = global::GraphicalEditor.Properties.Resources.drawellip;
-            this.Button_Circle.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.Button_Circle.Name = "Button_Circle";
-            this.Button_Circle.Size = new System.Drawing.Size(38, 24);
-            this.Button_Circle.Text = "Draw ellipse";
-            this.Button_Circle.Click += new System.EventHandler(this.Button_Circle_Click);
+            this.Button_Ellipse.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.Button_Ellipse.Image = global::GraphicalEditor.Properties.Resources.drawellip;
+            this.Button_Ellipse.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.Button_Ellipse.Name = "Button_Ellipse";
+            this.Button_Ellipse.Size = new System.Drawing.Size(38, 24);
+            this.Button_Ellipse.Text = "Draw ellipse";
+            this.Button_Ellipse.Click += new System.EventHandler(this.Button_Ellipse_Click);
             // 
             // Button_Line
             // 
@@ -333,7 +333,7 @@
             this.Button_Line.Image = global::GraphicalEditor.Properties.Resources.line;
             this.Button_Line.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.Button_Line.Name = "Button_Line";
-            this.Button_Line.Size = new System.Drawing.Size(23, 24);
+            this.Button_Line.Size = new System.Drawing.Size(38, 24);
             this.Button_Line.Text = "Draw line";
             this.Button_Line.Click += new System.EventHandler(this.Button_line_Click);
             // 
@@ -343,7 +343,7 @@
             this.Button_Brush.Image = global::GraphicalEditor.Properties.Resources.brush;
             this.Button_Brush.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.Button_Brush.Name = "Button_Brush";
-            this.Button_Brush.Size = new System.Drawing.Size(23, 24);
+            this.Button_Brush.Size = new System.Drawing.Size(38, 24);
             this.Button_Brush.Text = "Brush";
             this.Button_Brush.Click += new System.EventHandler(this.Button_Brush_Click);
             // 
@@ -353,7 +353,7 @@
             this.Button_Pencil.Image = global::GraphicalEditor.Properties.Resources.pencil;
             this.Button_Pencil.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.Button_Pencil.Name = "Button_Pencil";
-            this.Button_Pencil.Size = new System.Drawing.Size(23, 24);
+            this.Button_Pencil.Size = new System.Drawing.Size(38, 24);
             this.Button_Pencil.Text = "Pencil";
             this.Button_Pencil.Click += new System.EventHandler(this.Button_Pencil_Click);
             // 
@@ -363,7 +363,7 @@
             this.Button_ColorPicker.Image = global::GraphicalEditor.Properties.Resources.colorp;
             this.Button_ColorPicker.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.Button_ColorPicker.Name = "Button_ColorPicker";
-            this.Button_ColorPicker.Size = new System.Drawing.Size(23, 24);
+            this.Button_ColorPicker.Size = new System.Drawing.Size(38, 24);
             this.Button_ColorPicker.Text = "Color picker";
             this.Button_ColorPicker.Click += new System.EventHandler(this.Button_ColorPicker_Click);
             // 
@@ -375,7 +375,7 @@
             this.Button_Eraser.Name = "Button_Eraser";
             this.Button_Eraser.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.Button_Eraser.RightToLeftAutoMirrorImage = true;
-            this.Button_Eraser.Size = new System.Drawing.Size(23, 24);
+            this.Button_Eraser.Size = new System.Drawing.Size(38, 24);
             this.Button_Eraser.Text = "Eraser";
             this.Button_Eraser.Click += new System.EventHandler(this.Button_Eraser_Click);
             // 
@@ -511,7 +511,7 @@
         private System.Windows.Forms.ToolStripContainer toolStripContainer1;
         private System.Windows.Forms.ToolStrip toolStrip4;
         private System.Windows.Forms.ToolStripButton Button_Rectangle;
-        private System.Windows.Forms.ToolStripButton Button_Circle;
+        private System.Windows.Forms.ToolStripButton Button_Ellipse;
         private System.Windows.Forms.ToolStripButton Button_Line;
         private System.Windows.Forms.ToolStripButton Button_Brush;
         private System.Windows.Forms.ToolStripButton Button_Pencil;
