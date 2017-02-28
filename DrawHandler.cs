@@ -1,5 +1,4 @@
 ﻿using GraphicalEditor.Interfaces;
-using GraphicalEditor.Shapes;
 using System.Collections.Generic;
 using System.Drawing;
 
@@ -12,7 +11,7 @@ namespace GraphicalEditor
         private static readonly DrawHandler instance = new DrawHandler();
 
         private IShape selectedShape;
-        public IShape SelectedShape
+        private IShape SelectedShape
         {
             get
             {
@@ -72,6 +71,7 @@ namespace GraphicalEditor
         public void AddNewShape(IShape newShape)
         {
             shapeList.Add(newShape);
+            SelectedShape = newShape;
         }
 
         public void SelectShapeFromPoint(Point clickedPoint)
@@ -82,8 +82,14 @@ namespace GraphicalEditor
                 if (shape == null) continue;
 
                 if (shape.WasClicked(clickedPoint))
+                {
                     SelectedShape = shape;
+                    return;
+                }
             }
+
+            //We haven't detected a click on any shape.
+            SelectedShape = null;
         }
 
         public void RedrawAllDirtyShapes(Graphics g)

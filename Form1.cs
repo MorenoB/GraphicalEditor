@@ -124,8 +124,6 @@ namespace GraphicalEditor
                     Shapes.Rectangle rectangle = new Shapes.Rectangle(brush, e.Location, e.X - mouseLocationX, e.Y - mouseLocationY);
                     DrawHandlerInstance.AddNewShape(rectangle);
 
-                    DrawHandlerInstance.SelectedShape = rectangle;
-
                     selectedState = SelectedState.Resizing;
                     CurrentTool = ToolItem.None;
                     break;
@@ -135,8 +133,6 @@ namespace GraphicalEditor
                     Ellipse ellipse = new Ellipse(brush, e.Location, e.X - mouseLocationX, e.Y - mouseLocationY);
                     DrawHandlerInstance.AddNewShape(ellipse);
 
-                    DrawHandlerInstance.SelectedShape = ellipse;
-
                     selectedState = SelectedState.Resizing;
                     CurrentTool = ToolItem.None;
                     break;
@@ -145,7 +141,6 @@ namespace GraphicalEditor
 
                     DrawHandlerInstance.SelectShapeFromPoint(e.Location);
                     selectedState = SelectedState.Moving;
-                    DrawHandlerInstance.SelectedShape = null;
                     break;
             }
 
