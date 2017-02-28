@@ -1,4 +1,6 @@
 ﻿using GraphicalEditor.Interfaces;
+using GraphicalEditor.Util;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 
@@ -51,13 +53,25 @@ namespace GraphicalEditor
             }
         }
 
-        public void ResizeSelectedShape(int newWidth, int newHeight)
+        public void ResizeSelectedShape(int newWidth, int newHeight, Point currentMousePosition)
         {
             if (SelectedShape == null)
                 return;
 
-            SelectedShape.Width = newWidth;
-            SelectedShape.Height = newHeight;
+            if (newWidth < 0)
+            {
+                Point newTopleftPoint = new Point(currentMousePosition.X, SelectedShape.TopLeftPoint.Y);
+                SelectedShape.TopLeftPoint = newTopleftPoint;
+            }
+
+            if (newHeight < 0)
+            {
+                Point newTopleftPoint = new Point(SelectedShape.TopLeftPoint.X, currentMousePosition.Y);
+                SelectedShape.TopLeftPoint = newTopleftPoint;
+            }
+
+            SelectedShape.Width = Math.Abs(newWidth).Clamp(10, int.MaxValue);
+            SelectedShape.Height = Math.Abs(newHeight).Clamp(10, int.MaxValue);
         }
 
         public void MoveSelectedShape(Point newPoint)

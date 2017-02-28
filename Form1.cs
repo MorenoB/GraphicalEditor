@@ -28,11 +28,12 @@ namespace GraphicalEditor
             }
         }
 
+        private Point dragMouseLocation = new Point(0, 0);
+
         private bool isChoosingColor = false;
         private bool holdingMouseDown = false;
         private SelectedState selectedState;
 
-        private int mouseLocationX, mouseLocationY = 0;
         private ToolItem currentTool;
         private ToolItem CurrentTool
         {
@@ -121,7 +122,7 @@ namespace GraphicalEditor
             {
                 case ToolItem.Rectangle:
 
-                    Shapes.Rectangle rectangle = new Shapes.Rectangle(brush, e.Location, e.X - mouseLocationX, e.Y - mouseLocationY);
+                    Shapes.Rectangle rectangle = new Shapes.Rectangle(brush, e.Location, e.X - dragMouseLocation.X, e.Y - dragMouseLocation.Y);
                     DrawHandlerInstance.AddNewShape(rectangle);
 
                     selectedState = SelectedState.Resizing;
@@ -130,7 +131,7 @@ namespace GraphicalEditor
 
                 case ToolItem.Ellipse:
 
-                    Ellipse ellipse = new Ellipse(brush, e.Location, e.X - mouseLocationX, e.Y - mouseLocationY);
+                    Ellipse ellipse = new Ellipse(brush, e.Location, e.X - dragMouseLocation.X, e.Y - dragMouseLocation.Y);
                     DrawHandlerInstance.AddNewShape(ellipse);
 
                     selectedState = SelectedState.Resizing;
@@ -140,12 +141,11 @@ namespace GraphicalEditor
                 case ToolItem.None:
 
                     DrawHandlerInstance.SelectShapeFromPoint(e.Location);
-                    selectedState = SelectedState.Moving;
+                    //selectedState = SelectedState.Moving;
                     break;
             }
 
-            mouseLocationX = e.X;
-            mouseLocationY = e.Y;
+            dragMouseLocation = e.Location;
 
             PictureBox_DrawArea.Invalidate();
         }
@@ -153,14 +153,12 @@ namespace GraphicalEditor
         private void PictureBox_DrawArea_MouseUp(object sender, MouseEventArgs e)
         {
             holdingMouseDown = false;
-            mouseLocationX = e.X;
-            mouseLocationY = e.Y;
 
             switch (CurrentTool)
             {
                 case ToolItem.Line:
                     Graphics g = PictureBox_DrawArea.CreateGraphics();
-                    g.DrawLine(new Pen(new SolidBrush(PaintColor)), new Point(mouseLocationX, mouseLocationY), new Point(mouseLocationX, mouseLocationY));
+                    g.DrawLine(new Pen(new SolidBrush(PaintColor)), dragMouseLocation, e.Location);
                     g.Dispose();
                     break;
             }
@@ -184,7 +182,7 @@ namespace GraphicalEditor
                                 break;
 
                             case SelectedState.Resizing:
-                                DrawHandlerInstance.ResizeSelectedShape(e.X - mouseLocationX, e.Y - mouseLocationY);
+                                DrawHandlerInstance.ResizeSelectedShape(e.X - dragMouseLocation.X, e.Y - dragMouseLocation.Y, e.Location);
                                 break;
                         }
                         break;
