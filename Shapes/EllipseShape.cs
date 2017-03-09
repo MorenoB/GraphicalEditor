@@ -3,7 +3,7 @@ using System.Drawing;
 
 namespace GraphicalEditor.Shapes
 {
-    public class Ellipse : IShape
+    public class EllipseShape : IShape
     {
         public int Width
         {
@@ -72,7 +72,7 @@ namespace GraphicalEditor.Shapes
         private Point topLeft;
         private Brush brush;
 
-        public Ellipse(Brush brush, Point topLeft, int width, int height)
+        public EllipseShape(Brush brush, Point topLeft, int width, int height)
         {
             this.width = width;
             this.height = height;

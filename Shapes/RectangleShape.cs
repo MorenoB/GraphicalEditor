@@ -3,7 +3,7 @@ using System.Drawing;
 
 namespace GraphicalEditor.Shapes
 {
-    public class Rectangle : IShape
+    public class RectangleShape : IShape
     {
         public int Width
         {
@@ -72,7 +72,7 @@ namespace GraphicalEditor.Shapes
         private Point topLeft;
         private Brush brush;
 
-        public Rectangle(Brush brush, Point topLeft, int width, int height)
+        public RectangleShape(Brush brush, Point topLeft, int width, int height)
         {
             this.width = width;
             this.height = height;

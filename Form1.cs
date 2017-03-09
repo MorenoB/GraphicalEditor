@@ -122,7 +122,7 @@ namespace GraphicalEditor
             {
                 case ToolItem.Rectangle:
 
-                    Shapes.Rectangle rectangle = new Shapes.Rectangle(brush, e.Location, e.X - dragMouseLocation.X, e.Y - dragMouseLocation.Y);
+                    RectangleShape rectangle = new RectangleShape(brush, e.Location, e.X - dragMouseLocation.X, e.Y - dragMouseLocation.Y);
                     DrawHandlerInstance.AddNewShape(rectangle);
 
                     selectedState = SelectedState.Resizing;
@@ -131,7 +131,7 @@ namespace GraphicalEditor
 
                 case ToolItem.Ellipse:
 
-                    Ellipse ellipse = new Ellipse(brush, e.Location, e.X - dragMouseLocation.X, e.Y - dragMouseLocation.Y);
+                    EllipseShape ellipse = new EllipseShape(brush, e.Location, e.X - dragMouseLocation.X, e.Y - dragMouseLocation.Y);
                     DrawHandlerInstance.AddNewShape(ellipse);
 
                     selectedState = SelectedState.Resizing;
