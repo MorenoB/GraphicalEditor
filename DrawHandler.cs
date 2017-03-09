@@ -70,8 +70,8 @@ namespace GraphicalEditor
                 SelectedShape.TopLeftPoint = newTopleftPoint;
             }
 
-            SelectedShape.Width = Math.Abs(newWidth).Clamp(10, int.MaxValue);
-            SelectedShape.Height = Math.Abs(newHeight).Clamp(10, int.MaxValue);
+            SelectedShape.Width = Math.Abs(newWidth);
+            SelectedShape.Height = Math.Abs(newHeight);
         }
 
         public void MoveSelectedShape(Point newPoint)
