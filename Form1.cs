@@ -341,7 +341,7 @@ namespace GraphicalEditor
         {
             Bitmap bmp = new Bitmap(PictureBox_DrawArea.Width, PictureBox_DrawArea.Height);
             Graphics g = Graphics.FromImage(bmp);
-            System.Drawing.Rectangle rect = PictureBox_DrawArea.RectangleToScreen(PictureBox_DrawArea.ClientRectangle);
+            Rectangle rect = PictureBox_DrawArea.RectangleToScreen(PictureBox_DrawArea.ClientRectangle);
             g.CopyFromScreen(PictureBox_DrawArea.Location, Point.Empty, PictureBox_DrawArea.Size);
             g.Dispose();
             SaveFileDialog s = new SaveFileDialog();
@@ -394,7 +394,7 @@ namespace GraphicalEditor
             {
                 Bitmap bmp = new Bitmap(PictureBox_DrawArea.Width, PictureBox_DrawArea.Height);
                 Graphics g = Graphics.FromImage(bmp);
-                System.Drawing.Rectangle rect = PictureBox_DrawArea.RectangleToScreen(PictureBox_DrawArea.ClientRectangle);
+                Rectangle rect = PictureBox_DrawArea.RectangleToScreen(PictureBox_DrawArea.ClientRectangle);
                 g.CopyFromScreen(rect.Location, Point.Empty, PictureBox_DrawArea.Size);
                 g.Dispose();
                 PaintColor = bmp.GetPixel(e.X, e.Y);
@@ -413,7 +413,7 @@ namespace GraphicalEditor
 
         private void PictureBox_DrawArea_Paint(object sender, PaintEventArgs e)
         {
-            DrawHandlerInstance.RedrawAllDirtyShapes(e.Graphics);
+            DrawHandlerInstance.RedrawShapes(e.Graphics);
         }
 
         private void Trackbar_ColorPicker_Alpha_Scroll(object sender, EventArgs e)

@@ -97,20 +97,6 @@ namespace GraphicalEditor
             if (SelectedShape == null)
                 return;
 
-            /*if (newWidth < 0)
-            {
-                Point newTopleftPoint = new Point(currentMousePosition.X, SelectedShape.Location.Y);
-                SelectedShape.Location = newTopleftPoint;
-            }
-
-            if (newHeight < 0)
-            {
-                Point newTopleftPoint = new Point(SelectedShape.Location.X, currentMousePosition.Y);
-                SelectedShape.Location = newTopleftPoint;
-            }
-
-            SelectedShape.Size = new Size(newWidth, newHeight);*/
-
             Resize(CurrentHitStatus, currentMousePosition.X, currentMousePosition.Y);
         }
 
@@ -339,15 +325,13 @@ namespace GraphicalEditor
 
 #endregion
 
-        public void RedrawAllDirtyShapes(Graphics g)
+        public void RedrawShapes(Graphics g)
         {
             for (int i = 0; i < shapeList.Count; i++)
             {
                 IShape shape = shapeList[i];
 
                 if (shape == null) continue;
-
-                //if (!shape.IsDirty) continue;
 
                 shape.Draw(g);
             }
