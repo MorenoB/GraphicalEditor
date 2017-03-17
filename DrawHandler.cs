@@ -119,6 +119,21 @@ namespace GraphicalEditor
             SelectedShape = newShape;
         }
 
+        public void DeleteShape(IShape shapeToDelete)
+        {
+            for (int i = 0; i < shapeList.Count; i++)
+            {
+                IShape shape = shapeList[i];
+
+                if (shape == null)
+                    continue;
+
+                if (shape.ID == shapeToDelete.ID)
+                    shapeList.RemoveAt(i);
+
+            }
+        }
+
         public void SelectShapeFromPoint(Point clickedPoint)
         {
             for (int i = 0; i < shapeList.Count; i++)

@@ -86,7 +86,25 @@ namespace GraphicalEditor.Shapes
             }
         }
 
+        public int ID
+        {
+            get
+            {
+                return id;
+            }
+
+            set
+            {
+                if (value == id)
+                    return;
+
+                id = value;
+            }
+        }
+
+
         private bool isSelected;
+        private int id;
 
         private GrabHandles grabHandles;
         private Rectangle bounds;
