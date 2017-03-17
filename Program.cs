@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GraphicalEditor.Util;
+using System;
 using System.Windows.Forms;
 
 namespace GraphicalEditor
@@ -18,6 +19,7 @@ namespace GraphicalEditor
 
             Application.Run(form);
 
+            Logger.CloseLogger();
         }
     }
 }

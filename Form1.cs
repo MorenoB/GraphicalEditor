@@ -5,6 +5,7 @@ using System.Drawing.Imaging;
 using System.IO;
 using System.Collections.Generic;
 using GraphicalEditor.Shapes;
+using static GraphicalEditor.DrawHandler;
 
 namespace GraphicalEditor
 {
@@ -32,7 +33,6 @@ namespace GraphicalEditor
 
         private bool isChoosingColor = false;
         private bool holdingMouseDown = false;
-        private SelectedState selectedState;
 
         private ToolItem currentTool;
         private ToolItem CurrentTool
@@ -73,7 +73,7 @@ namespace GraphicalEditor
 
         public enum ToolItem
         {
-            Rectangle, Ellipse, Line, Brush, Pencil, Eraser, ColorPicker, None
+            Rectangle, Ellipse, Line, Brush, Pencil, Eraser, ColorPicker, Selecter ,None
         }
 
         private void PictureBox_ColorPicker_MouseDown(object sender, MouseEventArgs e)
@@ -118,34 +118,34 @@ namespace GraphicalEditor
         {
             holdingMouseDown = true;
 
-            switch (CurrentTool)
-            {
-                case ToolItem.Rectangle:
+            if (DrawHandlerInstance.CurrentHitStatus == HitStatus.None)
+                switch (CurrentTool)
+                {
+                    case ToolItem.Rectangle:
 
-                    RectangleShape rectangle = new RectangleShape(brush, e.Location, e.X - dragMouseLocation.X, e.Y - dragMouseLocation.Y);
-                    DrawHandlerInstance.AddNewShape(rectangle);
+                        RectangleShape rectangle = new RectangleShape(brush, e.Location, e.X - dragMouseLocation.X, e.Y - dragMouseLocation.Y);
+                        DrawHandlerInstance.AddNewShape(rectangle);
 
-                    selectedState = SelectedState.Resizing;
-                    CurrentTool = ToolItem.None;
-                    break;
+                        CurrentTool = ToolItem.None;
+                        break;
 
-                case ToolItem.Ellipse:
+                    case ToolItem.Ellipse:
 
-                    EllipseShape ellipse = new EllipseShape(brush, e.Location, e.X - dragMouseLocation.X, e.Y - dragMouseLocation.Y);
-                    DrawHandlerInstance.AddNewShape(ellipse);
+                        EllipseShape ellipse = new EllipseShape(brush, e.Location, e.X - dragMouseLocation.X, e.Y - dragMouseLocation.Y);
+                        DrawHandlerInstance.AddNewShape(ellipse);
 
-                    selectedState = SelectedState.Resizing;
-                    CurrentTool = ToolItem.None;
-                    break;
+                        CurrentTool = ToolItem.None;
+                        break;
 
-                case ToolItem.None:
+                    case ToolItem.None:
 
-                    DrawHandlerInstance.SelectShapeFromPoint(e.Location);
-                    //selectedState = SelectedState.Moving;
-                    break;
-            }
+                        DrawHandlerInstance.SelectShapeFromPoint(e.Location);
+                        break;
+                }
 
             dragMouseLocation = e.Location;
+
+            UpdateHitStatus(e.Location);
 
             PictureBox_DrawArea.Invalidate();
         }
@@ -175,20 +175,63 @@ namespace GraphicalEditor
                 {
                     case ToolItem.None:
 
-                        switch (selectedState)
-                        {
-                            case SelectedState.Moving:
+                           if(DrawHandlerInstance.CurrentHitStatus == HitStatus.Drag)
                                 DrawHandlerInstance.MoveSelectedShape(e.Location);
-                                break;
-
-                            case SelectedState.Resizing:
-                                DrawHandlerInstance.ResizeSelectedShape(e.X - dragMouseLocation.X, e.Y - dragMouseLocation.Y, e.Location);
-                                break;
-                        }
+                           else
+                                DrawHandlerInstance.ResizeSelectedShape(e.Location);
                         break;
                 }
             }
+            else
+                UpdateHitStatus(e.Location);
             PictureBox_DrawArea.Invalidate();
+        }
+
+        private void UpdateHitStatus(Point currentPoint)
+        {
+            DrawHandlerInstance.UpdateHitstatusByCurrentPoint(currentPoint);
+
+            SetCursor();
+        }
+
+        private void SetCursor()
+        {
+            if (!DrawHandlerInstance.HasSelectedAShape)
+            {
+                this.Cursor = Cursors.Default;
+                return;
+            }
+
+            switch(DrawHandlerInstance.CurrentHitStatus)
+            {
+                case HitStatus.Drag:
+                    Cursor = Cursors.SizeAll;
+                    break;
+                case HitStatus.ResizeBottom:
+                case HitStatus.ResizeTop:
+                    Cursor = Cursors.SizeNS;
+                    break;
+                case HitStatus.ResizeLeft:
+                case HitStatus.ResizeRight:
+                    Cursor = Cursors.SizeWE;
+                    break;
+
+                case HitStatus.ResizeBottomLeft:
+                case HitStatus.ResizeTopRight:
+                    Cursor = Cursors.SizeNESW;
+                    break;
+
+                case HitStatus.ResizeBottomRight:
+                case HitStatus.ResizeTopLeft:
+                    Cursor = Cursors.SizeNWSE;
+                    break;
+
+                default:
+                    Cursor = Cursors.Default;
+                    break;
+
+
+            }
         }
 
 

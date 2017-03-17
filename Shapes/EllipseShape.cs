@@ -1,28 +1,31 @@
 ﻿using GraphicalEditor.Interfaces;
 using System.Drawing;
+using System;
 
 namespace GraphicalEditor.Shapes
 {
     public class EllipseShape : IShape
     {
-        public int Width
+        public Size Size
         {
-            get { return width; }
+            get { return this.Bounds.Size; }
             set
             {
-                if (value == width) return;
-
-                width = value;
+                if (this.Bounds.Size == value) return;
+                Rectangle rect = this.Bounds;
+                rect.Size = value;
+                this.Bounds = rect;
             }
         }
-        public int Height
+
+        public Size MinimumSize
         {
-            get { return height; }
+            get { return minimumSize; }
             set
             {
-                if (value == height) return;
-
-                height = value;
+                if (value.Width < 0 || value.Height < 0)
+                    throw new ArgumentOutOfRangeException("MinimumSize Width or Height must be at least zero.");
+                minimumSize = value;
             }
         }
 
@@ -37,18 +40,18 @@ namespace GraphicalEditor.Shapes
             }
         }
 
-        public Point TopLeftPoint
+        public Point Location
         {
             get
             {
-                return topLeft;
+                return this.Bounds.Location; ;
             }
             set
             {
-                if (value == topLeft)
-                    return;
-
-                topLeft = value;
+                if (this.Bounds.Location == value) return;
+                Rectangle rect = this.Bounds;
+                rect.Location = value;
+                this.Bounds = rect;
             }
         }
 
@@ -64,36 +67,59 @@ namespace GraphicalEditor.Shapes
             }
         }
 
-        private bool isSelected;
- 
-        private int width;
-        private int height;
-
-        private Point topLeft;
-        private Brush brush;
-
-        public EllipseShape(Brush brush, Point topLeft, int width, int height)
+        public GrabHandles GrabHandles
         {
-            this.width = width;
-            this.height = height;
+            get
+            {
+                if (grabHandles == null) grabHandles = new GrabHandles(this);
+                return grabHandles;
+            }
+        }
+
+        public Rectangle Bounds
+        {
+            get { return bounds; }
+            set
+            {
+                bounds = value;
+                this.GrabHandles.SetBounds(value);
+            }
+        }
+
+        private bool isSelected;
+
+        private GrabHandles grabHandles;
+        private Rectangle bounds;
+        private Brush brush;
+        private Size minimumSize;
+
+        public EllipseShape(Brush brush, Point location, int width, int height)
+        {
+            this.Size = new Size(width, height);
             this.brush = brush;
-            this.topLeft = topLeft;
+            this.Location = location;
+            this.MinimumSize = new Size(10, 10);
         }
 
         public void Draw(Graphics g)
         {
+            g.FillEllipse(brush, Location.X, Location.Y, Size.Width, Size.Height);
+
             if (IsSelected)
             {
-                g.DrawRectangle(Pens.Black, new System.Drawing.Rectangle(TopLeftPoint, new Size(Width, Height)));
+                GrabHandles.Draw(g, true);
             }
-
-            g.FillEllipse(brush, topLeft.X, topLeft.Y, width, height);
         }
 
         public bool WasClicked(Point p)
         {
-            return p.X >= topLeft.X && p.X < topLeft.X + width
-                && p.Y >= topLeft.Y && p.Y < topLeft.Y + height;
+            return p.X >= Location.X && p.X < Location.X + Size.Width
+                && p.Y >= Location.Y && p.Y < Location.Y + Size.Height;
+        }
+
+        public DrawHandler.HitStatus GetHitStatus(Point p)
+        {
+            return GrabHandles.GetHitTest(p);
         }
     }
 }
