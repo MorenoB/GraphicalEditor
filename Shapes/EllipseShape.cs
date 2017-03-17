@@ -98,7 +98,7 @@ namespace GraphicalEditor.Shapes
             this.Size = new Size(width, height);
             this.brush = brush;
             this.Location = location;
-            this.MinimumSize = new Size(10, 10);
+            this.MinimumSize = new Size(Constants.SHAPE_MINIMUM_WIDTH, Constants.SHAPE_MINIMUM_HEIGHT);
         }
 
         public void Draw(Graphics g)
