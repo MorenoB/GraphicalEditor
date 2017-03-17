@@ -6,6 +6,8 @@ using System.IO;
 using System.Collections.Generic;
 using GraphicalEditor.Shapes;
 using static GraphicalEditor.DrawHandler;
+using GraphicalEditor.Interfaces;
+using GraphicalEditor.Commands;
 
 namespace GraphicalEditor
 {
@@ -53,21 +55,18 @@ namespace GraphicalEditor
                 UpdateToolButtonsCheckedState();
             }
         }
+
         private SolidBrush brush;
 
+        private CommandHandler commandHandler;
         private DrawHandler DrawHandlerInstance { get { return DrawHandler.Instance; } }
-
-        public enum SelectedState
-        {
-            Resizing, Moving
-        }
-
 
         public Form()
         {
             InitializeComponent();
 
             brush = new SolidBrush(PaintColor);
+            commandHandler = new CommandHandler();
             CurrentTool = ToolItem.None;
         }
 
@@ -124,7 +123,10 @@ namespace GraphicalEditor
                     case ToolItem.Rectangle:
 
                         RectangleShape rectangle = new RectangleShape(brush, e.Location, Constants.SHAPE_DEFAULT_WIDTH, Constants.SHAPE_DEFAULT_HEIGHT);
-                        DrawHandlerInstance.AddNewShape(rectangle);
+
+                        commandHandler.AddCommand(new CreateShapeCommand(rectangle));
+
+                        //DrawHandlerInstance.AddNewShape(rectangle);
 
                         CurrentTool = ToolItem.None;
                         break;
@@ -132,7 +134,9 @@ namespace GraphicalEditor
                     case ToolItem.Ellipse:
 
                         EllipseShape ellipse = new EllipseShape(brush, e.Location, Constants.SHAPE_DEFAULT_WIDTH, Constants.SHAPE_DEFAULT_HEIGHT);
-                        DrawHandlerInstance.AddNewShape(ellipse);
+                        //DrawHandlerInstance.AddNewShape(ellipse);
+
+                        commandHandler.AddCommand(new CreateShapeCommand(ellipse));
 
                         CurrentTool = ToolItem.None;
                         break;
