@@ -5,6 +5,7 @@ using System.Drawing.Imaging;
 using System.IO;
 using System.Collections.Generic;
 using GraphicalEditor.Shapes;
+using static GraphicalEditor.DrawHandler;
 
 namespace GraphicalEditor
 {
@@ -28,11 +29,11 @@ namespace GraphicalEditor
             }
         }
 
+        private Point dragMouseLocation = new Point(0, 0);
+
         private bool isChoosingColor = false;
         private bool holdingMouseDown = false;
-        private SelectedState selectedState;
 
-        private int mouseLocationX, mouseLocationY = 0;
         private ToolItem currentTool;
         private ToolItem CurrentTool
         {
@@ -72,7 +73,7 @@ namespace GraphicalEditor
 
         public enum ToolItem
         {
-            Rectangle, Ellipse, Line, Brush, Pencil, Eraser, ColorPicker, None
+            Rectangle, Ellipse, Line, Brush, Pencil, Eraser, ColorPicker, Selecter ,None
         }
 
         private void PictureBox_ColorPicker_MouseDown(object sender, MouseEventArgs e)
@@ -117,35 +118,34 @@ namespace GraphicalEditor
         {
             holdingMouseDown = true;
 
-            switch (CurrentTool)
-            {
-                case ToolItem.Rectangle:
+            if (DrawHandlerInstance.CurrentHitStatus == HitStatus.None)
+                switch (CurrentTool)
+                {
+                    case ToolItem.Rectangle:
 
-                    Shapes.Rectangle rectangle = new Shapes.Rectangle(brush, e.Location, e.X - mouseLocationX, e.Y - mouseLocationY);
-                    DrawHandlerInstance.AddNewShape(rectangle);
+                        RectangleShape rectangle = new RectangleShape(brush, e.Location, Constants.SHAPE_DEFAULT_WIDTH, Constants.SHAPE_DEFAULT_HEIGHT);
+                        DrawHandlerInstance.AddNewShape(rectangle);
 
-                    selectedState = SelectedState.Resizing;
-                    CurrentTool = ToolItem.None;
-                    break;
+                        CurrentTool = ToolItem.None;
+                        break;
 
-                case ToolItem.Ellipse:
+                    case ToolItem.Ellipse:
 
-                    Ellipse ellipse = new Ellipse(brush, e.Location, e.X - mouseLocationX, e.Y - mouseLocationY);
-                    DrawHandlerInstance.AddNewShape(ellipse);
+                        EllipseShape ellipse = new EllipseShape(brush, e.Location, Constants.SHAPE_DEFAULT_WIDTH, Constants.SHAPE_DEFAULT_HEIGHT);
+                        DrawHandlerInstance.AddNewShape(ellipse);
 
-                    selectedState = SelectedState.Resizing;
-                    CurrentTool = ToolItem.None;
-                    break;
+                        CurrentTool = ToolItem.None;
+                        break;
 
-                case ToolItem.None:
+                    case ToolItem.None:
 
-                    DrawHandlerInstance.SelectShapeFromPoint(e.Location);
-                    selectedState = SelectedState.Moving;
-                    break;
-            }
+                        DrawHandlerInstance.SelectShapeFromPoint(e.Location);
+                        break;
+                }
 
-            mouseLocationX = e.X;
-            mouseLocationY = e.Y;
+            dragMouseLocation = e.Location;
+
+            UpdateHitStatus(e.Location);
 
             PictureBox_DrawArea.Invalidate();
         }
@@ -153,14 +153,12 @@ namespace GraphicalEditor
         private void PictureBox_DrawArea_MouseUp(object sender, MouseEventArgs e)
         {
             holdingMouseDown = false;
-            mouseLocationX = e.X;
-            mouseLocationY = e.Y;
 
             switch (CurrentTool)
             {
                 case ToolItem.Line:
                     Graphics g = PictureBox_DrawArea.CreateGraphics();
-                    g.DrawLine(new Pen(new SolidBrush(PaintColor)), new Point(mouseLocationX, mouseLocationY), new Point(mouseLocationX, mouseLocationY));
+                    g.DrawLine(new Pen(new SolidBrush(PaintColor)), dragMouseLocation, e.Location);
                     g.Dispose();
                     break;
             }
@@ -177,20 +175,63 @@ namespace GraphicalEditor
                 {
                     case ToolItem.None:
 
-                        switch (selectedState)
-                        {
-                            case SelectedState.Moving:
+                           if(DrawHandlerInstance.CurrentHitStatus == HitStatus.Drag)
                                 DrawHandlerInstance.MoveSelectedShape(e.Location);
-                                break;
-
-                            case SelectedState.Resizing:
-                                DrawHandlerInstance.ResizeSelectedShape(e.X - mouseLocationX, e.Y - mouseLocationY);
-                                break;
-                        }
+                           else
+                                DrawHandlerInstance.ResizeSelectedShape(e.Location);
                         break;
                 }
             }
+            else
+                UpdateHitStatus(e.Location);
             PictureBox_DrawArea.Invalidate();
+        }
+
+        private void UpdateHitStatus(Point currentPoint)
+        {
+            DrawHandlerInstance.UpdateHitstatusByCurrentPoint(currentPoint);
+
+            SetCursor();
+        }
+
+        private void SetCursor()
+        {
+            if (!DrawHandlerInstance.HasSelectedAShape)
+            {
+                this.Cursor = Cursors.Default;
+                return;
+            }
+
+            switch(DrawHandlerInstance.CurrentHitStatus)
+            {
+                case HitStatus.Drag:
+                    Cursor = Cursors.SizeAll;
+                    break;
+                case HitStatus.ResizeBottom:
+                case HitStatus.ResizeTop:
+                    Cursor = Cursors.SizeNS;
+                    break;
+                case HitStatus.ResizeLeft:
+                case HitStatus.ResizeRight:
+                    Cursor = Cursors.SizeWE;
+                    break;
+
+                case HitStatus.ResizeBottomLeft:
+                case HitStatus.ResizeTopRight:
+                    Cursor = Cursors.SizeNESW;
+                    break;
+
+                case HitStatus.ResizeBottomRight:
+                case HitStatus.ResizeTopLeft:
+                    Cursor = Cursors.SizeNWSE;
+                    break;
+
+                default:
+                    Cursor = Cursors.Default;
+                    break;
+
+
+            }
         }
 
 
@@ -300,7 +341,7 @@ namespace GraphicalEditor
         {
             Bitmap bmp = new Bitmap(PictureBox_DrawArea.Width, PictureBox_DrawArea.Height);
             Graphics g = Graphics.FromImage(bmp);
-            System.Drawing.Rectangle rect = PictureBox_DrawArea.RectangleToScreen(PictureBox_DrawArea.ClientRectangle);
+            Rectangle rect = PictureBox_DrawArea.RectangleToScreen(PictureBox_DrawArea.ClientRectangle);
             g.CopyFromScreen(PictureBox_DrawArea.Location, Point.Empty, PictureBox_DrawArea.Size);
             g.Dispose();
             SaveFileDialog s = new SaveFileDialog();
@@ -353,7 +394,7 @@ namespace GraphicalEditor
             {
                 Bitmap bmp = new Bitmap(PictureBox_DrawArea.Width, PictureBox_DrawArea.Height);
                 Graphics g = Graphics.FromImage(bmp);
-                System.Drawing.Rectangle rect = PictureBox_DrawArea.RectangleToScreen(PictureBox_DrawArea.ClientRectangle);
+                Rectangle rect = PictureBox_DrawArea.RectangleToScreen(PictureBox_DrawArea.ClientRectangle);
                 g.CopyFromScreen(rect.Location, Point.Empty, PictureBox_DrawArea.Size);
                 g.Dispose();
                 PaintColor = bmp.GetPixel(e.X, e.Y);
@@ -372,7 +413,7 @@ namespace GraphicalEditor
 
         private void PictureBox_DrawArea_Paint(object sender, PaintEventArgs e)
         {
-            DrawHandlerInstance.RedrawAllDirtyShapes(e.Graphics);
+            DrawHandlerInstance.RedrawShapes(e.Graphics);
         }
 
         private void Trackbar_ColorPicker_Alpha_Scroll(object sender, EventArgs e)
