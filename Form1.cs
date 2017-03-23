@@ -426,5 +426,15 @@ namespace GraphicalEditor
             Picturebox_CurrentColor.BackColor = PaintColor;
             Label_Colorpicker_alphaval.Text = "A: " + PaintColor.A.ToString();
         }
+
+        private void Button_Undo_Click(object sender, EventArgs e)
+        {
+            commandHandler.Undo();
+        }
+
+        private void Button_Redo_Click(object sender, EventArgs e)
+        {
+            commandHandler.Redo();
+        }
     }
 }
