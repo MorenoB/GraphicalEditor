@@ -3,7 +3,7 @@ using System.Drawing;
 
 namespace GraphicalEditor.Commands
 {
-    class ResizeShapeCommand : Command
+    class ResizeShapeCommand : ICommand
     {
         private IShape shape;
         private Rectangle newBounds;

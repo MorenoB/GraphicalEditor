@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Drawing;
+﻿using System.Drawing;
 using System.Windows.Forms;
 using GraphicalEditor.Interfaces;
 using static GraphicalEditor.DrawHandler;
@@ -27,7 +24,7 @@ namespace GraphicalEditor.Shapes
             get { return Rectangle.Union(this.TopLeft, this.BottomRight); }
         }
 
-        internal Rectangle TopLeft
+        public Rectangle TopLeft
         {
             get
             {
@@ -37,7 +34,7 @@ namespace GraphicalEditor.Shapes
             }
         }
 
-        internal Rectangle TopRight
+        public Rectangle TopRight
         {
             get
             {
@@ -47,7 +44,7 @@ namespace GraphicalEditor.Shapes
             }
         }
 
-        internal Rectangle TopMiddle
+        public Rectangle TopMiddle
         {
             get
             {
@@ -57,7 +54,7 @@ namespace GraphicalEditor.Shapes
             }
         }
 
-        internal Rectangle MiddleLeft
+        public Rectangle MiddleLeft
         {
             get
             {
@@ -67,7 +64,7 @@ namespace GraphicalEditor.Shapes
             }
         }
 
-        internal Rectangle MiddleRight
+        public Rectangle MiddleRight
         {
             get
             {
@@ -77,7 +74,7 @@ namespace GraphicalEditor.Shapes
             }
         }
 
-        internal Rectangle MiddleMiddle
+        public Rectangle MiddleMiddle
         {
             get
             {
@@ -87,7 +84,7 @@ namespace GraphicalEditor.Shapes
             }
         }
 
-        internal Rectangle BottomLeft
+        public Rectangle BottomLeft
         {
             get
             {
@@ -97,7 +94,7 @@ namespace GraphicalEditor.Shapes
             }
         }
 
-        internal Rectangle BottomRight
+        public Rectangle BottomRight
         {
             get
             {
@@ -107,7 +104,7 @@ namespace GraphicalEditor.Shapes
             }
         }
 
-        internal Rectangle BottomMiddle
+        public Rectangle BottomMiddle
         {
             get
             {
@@ -117,7 +114,7 @@ namespace GraphicalEditor.Shapes
             }
         }
 
-        internal void SetBounds(Rectangle shapeBounds)
+        public void SetBounds(Rectangle shapeBounds)
         {
             this.BorderBounds = new Rectangle(shapeBounds.X - this.BorderWidth,
                                               shapeBounds.Y - this.BorderWidth,
@@ -125,7 +122,7 @@ namespace GraphicalEditor.Shapes
                                               shapeBounds.Height + 2 * this.BorderWidth);
         }
 
-        internal void Draw(Graphics g, bool firstSelection)
+        public void Draw(Graphics g, bool firstSelection)
         {
             ControlPaint.DrawBorder(g, this.BorderBounds, ControlPaint.ContrastControlDark, ButtonBorderStyle.Dotted);
 

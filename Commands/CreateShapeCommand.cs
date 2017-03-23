@@ -2,7 +2,7 @@
 
 namespace GraphicalEditor.Commands
 {
-    class CreateShapeCommand : Command
+    class CreateShapeCommand : ICommand
     {
         IShape shapeToCreate;
 

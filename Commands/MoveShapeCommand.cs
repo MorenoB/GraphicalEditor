@@ -3,7 +3,7 @@ using System.Drawing;
 
 namespace GraphicalEditor.Commands
 {
-    class MoveShapeCommand : Command
+    class MoveShapeCommand : ICommand
     {
         private IShape shape;
         private Point previousLocation;

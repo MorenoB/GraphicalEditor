@@ -7,16 +7,16 @@ namespace GraphicalEditor
     {
 
 
-        private Stack<Command> executeStack = new Stack<Command>();
-        private Stack<Command> undoStack = new Stack<Command>();
+        private Stack<ICommand> executeStack = new Stack<ICommand>();
+        private Stack<ICommand> undoStack = new Stack<ICommand>();
 
         public event OnExecuteDel OnExecute;
-        public delegate void OnExecuteDel(Command command);
+        public delegate void OnExecuteDel(ICommand command);
 
         public event OnRedoDel OnUndo;
-        public delegate void OnRedoDel(Command command);
+        public delegate void OnRedoDel(ICommand command);
 
-        public void AddCommand(Command commandToAdd)
+        public void AddCommand(ICommand commandToAdd)
         {
             executeStack.Push(commandToAdd);
 
@@ -29,7 +29,7 @@ namespace GraphicalEditor
             if (undoStack.Count == 0)
                 return;
 
-            Command cmd = undoStack.Pop();
+            ICommand cmd = undoStack.Pop();
             cmd.Undo();
 
             if(OnUndo != null)
@@ -46,7 +46,7 @@ namespace GraphicalEditor
             if (executeStack.Count == 0)
                 return;
 
-            Command cmd = executeStack.Pop();
+            ICommand cmd = executeStack.Pop();
             cmd.Execute();
 
             if(OnExecute != null)
