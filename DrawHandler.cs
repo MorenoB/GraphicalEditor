@@ -92,12 +92,14 @@ namespace GraphicalEditor
             }
         }
 
-        public void ResizeSelectedShape(Point currentMousePosition)
+        public Rectangle ResizeSelectedShape(Point currentMousePosition)
         {
             if (SelectedShape == null)
-                return;
+                return new Rectangle();
 
             Resize(CurrentHitStatus, currentMousePosition.X, currentMousePosition.Y);
+
+            return SelectedShape.Bounds;
         }
 
         public void UpdateHitstatusByCurrentPoint(Point currentPoint)

@@ -31,11 +31,6 @@ namespace GraphicalEditor
             }
         }
 
-        private Point dragMouseLocation = new Point(0, 0);
-
-        private bool isChoosingColor = false;
-        private bool holdingMouseDown = false;
-
         private ToolItem currentTool;
         private ToolItem CurrentTool
         {
@@ -57,6 +52,13 @@ namespace GraphicalEditor
         }
 
         private SolidBrush brush;
+
+        private Point dragMouseLocation = new Point(0, 0);
+        private Rectangle previousShapeBounds = new Rectangle();
+        private Rectangle newShapeBounds = new Rectangle();
+
+        private bool isChoosingColor = false;
+        private bool holdingMouseDown = false;
 
         private CommandHandler commandHandler;
         private DrawHandler DrawHandlerInstance { get { return DrawHandler.Instance; } }
@@ -151,6 +153,12 @@ namespace GraphicalEditor
                         break;
                 }
 
+            else if(DrawHandlerInstance.CurrentHitStatus != HitStatus.Drag)
+            {
+                if (DrawHandlerInstance.SelectedShape != null)
+                    previousShapeBounds = DrawHandlerInstance.SelectedShape.Bounds;
+            }
+
             dragMouseLocation = e.Location;
 
             UpdateHitStatus(e.Location);
@@ -174,7 +182,8 @@ namespace GraphicalEditor
 
                     if (DrawHandlerInstance.CurrentHitStatus == HitStatus.Drag)
                         commandHandler.AddCommand(new MoveShapeCommand(DrawHandlerInstance.SelectedShape, dragMouseLocation, e.Location));
-
+                    else
+                        commandHandler.AddCommand(new ResizeShapeCommand(DrawHandlerInstance.SelectedShape, previousShapeBounds, newShapeBounds));
                     break;
             }
 
@@ -193,7 +202,7 @@ namespace GraphicalEditor
                            if(DrawHandlerInstance.CurrentHitStatus == HitStatus.Drag)
                                 DrawHandlerInstance.MoveSelectedShape(e.Location);
                            else
-                                DrawHandlerInstance.ResizeSelectedShape(e.Location);
+                                newShapeBounds = DrawHandlerInstance.ResizeSelectedShape(e.Location);
                         break;
                 }
             }
