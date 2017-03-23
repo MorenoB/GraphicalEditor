@@ -1,4 +1,5 @@
-﻿using GraphicalEditor.Util;
+﻿using GraphicalEditor.IO;
+using GraphicalEditor.Util;
 using System;
 using System.Windows.Forms;
 
@@ -12,6 +13,7 @@ namespace GraphicalEditor
         [STAThread]
         static void Main()
         {
+            Parser.TestParserAndOutputDisplayToConsole();
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
