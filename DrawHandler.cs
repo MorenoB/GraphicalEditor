@@ -27,13 +27,13 @@ namespace GraphicalEditor
         private static readonly DrawHandler instance = new DrawHandler();
 
         private IShape selectedShape;
-        private IShape SelectedShape
+        public IShape SelectedShape
         {
             get
             {
                 return selectedShape;
             }
-            set
+            private set
             {
                 if (selectedShape == value)
                     return;
