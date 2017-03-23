@@ -59,7 +59,6 @@
             this.Button_Load = new System.Windows.Forms.ToolStripButton();
             this.Button_Save = new System.Windows.Forms.ToolStripButton();
             this.toolStrip2 = new System.Windows.Forms.ToolStrip();
-            this.Button_Clear = new System.Windows.Forms.ToolStripButton();
             this.Label_BrushSize = new System.Windows.Forms.ToolStripLabel();
             this.Textbox_BrushSize = new System.Windows.Forms.ToolStripTextBox();
             this.Button_Apply_BrushSize = new System.Windows.Forms.ToolStripButton();
@@ -343,6 +342,7 @@
             // Button_ColorPicker
             // 
             this.Button_ColorPicker.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.Button_ColorPicker.Enabled = false;
             this.Button_ColorPicker.Image = global::GraphicalEditor.Properties.Resources.colorp;
             this.Button_ColorPicker.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.Button_ColorPicker.Name = "Button_ColorPicker";
@@ -444,7 +444,6 @@
             this.toolStrip2.Dock = System.Windows.Forms.DockStyle.None;
             this.toolStrip2.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.toolStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.Button_Clear,
             this.Label_BrushSize,
             this.Textbox_BrushSize,
             this.Button_Apply_BrushSize,
@@ -452,33 +451,26 @@
             this.Button_Redo});
             this.toolStrip2.Location = new System.Drawing.Point(87, 0);
             this.toolStrip2.Name = "toolStrip2";
-            this.toolStrip2.Size = new System.Drawing.Size(326, 27);
+            this.toolStrip2.Size = new System.Drawing.Size(302, 27);
             this.toolStrip2.TabIndex = 1;
-            // 
-            // Button_Clear
-            // 
-            this.Button_Clear.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.Button_Clear.Image = global::GraphicalEditor.Properties.Resources.print_prev;
-            this.Button_Clear.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.Button_Clear.Name = "Button_Clear";
-            this.Button_Clear.Size = new System.Drawing.Size(24, 24);
-            this.Button_Clear.Text = "Clear";
-            this.Button_Clear.Click += new System.EventHandler(this.Button_Clear_Click);
             // 
             // Label_BrushSize
             // 
+            this.Label_BrushSize.Enabled = false;
             this.Label_BrushSize.Name = "Label_BrushSize";
             this.Label_BrushSize.Size = new System.Drawing.Size(77, 24);
             this.Label_BrushSize.Text = "Brush size:";
             // 
             // Textbox_BrushSize
             // 
+            this.Textbox_BrushSize.Enabled = false;
             this.Textbox_BrushSize.Name = "Textbox_BrushSize";
             this.Textbox_BrushSize.Size = new System.Drawing.Size(100, 27);
             // 
             // Button_Apply_BrushSize
             // 
             this.Button_Apply_BrushSize.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.Button_Apply_BrushSize.Enabled = false;
             this.Button_Apply_BrushSize.Image = global::GraphicalEditor.Properties.Resources.apply;
             this.Button_Apply_BrushSize.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.Button_Apply_BrushSize.Name = "Button_Apply_BrushSize";
@@ -561,7 +553,6 @@
         private System.Windows.Forms.ToolStripButton Button_Load;
         private System.Windows.Forms.ToolStripButton Button_Save;
         private System.Windows.Forms.ToolStrip toolStrip2;
-        private System.Windows.Forms.ToolStripButton Button_Clear;
         private System.Windows.Forms.ToolStripLabel Label_BrushSize;
         private System.Windows.Forms.ToolStripTextBox Textbox_BrushSize;
         private System.Windows.Forms.ToolStripButton Button_Apply_BrushSize;

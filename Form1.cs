@@ -279,22 +279,23 @@ namespace GraphicalEditor
         {
             holdingMouseDown = false;
 
-            switch (CurrentTool)
-            {
-                case ToolItem.Line:
-                    Graphics g = PictureBox_DrawArea.CreateGraphics();
-                    g.DrawLine(new Pen(new SolidBrush(PaintColor)), dragMouseLocation, e.Location);
-                    g.Dispose();
-                    break;
+            if(DrawHandlerInstance.HasSelectedAShape)
+                switch (CurrentTool)
+                {
+                    case ToolItem.Line:
+                        Graphics g = PictureBox_DrawArea.CreateGraphics();
+                        g.DrawLine(new Pen(new SolidBrush(PaintColor)), dragMouseLocation, e.Location);
+                        g.Dispose();
+                        break;
 
-                case ToolItem.None:
+                    case ToolItem.None:
 
-                    if (DrawHandlerInstance.CurrentHitStatus == HitStatus.Drag)
-                        commandHandler.AddCommand(new MoveShapeCommand(DrawHandlerInstance.SelectedShape, dragMouseLocation, e.Location));
-                    else
-                        commandHandler.AddCommand(new ResizeShapeCommand(DrawHandlerInstance.SelectedShape, previousShapeBounds, newShapeBounds));
-                    break;
-            }
+                        if (DrawHandlerInstance.CurrentHitStatus == HitStatus.Drag)
+                            commandHandler.AddCommand(new MoveShapeCommand(DrawHandlerInstance.SelectedShape, dragMouseLocation, e.Location));
+                        else
+                            commandHandler.AddCommand(new ResizeShapeCommand(DrawHandlerInstance.SelectedShape, previousShapeBounds, newShapeBounds));
+                        break;
+                }
 
             PictureBox_DrawArea.Invalidate();
         }
@@ -358,12 +359,6 @@ namespace GraphicalEditor
         }
 
         private void Button_New_Click(object sender, EventArgs e)
-        {
-            PictureBox_DrawArea.Refresh();
-            PictureBox_DrawArea.Image = null;
-        }
-
-        private void Button_Clear_Click(object sender, EventArgs e)
         {
             PictureBox_DrawArea.Refresh();
             PictureBox_DrawArea.Image = null;
