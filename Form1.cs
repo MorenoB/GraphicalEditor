@@ -169,6 +169,13 @@ namespace GraphicalEditor
                     g.DrawLine(new Pen(new SolidBrush(PaintColor)), dragMouseLocation, e.Location);
                     g.Dispose();
                     break;
+
+                case ToolItem.None:
+
+                    if (DrawHandlerInstance.CurrentHitStatus == HitStatus.Drag)
+                        commandHandler.AddCommand(new MoveShapeCommand(DrawHandlerInstance.SelectedShape, dragMouseLocation, e.Location));
+
+                    break;
             }
 
             PictureBox_DrawArea.Invalidate();
