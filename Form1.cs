@@ -68,6 +68,10 @@ namespace GraphicalEditor
             brush = new SolidBrush(PaintColor);
             commandHandler = new CommandHandler();
             CurrentTool = ToolItem.None;
+
+            //Register events
+            commandHandler.OnExecute += OnCommandExecute;
+            commandHandler.OnUndo += OnCommandUndo;
         }
 
         public enum ToolItem
@@ -281,6 +285,16 @@ namespace GraphicalEditor
                     break;
 
             }
+        }
+
+        private void OnCommandUndo(Command command)
+        {
+            PictureBox_DrawArea.Invalidate();
+        }
+
+        private void OnCommandExecute(Command command)
+        {
+            PictureBox_DrawArea.Invalidate();
         }
 
 

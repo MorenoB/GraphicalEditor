@@ -1,10 +1,6 @@
 ﻿using GraphicalEditor.Interfaces;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace GraphicalEditor
 {
     class CommandHandler
@@ -14,7 +10,11 @@ namespace GraphicalEditor
         private Stack<Command> executeStack = new Stack<Command>();
         private Stack<Command> undoStack = new Stack<Command>();
 
+        public event OnExecuteDel OnExecute;
+        public delegate void OnExecuteDel(Command command);
 
+        public event OnRedoDel OnUndo;
+        public delegate void OnRedoDel(Command command);
 
         public void AddCommand(Command commandToAdd)
         {
@@ -31,7 +31,14 @@ namespace GraphicalEditor
 
             Command cmd = undoStack.Pop();
             cmd.Undo();
+
+            if(OnUndo != null)
+                OnUndo(cmd);
+
+
             executeStack.Push(cmd);
+
+           
         }
 
         public void Redo()
@@ -41,6 +48,10 @@ namespace GraphicalEditor
 
             Command cmd = executeStack.Pop();
             cmd.Execute();
+
+            if(OnExecute != null)
+                OnExecute(cmd);
+
             undoStack.Push(cmd);
         }
     }
