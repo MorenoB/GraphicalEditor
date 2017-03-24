@@ -372,8 +372,7 @@ namespace GraphicalEditor
             o.Filter = "Graphic files|*.graphic";
             if (o.ShowDialog() == DialogResult.OK)
             {
-                DrawHandlerInstance.InsertNewShapeList(saveLoad.LoadShapes(o.FileName));
-                PictureBox_DrawArea.Invalidate();
+                commandHandler.AddCommand(new LoadCommand(DrawHandlerInstance.ShapeList, saveLoad.LoadShapes(o.FileName)));
             }
         }
 
