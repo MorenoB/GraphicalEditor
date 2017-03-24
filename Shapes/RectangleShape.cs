@@ -29,17 +29,6 @@ namespace GraphicalEditor.Shapes
             }
         }
 
-        public Brush Brush
-        {
-            get { return brush; }
-            set
-            {
-                if (value == brush) return;
-
-                brush = value;
-            }
-        }
-
         public Point Location
         {
             get
@@ -86,23 +75,49 @@ namespace GraphicalEditor.Shapes
             }
         }
 
+        public int ID
+        {
+            get
+            {
+                return id;
+            }
+
+            set
+            {
+                if (value == id)
+                    return;
+
+                id = value;
+            }
+        }
+
+        private Color color;
+        public Color Color
+        {
+            get
+            {
+                return color;
+            }
+        }
+
         private bool isSelected;
+        private int id;
 
         private GrabHandles grabHandles;
         private Rectangle bounds;
-        private Brush brush;
         private Size minimumSize;
 
-        public RectangleShape(Brush brush, Point location, int width, int height)
+        public RectangleShape(Color color, Point location, int width, int height)
         {
             this.Size = new Size(width, height);
-            this.brush = brush;
+            this.color = color;
             this.Location = location;
             this.MinimumSize = new Size(Constants.SHAPE_MINIMUM_WIDTH, Constants.SHAPE_MINIMUM_HEIGHT);
         }
 
         public void Draw(Graphics g)
         {
+            Brush brush = new SolidBrush(Color);
             g.FillRectangle(brush, Location.X, Location.Y, Size.Width, Size.Height);
 
             if (IsSelected)

@@ -59,10 +59,11 @@
             this.Button_Load = new System.Windows.Forms.ToolStripButton();
             this.Button_Save = new System.Windows.Forms.ToolStripButton();
             this.toolStrip2 = new System.Windows.Forms.ToolStrip();
-            this.Button_Clear = new System.Windows.Forms.ToolStripButton();
             this.Label_BrushSize = new System.Windows.Forms.ToolStripLabel();
             this.Textbox_BrushSize = new System.Windows.Forms.ToolStripTextBox();
             this.Button_Apply_BrushSize = new System.Windows.Forms.ToolStripButton();
+            this.Button_Undo = new System.Windows.Forms.ToolStripButton();
+            this.Button_Redo = new System.Windows.Forms.ToolStripButton();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.LeftToolStripPanel.SuspendLayout();
             this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
@@ -88,7 +89,7 @@
             this.toolStripContainer1.ContentPanel.Controls.Add(this.PictureBox_DrawArea);
             this.toolStripContainer1.ContentPanel.Controls.Add(this.Panel_Colorpicker);
             this.toolStripContainer1.ContentPanel.Margin = new System.Windows.Forms.Padding(4);
-            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(1381, 707);
+            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(1396, 707);
             this.toolStripContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
             // 
             // toolStripContainer1.LeftToolStripPanel
@@ -113,7 +114,7 @@
             this.PictureBox_DrawArea.Location = new System.Drawing.Point(0, 0);
             this.PictureBox_DrawArea.Margin = new System.Windows.Forms.Padding(4);
             this.PictureBox_DrawArea.Name = "PictureBox_DrawArea";
-            this.PictureBox_DrawArea.Size = new System.Drawing.Size(1004, 707);
+            this.PictureBox_DrawArea.Size = new System.Drawing.Size(1019, 707);
             this.PictureBox_DrawArea.TabIndex = 1;
             this.PictureBox_DrawArea.TabStop = false;
             this.PictureBox_DrawArea.Paint += new System.Windows.Forms.PaintEventHandler(this.PictureBox_DrawArea_Paint);
@@ -140,7 +141,7 @@
             this.Panel_Colorpicker.Controls.Add(this.Label_ColorPicker_R);
             this.Panel_Colorpicker.Controls.Add(this.PictureBox_ColorPicker);
             this.Panel_Colorpicker.Dock = System.Windows.Forms.DockStyle.Right;
-            this.Panel_Colorpicker.Location = new System.Drawing.Point(1004, 0);
+            this.Panel_Colorpicker.Location = new System.Drawing.Point(1019, 0);
             this.Panel_Colorpicker.Margin = new System.Windows.Forms.Padding(4);
             this.Panel_Colorpicker.Name = "Panel_Colorpicker";
             this.Panel_Colorpicker.Size = new System.Drawing.Size(377, 707);
@@ -315,7 +316,7 @@
             this.Button_Eraser});
             this.toolStrip4.Location = new System.Drawing.Point(0, 3);
             this.toolStrip4.Name = "toolStrip4";
-            this.toolStrip4.Size = new System.Drawing.Size(40, 224);
+            this.toolStrip4.Size = new System.Drawing.Size(25, 200);
             this.toolStrip4.TabIndex = 0;
             // 
             // Button_Rectangle
@@ -324,7 +325,7 @@
             this.Button_Rectangle.Image = global::GraphicalEditor.Properties.Resources.drawrect;
             this.Button_Rectangle.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.Button_Rectangle.Name = "Button_Rectangle";
-            this.Button_Rectangle.Size = new System.Drawing.Size(38, 24);
+            this.Button_Rectangle.Size = new System.Drawing.Size(23, 24);
             this.Button_Rectangle.Text = "Draw rectangle";
             this.Button_Rectangle.Click += new System.EventHandler(this.Button_Rectangle_Click);
             // 
@@ -334,17 +335,18 @@
             this.Button_Ellipse.Image = global::GraphicalEditor.Properties.Resources.drawellip;
             this.Button_Ellipse.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.Button_Ellipse.Name = "Button_Ellipse";
-            this.Button_Ellipse.Size = new System.Drawing.Size(38, 24);
+            this.Button_Ellipse.Size = new System.Drawing.Size(23, 24);
             this.Button_Ellipse.Text = "Draw ellipse";
             this.Button_Ellipse.Click += new System.EventHandler(this.Button_Ellipse_Click);
             // 
             // Button_ColorPicker
             // 
             this.Button_ColorPicker.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.Button_ColorPicker.Enabled = false;
             this.Button_ColorPicker.Image = global::GraphicalEditor.Properties.Resources.colorp;
             this.Button_ColorPicker.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.Button_ColorPicker.Name = "Button_ColorPicker";
-            this.Button_ColorPicker.Size = new System.Drawing.Size(38, 24);
+            this.Button_ColorPicker.Size = new System.Drawing.Size(23, 24);
             this.Button_ColorPicker.Text = "Color picker";
             this.Button_ColorPicker.Click += new System.EventHandler(this.Button_ColorPicker_Click);
             // 
@@ -355,7 +357,7 @@
             this.Button_Line.Image = global::GraphicalEditor.Properties.Resources.line;
             this.Button_Line.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.Button_Line.Name = "Button_Line";
-            this.Button_Line.Size = new System.Drawing.Size(38, 24);
+            this.Button_Line.Size = new System.Drawing.Size(23, 24);
             this.Button_Line.Text = "Draw line";
             this.Button_Line.Click += new System.EventHandler(this.Button_line_Click);
             // 
@@ -366,7 +368,7 @@
             this.Button_Brush.Image = global::GraphicalEditor.Properties.Resources.brush;
             this.Button_Brush.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.Button_Brush.Name = "Button_Brush";
-            this.Button_Brush.Size = new System.Drawing.Size(38, 24);
+            this.Button_Brush.Size = new System.Drawing.Size(23, 24);
             this.Button_Brush.Text = "Brush";
             this.Button_Brush.Click += new System.EventHandler(this.Button_Brush_Click);
             // 
@@ -377,7 +379,7 @@
             this.Button_Pencil.Image = global::GraphicalEditor.Properties.Resources.pencil;
             this.Button_Pencil.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.Button_Pencil.Name = "Button_Pencil";
-            this.Button_Pencil.Size = new System.Drawing.Size(38, 24);
+            this.Button_Pencil.Size = new System.Drawing.Size(23, 24);
             this.Button_Pencil.Text = "Pencil";
             this.Button_Pencil.Click += new System.EventHandler(this.Button_Pencil_Click);
             // 
@@ -390,7 +392,7 @@
             this.Button_Eraser.Name = "Button_Eraser";
             this.Button_Eraser.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.Button_Eraser.RightToLeftAutoMirrorImage = true;
-            this.Button_Eraser.Size = new System.Drawing.Size(38, 24);
+            this.Button_Eraser.Size = new System.Drawing.Size(23, 24);
             this.Button_Eraser.Text = "Eraser";
             this.Button_Eraser.Click += new System.EventHandler(this.Button_Eraser_Click);
             // 
@@ -442,44 +444,58 @@
             this.toolStrip2.Dock = System.Windows.Forms.DockStyle.None;
             this.toolStrip2.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.toolStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.Button_Clear,
             this.Label_BrushSize,
             this.Textbox_BrushSize,
-            this.Button_Apply_BrushSize});
+            this.Button_Apply_BrushSize,
+            this.Button_Undo,
+            this.Button_Redo});
             this.toolStrip2.Location = new System.Drawing.Point(87, 0);
             this.toolStrip2.Name = "toolStrip2";
-            this.toolStrip2.Size = new System.Drawing.Size(239, 27);
+            this.toolStrip2.Size = new System.Drawing.Size(302, 27);
             this.toolStrip2.TabIndex = 1;
-            // 
-            // Button_Clear
-            // 
-            this.Button_Clear.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.Button_Clear.Image = global::GraphicalEditor.Properties.Resources.print_prev;
-            this.Button_Clear.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.Button_Clear.Name = "Button_Clear";
-            this.Button_Clear.Size = new System.Drawing.Size(24, 24);
-            this.Button_Clear.Text = "Clear";
-            this.Button_Clear.Click += new System.EventHandler(this.Button_Clear_Click);
             // 
             // Label_BrushSize
             // 
+            this.Label_BrushSize.Enabled = false;
             this.Label_BrushSize.Name = "Label_BrushSize";
             this.Label_BrushSize.Size = new System.Drawing.Size(77, 24);
             this.Label_BrushSize.Text = "Brush size:";
             // 
             // Textbox_BrushSize
             // 
+            this.Textbox_BrushSize.Enabled = false;
             this.Textbox_BrushSize.Name = "Textbox_BrushSize";
             this.Textbox_BrushSize.Size = new System.Drawing.Size(100, 27);
             // 
             // Button_Apply_BrushSize
             // 
             this.Button_Apply_BrushSize.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.Button_Apply_BrushSize.Enabled = false;
             this.Button_Apply_BrushSize.Image = global::GraphicalEditor.Properties.Resources.apply;
             this.Button_Apply_BrushSize.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.Button_Apply_BrushSize.Name = "Button_Apply_BrushSize";
             this.Button_Apply_BrushSize.Size = new System.Drawing.Size(24, 24);
             this.Button_Apply_BrushSize.Text = "Apply";
+            // 
+            // Button_Undo
+            // 
+            this.Button_Undo.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.Button_Undo.Image = global::GraphicalEditor.Properties.Resources.undo;
+            this.Button_Undo.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.Button_Undo.Name = "Button_Undo";
+            this.Button_Undo.Size = new System.Drawing.Size(24, 24);
+            this.Button_Undo.Text = "Undo";
+            this.Button_Undo.Click += new System.EventHandler(this.Button_Undo_Click);
+            // 
+            // Button_Redo
+            // 
+            this.Button_Redo.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.Button_Redo.Image = global::GraphicalEditor.Properties.Resources.redo;
+            this.Button_Redo.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.Button_Redo.Name = "Button_Redo";
+            this.Button_Redo.Size = new System.Drawing.Size(24, 24);
+            this.Button_Redo.Text = "Redo";
+            this.Button_Redo.Click += new System.EventHandler(this.Button_Redo_Click);
             // 
             // Form
             // 
@@ -537,7 +553,6 @@
         private System.Windows.Forms.ToolStripButton Button_Load;
         private System.Windows.Forms.ToolStripButton Button_Save;
         private System.Windows.Forms.ToolStrip toolStrip2;
-        private System.Windows.Forms.ToolStripButton Button_Clear;
         private System.Windows.Forms.ToolStripLabel Label_BrushSize;
         private System.Windows.Forms.ToolStripTextBox Textbox_BrushSize;
         private System.Windows.Forms.ToolStripButton Button_Apply_BrushSize;
@@ -558,6 +573,8 @@
         private System.Windows.Forms.Label Label_ColorPicker_R;
         private System.Windows.Forms.PictureBox PictureBox_ColorPicker;
         private System.Windows.Forms.Label label_SelectedTool;
+        private System.Windows.Forms.ToolStripButton Button_Undo;
+        private System.Windows.Forms.ToolStripButton Button_Redo;
     }
 }
 

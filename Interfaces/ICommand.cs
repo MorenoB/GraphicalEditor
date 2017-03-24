@@ -1,6 +1,6 @@
 ﻿namespace GraphicalEditor.Interfaces
 {
-    interface Command
+    interface ICommand
     {
         void Execute();
         void Undo();

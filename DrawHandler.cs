@@ -9,6 +9,13 @@ namespace GraphicalEditor
     public sealed class DrawHandler
     {
         private List<IShape> shapeList = new List<IShape>();
+        public List<IShape> ShapeList
+        {
+            get
+            {
+                return shapeList;
+            }
+        }
 
         public enum HitStatus
         {
@@ -27,13 +34,13 @@ namespace GraphicalEditor
         private static readonly DrawHandler instance = new DrawHandler();
 
         private IShape selectedShape;
-        private IShape SelectedShape
+        public IShape SelectedShape
         {
             get
             {
                 return selectedShape;
             }
-            set
+            private set
             {
                 if (selectedShape == value)
                     return;
@@ -92,12 +99,14 @@ namespace GraphicalEditor
             }
         }
 
-        public void ResizeSelectedShape(Point currentMousePosition)
+        public Rectangle ResizeSelectedShape(Point currentMousePosition)
         {
             if (SelectedShape == null)
-                return;
+                return new Rectangle();
 
             Resize(CurrentHitStatus, currentMousePosition.X, currentMousePosition.Y);
+
+            return SelectedShape.Bounds;
         }
 
         public void UpdateHitstatusByCurrentPoint(Point currentPoint)
@@ -113,10 +122,38 @@ namespace GraphicalEditor
             SelectedShape.Location = newPoint;
         }
 
+        public void InsertNewShapeList(List<IShape> newShapeList)
+        {
+            if (HasSelectedAShape)
+                SelectedShape = null;
+
+            shapeList.Clear();
+
+            foreach(IShape shape in newShapeList)
+            {
+                shapeList.Add(shape);
+            }
+        }
+
         public void AddNewShape(IShape newShape)
         {
             shapeList.Add(newShape);
             SelectedShape = newShape;
+        }
+
+        public void DeleteShape(IShape shapeToDelete)
+        {
+            for (int i = 0; i < shapeList.Count; i++)
+            {
+                IShape shape = shapeList[i];
+
+                if (shape == null)
+                    continue;
+
+                if (shape.ID == shapeToDelete.ID)
+                    shapeList.RemoveAt(i);
+
+            }
         }
 
         public void SelectShapeFromPoint(Point clickedPoint)

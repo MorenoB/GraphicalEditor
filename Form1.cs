@@ -6,6 +6,9 @@ using System.IO;
 using System.Collections.Generic;
 using GraphicalEditor.Shapes;
 using static GraphicalEditor.DrawHandler;
+using GraphicalEditor.Interfaces;
+using GraphicalEditor.Commands;
+using GraphicalEditor.IO;
 
 namespace GraphicalEditor
 {
@@ -24,15 +27,8 @@ namespace GraphicalEditor
                     return;
 
                 paintColor = value;
-
-                brush = new SolidBrush(paintColor);
             }
         }
-
-        private Point dragMouseLocation = new Point(0, 0);
-
-        private bool isChoosingColor = false;
-        private bool holdingMouseDown = false;
 
         private ToolItem currentTool;
         private ToolItem CurrentTool
@@ -53,138 +49,32 @@ namespace GraphicalEditor
                 UpdateToolButtonsCheckedState();
             }
         }
-        private SolidBrush brush;
 
+        private Point dragMouseLocation = new Point(0, 0);
+        private Rectangle previousShapeBounds = new Rectangle();
+        private Rectangle newShapeBounds = new Rectangle();
+
+        private bool isChoosingColor = false;
+        private bool holdingMouseDown = false;
+
+        private CommandHandler commandHandler;
         private DrawHandler DrawHandlerInstance { get { return DrawHandler.Instance; } }
-
-        public enum SelectedState
-        {
-            Resizing, Moving
-        }
-
 
         public Form()
         {
             InitializeComponent();
 
-            brush = new SolidBrush(PaintColor);
+            commandHandler = new CommandHandler();
             CurrentTool = ToolItem.None;
+
+            //Register events
+            commandHandler.OnExecute += OnCommandExecute;
+            commandHandler.OnUndo += OnCommandUndo;
         }
 
         public enum ToolItem
         {
-            Rectangle, Ellipse, Line, Brush, Pencil, Eraser, ColorPicker, Selecter ,None
-        }
-
-        private void PictureBox_ColorPicker_MouseDown(object sender, MouseEventArgs e)
-        {
-            isChoosingColor = true;
-        }
-
-        private void PictureBox_ColorPicker_MouseUp(object sender, MouseEventArgs e)
-        {
-            isChoosingColor = false;
-        }
-
-        private void PictureBox_ColorPicker_MouseMove(object sender, MouseEventArgs e)
-        {
-            if (isChoosingColor)
-            {
-                Bitmap bmp = (Bitmap)PictureBox_ColorPicker.Image.Clone();
-
-                if (e.X < 0 || e.Y < 0)
-                    return;
-
-                if (e.X >= bmp.Width)
-                    return;
-
-                if (e.Y >= bmp.Height)
-                    return;
-
-                PaintColor = bmp.GetPixel(e.X, e.Y);
-                Trackbar_ColorPicker_Red.Value = PaintColor.R;
-                Trackbar_Colorpicker_Green.Value = PaintColor.G;
-                Trackbar_Colorpicker_Blue.Value = PaintColor.B;
-                Trackbar_Colorpicker_Alpha.Value = PaintColor.A;
-                Label_Colorpicker_redval.Text = PaintColor.R.ToString();
-                Label_Colorpicker_greenval.Text = PaintColor.G.ToString();
-                Label_Colorpicker_blueval.Text = PaintColor.B.ToString();
-                Label_Colorpicker_alphaval.Text = PaintColor.A.ToString();
-                Picturebox_CurrentColor.BackColor = PaintColor;
-            }
-        }
-
-        private void Picturebox_DrawArea_MouseDown(object sender, MouseEventArgs e)
-        {
-            holdingMouseDown = true;
-
-            if (DrawHandlerInstance.CurrentHitStatus == HitStatus.None)
-                switch (CurrentTool)
-                {
-                    case ToolItem.Rectangle:
-
-                        RectangleShape rectangle = new RectangleShape(brush, e.Location, Constants.SHAPE_DEFAULT_WIDTH, Constants.SHAPE_DEFAULT_HEIGHT);
-                        DrawHandlerInstance.AddNewShape(rectangle);
-
-                        CurrentTool = ToolItem.None;
-                        break;
-
-                    case ToolItem.Ellipse:
-
-                        EllipseShape ellipse = new EllipseShape(brush, e.Location, Constants.SHAPE_DEFAULT_WIDTH, Constants.SHAPE_DEFAULT_HEIGHT);
-                        DrawHandlerInstance.AddNewShape(ellipse);
-
-                        CurrentTool = ToolItem.None;
-                        break;
-
-                    case ToolItem.None:
-
-                        DrawHandlerInstance.SelectShapeFromPoint(e.Location);
-                        break;
-                }
-
-            dragMouseLocation = e.Location;
-
-            UpdateHitStatus(e.Location);
-
-            PictureBox_DrawArea.Invalidate();
-        }
-
-        private void PictureBox_DrawArea_MouseUp(object sender, MouseEventArgs e)
-        {
-            holdingMouseDown = false;
-
-            switch (CurrentTool)
-            {
-                case ToolItem.Line:
-                    Graphics g = PictureBox_DrawArea.CreateGraphics();
-                    g.DrawLine(new Pen(new SolidBrush(PaintColor)), dragMouseLocation, e.Location);
-                    g.Dispose();
-                    break;
-            }
-
-            PictureBox_DrawArea.Invalidate();
-        }
-
-        private void PictureBox_DrawArea_MouseMove(object sender, MouseEventArgs e)
-        {
-            if (holdingMouseDown)
-            {
-
-                switch (CurrentTool)
-                {
-                    case ToolItem.None:
-
-                           if(DrawHandlerInstance.CurrentHitStatus == HitStatus.Drag)
-                                DrawHandlerInstance.MoveSelectedShape(e.Location);
-                           else
-                                DrawHandlerInstance.ResizeSelectedShape(e.Location);
-                        break;
-                }
-            }
-            else
-                UpdateHitStatus(e.Location);
-            PictureBox_DrawArea.Invalidate();
+            Rectangle, Ellipse, Line, Brush, Pencil, Eraser, ColorPicker, Selecter, None
         }
 
         private void UpdateHitStatus(Point currentPoint)
@@ -202,7 +92,7 @@ namespace GraphicalEditor
                 return;
             }
 
-            switch(DrawHandlerInstance.CurrentHitStatus)
+            switch (DrawHandlerInstance.CurrentHitStatus)
             {
                 case HitStatus.Drag:
                     Cursor = Cursors.SizeAll;
@@ -279,7 +169,156 @@ namespace GraphicalEditor
             }
         }
 
+        # region General Events
+        private void OnCommandUndo(ICommand command)
+        {
+            PictureBox_DrawArea.Invalidate();
+        }
 
+        private void OnCommandExecute(ICommand command)
+        {
+            PictureBox_DrawArea.Invalidate();
+        }
+
+        #endregion
+
+        #region GUI General Events
+
+        private void PictureBox_DrawArea_Paint(object sender, PaintEventArgs e)
+        {
+            DrawHandlerInstance.RedrawShapes(e.Graphics);
+        }
+
+        private void PictureBox_ColorPicker_MouseDown(object sender, MouseEventArgs e)
+        {
+            isChoosingColor = true;
+        }
+
+        private void PictureBox_ColorPicker_MouseUp(object sender, MouseEventArgs e)
+        {
+            isChoosingColor = false;
+        }
+
+        private void PictureBox_ColorPicker_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (isChoosingColor)
+            {
+                Bitmap bmp = (Bitmap)PictureBox_ColorPicker.Image.Clone();
+
+                if (e.X < 0 || e.Y < 0)
+                    return;
+
+                if (e.X >= bmp.Width)
+                    return;
+
+                if (e.Y >= bmp.Height)
+                    return;
+
+                PaintColor = bmp.GetPixel(e.X, e.Y);
+                Trackbar_ColorPicker_Red.Value = PaintColor.R;
+                Trackbar_Colorpicker_Green.Value = PaintColor.G;
+                Trackbar_Colorpicker_Blue.Value = PaintColor.B;
+                Trackbar_Colorpicker_Alpha.Value = PaintColor.A;
+                Label_Colorpicker_redval.Text = PaintColor.R.ToString();
+                Label_Colorpicker_greenval.Text = PaintColor.G.ToString();
+                Label_Colorpicker_blueval.Text = PaintColor.B.ToString();
+                Label_Colorpicker_alphaval.Text = PaintColor.A.ToString();
+                Picturebox_CurrentColor.BackColor = PaintColor;
+            }
+        }
+
+        private void Picturebox_DrawArea_MouseDown(object sender, MouseEventArgs e)
+        {
+            holdingMouseDown = true;
+
+            if (DrawHandlerInstance.CurrentHitStatus == HitStatus.None)
+                switch (CurrentTool)
+                {
+                    case ToolItem.Rectangle:
+
+                        RectangleShape rectangle = new RectangleShape(PaintColor, e.Location, Constants.SHAPE_DEFAULT_WIDTH, Constants.SHAPE_DEFAULT_HEIGHT);
+
+                        commandHandler.AddCommand(new CreateShapeCommand(rectangle));
+
+                        CurrentTool = ToolItem.None;
+                        break;
+
+                    case ToolItem.Ellipse:
+
+                        EllipseShape ellipse = new EllipseShape(PaintColor, e.Location, Constants.SHAPE_DEFAULT_WIDTH, Constants.SHAPE_DEFAULT_HEIGHT);
+
+                        commandHandler.AddCommand(new CreateShapeCommand(ellipse));
+
+                        CurrentTool = ToolItem.None;
+                        break;
+
+                    case ToolItem.None:
+
+                        DrawHandlerInstance.SelectShapeFromPoint(e.Location);
+                        break;
+                }
+
+            else if (DrawHandlerInstance.CurrentHitStatus != HitStatus.Drag)
+            {
+                if (DrawHandlerInstance.SelectedShape != null)
+                    previousShapeBounds = DrawHandlerInstance.SelectedShape.Bounds;
+            }
+
+            dragMouseLocation = e.Location;
+
+            UpdateHitStatus(e.Location);
+
+            PictureBox_DrawArea.Invalidate();
+        }
+
+        private void PictureBox_DrawArea_MouseUp(object sender, MouseEventArgs e)
+        {
+            holdingMouseDown = false;
+
+            if (DrawHandlerInstance.HasSelectedAShape)
+                switch (CurrentTool)
+                {
+                    case ToolItem.Line:
+                        Graphics g = PictureBox_DrawArea.CreateGraphics();
+                        g.DrawLine(new Pen(new SolidBrush(PaintColor)), dragMouseLocation, e.Location);
+                        g.Dispose();
+                        break;
+
+                    case ToolItem.None:
+
+                        if (DrawHandlerInstance.CurrentHitStatus == HitStatus.Drag)
+                            commandHandler.AddCommand(new MoveShapeCommand(DrawHandlerInstance.SelectedShape, dragMouseLocation, e.Location));
+                        else
+                            commandHandler.AddCommand(new ResizeShapeCommand(DrawHandlerInstance.SelectedShape, previousShapeBounds, newShapeBounds));
+                        break;
+                }
+
+            PictureBox_DrawArea.Invalidate();
+        }
+
+        private void PictureBox_DrawArea_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (holdingMouseDown)
+            {
+
+                switch (CurrentTool)
+                {
+                    case ToolItem.None:
+
+                        if (DrawHandlerInstance.CurrentHitStatus == HitStatus.Drag)
+                            DrawHandlerInstance.MoveSelectedShape(e.Location);
+                        else
+                            newShapeBounds = DrawHandlerInstance.ResizeSelectedShape(e.Location);
+                        break;
+                }
+            }
+            else
+                UpdateHitStatus(e.Location);
+            PictureBox_DrawArea.Invalidate();
+        }
+        #endregion
+
+        #region GUI Button Events
         private void Button_Brush_Click(object sender, EventArgs e)
         {
             CurrentTool = ToolItem.Brush;
@@ -321,49 +360,30 @@ namespace GraphicalEditor
             PictureBox_DrawArea.Image = null;
         }
 
-        private void Button_Clear_Click(object sender, EventArgs e)
-        {
-            PictureBox_DrawArea.Refresh();
-            PictureBox_DrawArea.Image = null;
-        }
-
         private void Button_Load_Click(object sender, EventArgs e)
         {
+            SaveLoadController saveLoad = new SaveLoadController();
             OpenFileDialog o = new OpenFileDialog();
-            o.Filter = "Png files|*.png|jpeg files|*jpg|bitmaps|*.bmp";
+            o.Filter = "Graphic files|*.graphic";
             if (o.ShowDialog() == DialogResult.OK)
             {
-                PictureBox_DrawArea.Image = (Image)Image.FromFile(o.FileName).Clone();
+                commandHandler.AddCommand(new LoadCommand(DrawHandlerInstance.ShapeList, saveLoad.LoadShapes(o.FileName)));
             }
         }
 
         private void Button_Save_Click(object sender, EventArgs e)
         {
-            Bitmap bmp = new Bitmap(PictureBox_DrawArea.Width, PictureBox_DrawArea.Height);
-            Graphics g = Graphics.FromImage(bmp);
-            Rectangle rect = PictureBox_DrawArea.RectangleToScreen(PictureBox_DrawArea.ClientRectangle);
-            g.CopyFromScreen(PictureBox_DrawArea.Location, Point.Empty, PictureBox_DrawArea.Size);
-            g.Dispose();
+            SaveLoadController saveLoad = new SaveLoadController();
             SaveFileDialog s = new SaveFileDialog();
-            s.Filter = "Png files|*.png|jpeg files|*jpg|bitmaps|*.bmp";
+            s.Filter = "Graphic files|*.graphic";
             if (s.ShowDialog() == DialogResult.OK)
             {
                 if (File.Exists(s.FileName))
                 {
                     File.Delete(s.FileName);
                 }
-                if (s.FileName.Contains(".jpg"))
-                {
-                    bmp.Save(s.FileName, ImageFormat.Jpeg);
-                }
-                else if (s.FileName.Contains(".png"))
-                {
-                    bmp.Save(s.FileName, ImageFormat.Png);
-                }
-                else if (s.FileName.Contains(".bmp"))
-                {
-                    bmp.Save(s.FileName, ImageFormat.Bmp);
-                }
+
+                saveLoad.SaveShapes(DrawHandlerInstance.ShapeList, s.FileName);
             }
         }
 
@@ -411,16 +431,22 @@ namespace GraphicalEditor
             }
         }
 
-        private void PictureBox_DrawArea_Paint(object sender, PaintEventArgs e)
-        {
-            DrawHandlerInstance.RedrawShapes(e.Graphics);
-        }
-
         private void Trackbar_ColorPicker_Alpha_Scroll(object sender, EventArgs e)
         {
             PaintColor = Color.FromArgb(Trackbar_Colorpicker_Alpha.Value, Trackbar_ColorPicker_Red.Value, Trackbar_Colorpicker_Green.Value, Trackbar_Colorpicker_Blue.Value);
             Picturebox_CurrentColor.BackColor = PaintColor;
             Label_Colorpicker_alphaval.Text = "A: " + PaintColor.A.ToString();
         }
+
+        private void Button_Undo_Click(object sender, EventArgs e)
+        {
+            commandHandler.Undo();
+        }
+
+        private void Button_Redo_Click(object sender, EventArgs e)
+        {
+            commandHandler.Redo();
+        }
+        #endregion
     }
 }
