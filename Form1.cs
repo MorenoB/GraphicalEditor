@@ -27,8 +27,6 @@ namespace GraphicalEditor
                     return;
 
                 paintColor = value;
-
-                brush = new SolidBrush(paintColor);
             }
         }
 
@@ -52,8 +50,6 @@ namespace GraphicalEditor
             }
         }
 
-        private SolidBrush brush;
-
         private Point dragMouseLocation = new Point(0, 0);
         private Rectangle previousShapeBounds = new Rectangle();
         private Rectangle newShapeBounds = new Rectangle();
@@ -68,7 +64,6 @@ namespace GraphicalEditor
         {
             InitializeComponent();
 
-            brush = new SolidBrush(PaintColor);
             commandHandler = new CommandHandler();
             CurrentTool = ToolItem.None;
 
@@ -241,7 +236,7 @@ namespace GraphicalEditor
                 {
                     case ToolItem.Rectangle:
 
-                        RectangleShape rectangle = new RectangleShape(brush, e.Location, Constants.SHAPE_DEFAULT_WIDTH, Constants.SHAPE_DEFAULT_HEIGHT);
+                        RectangleShape rectangle = new RectangleShape(PaintColor, e.Location, Constants.SHAPE_DEFAULT_WIDTH, Constants.SHAPE_DEFAULT_HEIGHT);
 
                         commandHandler.AddCommand(new CreateShapeCommand(rectangle));
 
@@ -250,7 +245,7 @@ namespace GraphicalEditor
 
                     case ToolItem.Ellipse:
 
-                        EllipseShape ellipse = new EllipseShape(brush, e.Location, Constants.SHAPE_DEFAULT_WIDTH, Constants.SHAPE_DEFAULT_HEIGHT);
+                        EllipseShape ellipse = new EllipseShape(PaintColor, e.Location, Constants.SHAPE_DEFAULT_WIDTH, Constants.SHAPE_DEFAULT_HEIGHT);
 
                         commandHandler.AddCommand(new CreateShapeCommand(ellipse));
 

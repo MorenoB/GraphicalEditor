@@ -10,6 +10,7 @@ namespace GraphicalEditor.Interfaces
         bool WasClicked(Point p);
         HitStatus GetHitStatus(Point p);
 
+        Color Color { get; }
         int ID { get; set; }
         bool IsSelected { get; set; }
         Point Location { get; set; }

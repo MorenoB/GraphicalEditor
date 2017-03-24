@@ -157,7 +157,13 @@ namespace GraphicalEditor.IO
             {
                 string stringToAdd = "";
 
-                string suffix = " " + shape.Location.X + " " + shape.Location.Y + " " + shape.Bounds.Width + " " + shape.Bounds.Height + '\r';
+                
+                string suffix = " " + shape.Location.X +
+                    " " + shape.Location.Y +
+                    " " + shape.Bounds.Width +
+                    " " + shape.Bounds.Height +
+                    " " + shape.Color.ToArgb() +
+                    '\r';
 
                 if (shape is RectangleShape)
                 {
@@ -199,16 +205,19 @@ namespace GraphicalEditor.IO
                     int y = 100;
                     int width = 100;
                     int height = 100;
+                    int argb = 0;
+                    
 
                     int.TryParse(splitNodeName[1], out x);
                     int.TryParse(splitNodeName[2], out y);
                     int.TryParse(splitNodeName[3], out width);
                     int.TryParse(splitNodeName[4], out height);
+                    int.TryParse(splitNodeName[5], out argb);
 
                     if (node.Name.Contains("ellipse"))
-                        shapeToAdd = new EllipseShape(Brushes.Blue, new Point(x, y), width, height);
+                        shapeToAdd = new EllipseShape(Color.FromArgb(argb), new Point(x, y), width, height);
                     else
-                        shapeToAdd = new RectangleShape(Brushes.Blue, new Point(x, y), width, height);
+                        shapeToAdd = new RectangleShape(Color.FromArgb(argb), new Point(x, y), width, height);
                 }
 
                 if (shapeToAdd != null)
