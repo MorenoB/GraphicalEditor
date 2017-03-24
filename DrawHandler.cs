@@ -9,6 +9,13 @@ namespace GraphicalEditor
     public sealed class DrawHandler
     {
         private List<IShape> shapeList = new List<IShape>();
+        public List<IShape> ShapeList
+        {
+            get
+            {
+                return shapeList;
+            }
+        }
 
         public enum HitStatus
         {
@@ -113,6 +120,19 @@ namespace GraphicalEditor
                 return;
 
             SelectedShape.Location = newPoint;
+        }
+
+        public void InsertNewShapeList(List<IShape> newShapeList)
+        {
+            if (HasSelectedAShape)
+                SelectedShape = null;
+
+            shapeList.Clear();
+
+            foreach(IShape shape in newShapeList)
+            {
+                shapeList.Add(shape);
+            }
         }
 
         public void AddNewShape(IShape newShape)

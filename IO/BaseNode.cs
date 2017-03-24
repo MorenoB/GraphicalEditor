@@ -12,6 +12,6 @@ namespace GraphicalEditor.IO
             this.Name = elementName;
             this.Depth = depth;
         }
-        
+
     }
 }

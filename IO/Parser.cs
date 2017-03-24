@@ -1,24 +1,31 @@
-﻿using System;
+﻿using GraphicalEditor.Interfaces;
+using GraphicalEditor.Shapes;
+using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
-using System.Text.RegularExpressions;
 
 namespace GraphicalEditor.IO
 {
     class Parser
     {
-        static readonly string fileString =
-        @"Item0
-          Item1
-            Property1
-             Property2
-            Item2
-          Property1";
+        static readonly string testFileString =
+        @"group 2 
+  ornament top
+  ellipse 100 100 20 50 
+  group 3 
+    rectangle 10 20 100 100 
+    ornament top 
+    ornament bottom
+    group 2 
+      ellipse 50 150 20 50 
+      ellipse 70 150 20 50 
+    rectangle 100 100 10 10 ";
 
         public static void TestParserAndOutputDisplayToConsole()
         {
             // Create a collection of nodes out of the string.
-            Queue<BaseNode> nodes = Parse(fileString);
+            Queue<BaseNode> nodes = Parse(testFileString);
 
             Console.WriteLine("\r\nHierarchy\r\n-------------------------------");
             while (nodes.Count > 0)
@@ -33,7 +40,7 @@ namespace GraphicalEditor.IO
         /// Parses the hierarchy string into a collection of objects.
         /// </summary>
         /// <returns>A collection of BaseNode objects</returns>
-        static Queue<BaseNode> Parse(string inputString)
+        private static Queue<BaseNode> Parse(string inputString)
         {
             BaseNode root = null;       // Keeps track of the top most parent (Eg. In this case, item0
             BaseNode current = null;    // Keeps track of the node to compare against.
@@ -130,14 +137,85 @@ namespace GraphicalEditor.IO
         /// </summary>
         /// <param name="element">The parsed string element from the hierarchy string.</param>
         /// <returns></returns>
-        static BaseNode GetAsElementNode(string element)
+        private static BaseNode GetAsElementNode(string element)
         {
-            // Use some regex to parse the starting portion of the string.  You can also use substring to accomplish the same thing.
-            string elementName = Regex.Match(element, "[a-zA-Z0-9]+").Value;
             int count = element.TakeWhile(char.IsWhiteSpace).Count();
+            string elementName = element;
+
+            if (count > 0)
+                elementName = element.Substring(count);
 
             // Return a new node with an element name and depth initialized.
             return new BaseNode(elementName, count);
+        }
+
+        public static string ParseShapeList(List<IShape> shapeList)
+        {
+            string output = "";
+
+            foreach (IShape shape in shapeList)
+            {
+                string stringToAdd = "";
+
+                string suffix = " " + shape.Location.X + " " + shape.Location.Y + " " + shape.Bounds.Width + " " + shape.Bounds.Height + '\r';
+
+                if (shape is RectangleShape)
+                {
+                    stringToAdd = "rectangle" + suffix;
+                }
+                else if (shape is EllipseShape)
+                {
+                    stringToAdd = "ellipse" + suffix;
+                }
+
+                output += stringToAdd;
+            }
+
+            return output;
+        }
+
+
+        public static List<IShape> ParseFileContents(string fileContents)
+        {
+            return ProcessNodesIntoShapelist(Parse(fileContents));
+        }
+
+
+        private static List<IShape> ProcessNodesIntoShapelist(Queue<BaseNode> nodes)
+        {
+            List<IShape> shapeList = new List<IShape>();
+
+            while (nodes.Count > 0)
+            {
+                BaseNode node = nodes.Dequeue();
+                IShape shapeToAdd = null;
+                string nodeName = node.Name;
+                string[] splitNodeName = nodeName.Split(' ');
+                bool IsShape = node.Name.Contains("ellipse") || node.Name.Contains("rectangle");
+
+                if (IsShape)
+                {
+                    int x = 100;
+                    int y = 100;
+                    int width = 100;
+                    int height = 100;
+
+                    int.TryParse(splitNodeName[1], out x);
+                    int.TryParse(splitNodeName[2], out y);
+                    int.TryParse(splitNodeName[3], out width);
+                    int.TryParse(splitNodeName[4], out height);
+
+                    if (node.Name.Contains("ellipse"))
+                        shapeToAdd = new EllipseShape(Brushes.Blue, new Point(x, y), width, height);
+                    else
+                        shapeToAdd = new RectangleShape(Brushes.Blue, new Point(x, y), width, height);
+                }
+
+                if (shapeToAdd != null)
+                    shapeList.Add(shapeToAdd);
+            }
+
+            return shapeList;
         }
     }
 }

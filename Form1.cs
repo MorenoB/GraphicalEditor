@@ -8,6 +8,7 @@ using GraphicalEditor.Shapes;
 using static GraphicalEditor.DrawHandler;
 using GraphicalEditor.Interfaces;
 using GraphicalEditor.Commands;
+using GraphicalEditor.IO;
 
 namespace GraphicalEditor
 {
@@ -279,7 +280,7 @@ namespace GraphicalEditor
         {
             holdingMouseDown = false;
 
-            if(DrawHandlerInstance.HasSelectedAShape)
+            if (DrawHandlerInstance.HasSelectedAShape)
                 switch (CurrentTool)
                 {
                     case ToolItem.Line:
@@ -366,41 +367,29 @@ namespace GraphicalEditor
 
         private void Button_Load_Click(object sender, EventArgs e)
         {
+            SaveLoadController saveLoad = new SaveLoadController();
             OpenFileDialog o = new OpenFileDialog();
-            o.Filter = "Png files|*.png|jpeg files|*jpg|bitmaps|*.bmp";
+            o.Filter = "Graphic files|*.graphic";
             if (o.ShowDialog() == DialogResult.OK)
             {
-                PictureBox_DrawArea.Image = (Image)Image.FromFile(o.FileName).Clone();
+                DrawHandlerInstance.InsertNewShapeList(saveLoad.LoadShapes(o.FileName));
+                PictureBox_DrawArea.Invalidate();
             }
         }
 
         private void Button_Save_Click(object sender, EventArgs e)
         {
-            Bitmap bmp = new Bitmap(PictureBox_DrawArea.Width, PictureBox_DrawArea.Height);
-            Graphics g = Graphics.FromImage(bmp);
-            Rectangle rect = PictureBox_DrawArea.RectangleToScreen(PictureBox_DrawArea.ClientRectangle);
-            g.CopyFromScreen(PictureBox_DrawArea.Location, Point.Empty, PictureBox_DrawArea.Size);
-            g.Dispose();
+            SaveLoadController saveLoad = new SaveLoadController();
             SaveFileDialog s = new SaveFileDialog();
-            s.Filter = "Png files|*.png|jpeg files|*jpg|bitmaps|*.bmp";
+            s.Filter = "Graphic files|*.graphic";
             if (s.ShowDialog() == DialogResult.OK)
             {
                 if (File.Exists(s.FileName))
                 {
                     File.Delete(s.FileName);
                 }
-                if (s.FileName.Contains(".jpg"))
-                {
-                    bmp.Save(s.FileName, ImageFormat.Jpeg);
-                }
-                else if (s.FileName.Contains(".png"))
-                {
-                    bmp.Save(s.FileName, ImageFormat.Png);
-                }
-                else if (s.FileName.Contains(".bmp"))
-                {
-                    bmp.Save(s.FileName, ImageFormat.Bmp);
-                }
+
+                saveLoad.SaveShapes(DrawHandlerInstance.ShapeList, s.FileName);
             }
         }
 
