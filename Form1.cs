@@ -287,9 +287,16 @@ namespace GraphicalEditor
                     case ToolItem.None:
 
                         if (DrawHandlerInstance.CurrentHitStatus == HitStatus.Drag)
-                            commandHandler.AddCommand(new MoveShapeCommand(DrawHandlerInstance.SelectedShape, dragMouseLocation, e.Location));
-                        else
-                            commandHandler.AddCommand(new ResizeShapeCommand(DrawHandlerInstance.SelectedShape, previousShapeBounds, newShapeBounds));
+                        {
+                            ICommand MoveCommand = new MoveShapeCommand(DrawHandlerInstance.SelectedShape, dragMouseLocation, e.Location);
+                            commandHandler.AddCommand(MoveCommand);
+
+                        }
+                        else if (DrawHandlerInstance.CurrentHitStatus != HitStatus.None)
+                        {
+                            ICommand ResizeCommand = new ResizeShapeCommand(DrawHandlerInstance.SelectedShape, previousShapeBounds, newShapeBounds);
+                            commandHandler.AddCommand(ResizeCommand);
+                        }
                         break;
                 }
 

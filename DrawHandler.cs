@@ -45,6 +45,7 @@ namespace GraphicalEditor
                 if (selectedShape == value)
                     return;
 
+                //Already selected a shape.
                 if (selectedShape != null)
                     selectedShape.IsSelected = false;
                 
@@ -156,7 +157,7 @@ namespace GraphicalEditor
             }
         }
 
-        public void SelectShapeFromPoint(Point clickedPoint)
+        public IShape SelectShapeFromPoint(Point clickedPoint)
         {
             for (int i = 0; i < shapeList.Count; i++)
             {
@@ -166,12 +167,14 @@ namespace GraphicalEditor
                 if (shape.WasClicked(clickedPoint))
                 {
                     SelectedShape = shape;
-                    return;
+                    return shape;
                 }
             }
 
             //We haven't detected a click on any shape.
             SelectedShape = null;
+
+            return null;
         }
 
         #region Resizing
