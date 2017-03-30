@@ -33,26 +33,23 @@ namespace GraphicalEditor
 
         private static readonly DrawHandler instance = new DrawHandler();
 
-        private IShape selectedShape;
+        private List<IShape> selectedShapes = new List<IShape>();
+        public List<IShape> SelectedShapes
+        {
+            get
+            {
+                return selectedShapes;
+            }
+        }
+
         public IShape SelectedShape
         {
             get
             {
-                return selectedShape;
-            }
-            private set
-            {
-                if (selectedShape == value)
-                    return;
-
-                //Already selected a shape.
-                if (selectedShape != null)
-                    selectedShape.IsSelected = false;
-                
-                selectedShape = value;
-
-                if (selectedShape != null)
-                    selectedShape.IsSelected = true;
+                if (selectedShapes.Count > 0)
+                    return selectedShapes[0];
+                else
+                    return null;
             }
         }
 
@@ -126,7 +123,7 @@ namespace GraphicalEditor
         public void InsertNewShapeList(List<IShape> newShapeList)
         {
             if (HasSelectedAShape)
-                SelectedShape = null;
+                ClearSelection();
 
             shapeList.Clear();
 
@@ -139,7 +136,7 @@ namespace GraphicalEditor
         public void AddNewShape(IShape newShape)
         {
             shapeList.Add(newShape);
-            SelectedShape = newShape;
+            selectedShapes.Add(newShape);
         }
 
         public void DeleteShape(IShape shapeToDelete)
@@ -157,6 +154,26 @@ namespace GraphicalEditor
             }
         }
 
+        private void ClearSelection()
+        {
+            foreach(IShape shape in SelectedShapes)
+            {
+                shape.IsSelected = false;
+            }
+
+            selectedShapes.Clear();
+        }
+
+        private void AddToSelection(IShape shape)
+        {
+            if (SelectedShapes.Contains(shape))
+                return;
+
+            shape.IsSelected = true;
+
+            selectedShapes.Add(shape);
+        }
+
         public IShape SelectShapeFromPoint(Point clickedPoint)
         {
             for (int i = 0; i < shapeList.Count; i++)
@@ -166,13 +183,16 @@ namespace GraphicalEditor
 
                 if (shape.WasClicked(clickedPoint))
                 {
-                    SelectedShape = shape;
+                    if (selectedShapes.Contains(shape))
+                        continue;
+
+                    AddToSelection(shape);
                     return shape;
                 }
             }
 
             //We haven't detected a click on any shape.
-            SelectedShape = null;
+            ClearSelection();
 
             return null;
         }
