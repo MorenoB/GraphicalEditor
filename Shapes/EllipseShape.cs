@@ -21,6 +21,8 @@ namespace GraphicalEditor.Shapes
             {
                 GrabHandles.Draw(g, true);
             }
+
+            base.Draw(g);
         }
     }
 }

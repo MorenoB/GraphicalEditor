@@ -5,28 +5,39 @@ namespace GraphicalEditor.Shapes
 {
     class GroupCommand : ICommand
     {
-        private List<ICommand> childCommands = new List<ICommand>();
+        private List<ShapeObject> shapeCollection = new List<ShapeObject>();
+        private ShapeObject parentShape;
+        public GroupCommand(List<ShapeObject> shapeCollection)
+        {
+            this.shapeCollection = shapeCollection;
+
+            if (shapeCollection.Count > 0)
+            {
+                parentShape = shapeCollection[0];
+                shapeCollection.Remove(parentShape);
+            }
+        }
 
         public void Execute()
         {
-            foreach (ICommand command in childCommands)
-                command.Execute();
+            if (shapeCollection.Count < 1)
+                return;
+
+            foreach(ShapeObject shape in shapeCollection)
+            {
+                parentShape.AddChild(shape);
+            }
         }
 
         public void Undo()
         {
-            foreach (ICommand command in childCommands)
-                command.Undo();
-        }
+            if (shapeCollection.Count < 1)
+                return;
 
-        public void Add(ICommand command)
-        {
-            childCommands.Add(command);
-        }
-
-        public void Remove(ICommand command)
-        {
-            childCommands.Remove(command);
+            foreach (ShapeObject shape in shapeCollection)
+            {
+                parentShape.RemoveChild(shape);
+            }
         }
     }
 }

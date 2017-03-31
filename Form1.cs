@@ -72,7 +72,7 @@ namespace GraphicalEditor
 
         public enum ToolItem
         {
-            Rectangle, Ellipse, Line, Brush, Pencil, Eraser, ColorPicker, Selecter, None
+            Rectangle, Ellipse, Line, Brush, Pencil, Group, ColorPicker, Selecter, None
         }
 
         private void UpdateHitStatus(Point currentPoint)
@@ -128,7 +128,7 @@ namespace GraphicalEditor
 
             Button_Brush.Checked = false;
             Button_Ellipse.Checked = false;
-            Button_Eraser.Checked = false;
+            Button_Group.Checked = false;
             Button_Line.Checked = false;
             Button_Pencil.Checked = false;
             Button_Rectangle.Checked = false;
@@ -144,8 +144,8 @@ namespace GraphicalEditor
                     Button_Ellipse.Checked = true;
                     break;
 
-                case ToolItem.Eraser:
-                    Button_Eraser.Checked = true;
+                case ToolItem.Group:
+                    Button_Group.Checked = true;
                     break;
 
                 case ToolItem.Line:
@@ -344,9 +344,16 @@ namespace GraphicalEditor
             CurrentTool = ToolItem.Pencil;
         }
 
-        private void Button_Eraser_Click(object sender, EventArgs e)
+        private void Button_Group_Click(object sender, EventArgs e)
         {
-            CurrentTool = ToolItem.Eraser;
+            CurrentTool = ToolItem.Group;
+
+            if (!DrawHandlerInstance.HasSelectedAShape)
+                return;
+
+            ICommand groupCommand = new GroupCommand(DrawHandlerInstance.SelectedShapes);
+            commandHandler.AddCommand(groupCommand);
+
         }
 
         private void Button_line_Click(object sender, EventArgs e)

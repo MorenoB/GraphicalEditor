@@ -1,5 +1,5 @@
 ﻿using GraphicalEditor.Util;
-using System;
+using System.Collections.Generic;
 using System.Drawing;
 
 namespace GraphicalEditor.Shapes
@@ -80,6 +80,8 @@ namespace GraphicalEditor.Shapes
             get { return bounds; }
             set
             {
+                SetChildBounds(value);
+
                 bounds = value;
                 GrabHandles.SetBounds(value);
             }
@@ -118,6 +120,16 @@ namespace GraphicalEditor.Shapes
             }
         }
 
+        public bool HasChildren
+        {
+            get
+            {
+                return childShapes.Count > 0;
+            }
+        }
+
+        private readonly List<ShapeObject> childShapes = new List<ShapeObject>();
+
         public bool WasClicked(Point p)
         {
             return p.X >= Location.X && p.X < Location.X + Size.Width
@@ -129,6 +141,45 @@ namespace GraphicalEditor.Shapes
             return GrabHandles.GetHitTest(p);
         }
 
-        public abstract void Draw(Graphics g);
+        public void AddChild(ShapeObject shape)
+        {
+            if (childShapes.Contains(shape))
+                return;
+
+            childShapes.Add(shape);
+        }
+
+        public void RemoveChild(ShapeObject shape)
+        {
+            childShapes.Remove(shape);
+        }
+
+        public virtual void Draw(Graphics g)
+        {
+            foreach (ShapeObject childGraphic in childShapes)
+            {
+                childGraphic.Draw(g);
+            }
+        }
+
+        private void SetChildBounds(Rectangle newBounds)
+        {
+            Rectangle oldParentBounds = Bounds;
+            int deltaWidth = newBounds.Width - oldParentBounds.Width;
+            int deltaHeight = newBounds.Height - oldParentBounds.Height;
+            int deltaX = newBounds.X - oldParentBounds.X;
+            int deltaY = newBounds.Y - oldParentBounds.Y;
+
+
+            foreach ( ShapeObject child in childShapes)
+            {
+                int newWidth = child.Bounds.Width + deltaWidth;
+                int newHeight = child.Bounds.Height + deltaHeight;
+                int newX = child.Bounds.X + deltaX;
+                int newY = child.Bounds.Y + deltaY;
+
+                child.Bounds = new Rectangle(newX, newY, newWidth, newHeight);
+            }
+        }
     }
 }
