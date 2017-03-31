@@ -185,6 +185,13 @@ namespace GraphicalEditor
                     if (selectedShapes.Contains(shape))
                         continue;
 
+                    if (shape.ParentShape != null)
+                    {
+                        ClearSelection();
+                        AddToSelection(shape.ParentShape);
+                        return shape.ParentShape;
+                    }
+
                     AddToSelection(shape);
                     return shape;
                 }
