@@ -1,4 +1,4 @@
-﻿using GraphicalEditor.Interfaces;
+﻿using GraphicalEditor.Shapes;
 using System.Collections.Generic;
 
 namespace GraphicalEditor.IO
@@ -11,17 +11,17 @@ namespace GraphicalEditor.IO
 
         }
 
-        public void SaveShapes(List<IShape> shapesList, string filePath)
+        public void SaveShapes(List<ShapeObject> shapesList, string filePath)
         {
             string fileContents = Parser.ParseShapeList(shapesList);
 
             Filehandler.SaveToFile(fileContents, filePath);
         }
 
-        public List<IShape> LoadShapes(string filePath)
+        public List<ShapeObject> LoadShapes(string filePath)
         {
             string fileContents = Filehandler.ProcessFile(filePath);
-            List<IShape> shapeList = new List<IShape>();
+            List<ShapeObject> shapeList = new List<ShapeObject>();
 
             shapeList = Parser.ParseFileContents(fileContents);
 

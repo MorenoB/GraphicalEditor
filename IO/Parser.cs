@@ -1,5 +1,4 @@
-﻿using GraphicalEditor.Interfaces;
-using GraphicalEditor.Shapes;
+﻿using GraphicalEditor.Shapes;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -149,11 +148,11 @@ namespace GraphicalEditor.IO
             return new BaseNode(elementName, count);
         }
 
-        public static string ParseShapeList(List<IShape> shapeList)
+        public static string ParseShapeList(List<ShapeObject> shapeList)
         {
             string output = "";
 
-            foreach (IShape shape in shapeList)
+            foreach (ShapeObject shape in shapeList)
             {
                 string stringToAdd = "";
 
@@ -181,20 +180,20 @@ namespace GraphicalEditor.IO
         }
 
 
-        public static List<IShape> ParseFileContents(string fileContents)
+        public static List<ShapeObject> ParseFileContents(string fileContents)
         {
             return ProcessNodesIntoShapelist(Parse(fileContents));
         }
 
 
-        private static List<IShape> ProcessNodesIntoShapelist(Queue<BaseNode> nodes)
+        private static List<ShapeObject> ProcessNodesIntoShapelist(Queue<BaseNode> nodes)
         {
-            List<IShape> shapeList = new List<IShape>();
+            List<ShapeObject> shapeList = new List<ShapeObject>();
 
             while (nodes.Count > 0)
             {
                 BaseNode node = nodes.Dequeue();
-                IShape shapeToAdd = null;
+                ShapeObject shapeToAdd = null;
                 string nodeName = node.Name;
                 string[] splitNodeName = nodeName.Split(' ');
                 bool IsShape = node.Name.Contains("ellipse") || node.Name.Contains("rectangle");

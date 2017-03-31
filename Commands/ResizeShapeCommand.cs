@@ -1,15 +1,16 @@
 ﻿using GraphicalEditor.Interfaces;
+using GraphicalEditor.Shapes;
 using System.Drawing;
 
 namespace GraphicalEditor.Commands
 {
     class ResizeShapeCommand : ICommand
     {
-        private IShape shape;
+        private ShapeObject shape;
         private Rectangle newBounds;
         private Rectangle previousBounds;
 
-        public ResizeShapeCommand(IShape shape, Rectangle previousBounds, Rectangle newBounds)
+        public ResizeShapeCommand(ShapeObject shape, Rectangle previousBounds, Rectangle newBounds)
         {
             this.shape = shape;
             this.previousBounds = previousBounds;

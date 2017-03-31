@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
-using System.Drawing.Imaging;
 using System.IO;
-using System.Collections.Generic;
 using GraphicalEditor.Shapes;
 using static GraphicalEditor.DrawHandler;
 using GraphicalEditor.Interfaces;

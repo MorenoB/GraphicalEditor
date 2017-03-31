@@ -1,5 +1,4 @@
 ﻿using GraphicalEditor.Interfaces;
-using System;
 using System.Collections.Generic;
 namespace GraphicalEditor
 {

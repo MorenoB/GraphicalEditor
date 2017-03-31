@@ -1,6 +1,5 @@
 ﻿using System.Drawing;
 using System.Windows.Forms;
-using GraphicalEditor.Interfaces;
 using static GraphicalEditor.DrawHandler;
 
 namespace GraphicalEditor.Shapes
@@ -9,7 +8,7 @@ namespace GraphicalEditor.Shapes
     {
         public const int BOX_SIZE = 3;
 
-        public GrabHandles(IShape parentShape)
+        public GrabHandles(ShapeObject parentShape)
         {
             this.BorderWidth = 4;
             this.SetBounds(parentShape.Bounds);
