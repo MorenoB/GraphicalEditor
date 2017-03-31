@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GraphicalEditor.Util;
+using System;
 using System.Drawing;
 
 namespace GraphicalEditor.Shapes
@@ -7,13 +8,18 @@ namespace GraphicalEditor.Shapes
     {
         public virtual Size Size
         {
-            get { return this.Bounds.Size; }
+            get { return Bounds.Size; }
             set
             {
-                if (this.Bounds.Size == value) return;
-                Rectangle rect = this.Bounds;
+                if (Bounds.Size == value) return;
+                Rectangle rect = Bounds;
+
+                value.Width.Clamp(MinimumSize.Width, int.MaxValue);
+                value.Height.Clamp(MinimumSize.Height, int.MaxValue);
+
                 rect.Size = value;
-                this.Bounds = rect;
+
+                Bounds = rect;
             }
         }
 
@@ -23,8 +29,9 @@ namespace GraphicalEditor.Shapes
             get { return minimumSize; }
             set
             {
-                if (value.Width < 0 || value.Height < 0)
-                    throw new ArgumentOutOfRangeException("MinimumSize Width or Height must be at least zero.");
+                value.Width.Clamp(0, int.MaxValue);
+                value.Height.Clamp(0, int.MaxValue);
+
                 minimumSize = value;
             }
         }
@@ -33,14 +40,14 @@ namespace GraphicalEditor.Shapes
         {
             get
             {
-                return this.Bounds.Location; ;
+                return Bounds.Location; ;
             }
             set
             {
-                if (this.Bounds.Location == value) return;
-                Rectangle rect = this.Bounds;
+                if (Bounds.Location == value) return;
+                Rectangle rect = Bounds;
                 rect.Location = value;
-                this.Bounds = rect;
+                Bounds = rect;
             }
         }
 
@@ -74,7 +81,7 @@ namespace GraphicalEditor.Shapes
             set
             {
                 bounds = value;
-                this.GrabHandles.SetBounds(value);
+                GrabHandles.SetBounds(value);
             }
         }
 
