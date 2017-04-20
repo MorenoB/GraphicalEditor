@@ -61,6 +61,8 @@ namespace GraphicalEditor.Shapes
             set
             {
                 isSelected = value;
+
+                UpdateSelectionBounds();
             }
         }
 
@@ -83,7 +85,7 @@ namespace GraphicalEditor.Shapes
                 SetChildBounds(value);
 
                 bounds = value;
-                SetSelectionBounds(value);
+                UpdateSelectionBounds();
             }
         }
 
@@ -144,12 +146,19 @@ namespace GraphicalEditor.Shapes
             }
         }
 
+        public List<ShapeObject> ChildShapes
+        {
+            get
+            {
+                return childShapes;
+            }
+        }
         private readonly List<ShapeObject> childShapes = new List<ShapeObject>();
 
         public bool WasClicked(Point p)
         {
-            return p.X >= Location.X && p.X < Location.X + Size.Width
-                && p.Y >= Location.Y && p.Y < Location.Y + Size.Height;
+            return p.X >= Bounds.Location.X && p.X < Bounds.Location.X + Bounds.Size.Width
+                && p.Y >= Bounds.Location.Y && p.Y < Bounds.Location.Y + Bounds.Size.Height;
         }
 
         public DrawHandler.HitStatus GetHitStatus(Point p)
@@ -180,20 +189,22 @@ namespace GraphicalEditor.Shapes
             }
         }
 
-        private void SetSelectionBounds(Rectangle newBounds)
+        private void UpdateSelectionBounds()
         {
-            if (!HasChildren)
-            {
-                GrabHandles.SetBounds(newBounds);
-                return;
-            }
+            Rectangle combinedBounds = Bounds;
 
-            Rectangle combinedBounds = newBounds;
-            foreach( ShapeObject child in childShapes)
+            if (HasChildren)
             {
-                combinedBounds = Rectangle.Union(combinedBounds, child.bounds);
-            }
+                for (int i = 0; i < ChildShapes.Count; i++)
+                {
+                    ShapeObject child = ChildShapes[i];
 
+                    if (child == null)
+                        continue;
+
+                    combinedBounds = Rectangle.Union(combinedBounds, child.bounds);
+                }
+            }
             GrabHandles.SetBounds(combinedBounds);
         }
 

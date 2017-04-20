@@ -13,9 +13,9 @@ namespace GraphicalEditor.IO
 
         public void SaveShapes(List<ShapeObject> shapesList, string filePath)
         {
-            string fileContents = Parser.ParseShapeList(shapesList);
+            string[] linesToWrite = Parser.ParseShapeList(shapesList);
 
-            Filehandler.SaveToFile(fileContents, filePath);
+            Filehandler.SaveToFile(linesToWrite, filePath);
         }
 
         public List<ShapeObject> LoadShapes(string filePath)

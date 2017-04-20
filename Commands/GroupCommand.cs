@@ -13,7 +13,8 @@ namespace GraphicalEditor.Shapes
 
             if (shapeCollection.Count > 0)
             {
-                parentShape = shapeCollection[0];
+                parentShape = shapeCollection.Find(o => o != null);
+
                 shapeCollection.Remove(parentShape);
             }
         }

@@ -135,7 +135,7 @@ namespace GraphicalEditor
         public void AddNewShape(ShapeObject newShape)
         {
             shapeList.Add(newShape);
-            selectedShapes.Add(newShape);
+            AddToSelection(newShape);
         }
 
         public void DeleteShape(ShapeObject shapeToDelete)
@@ -153,14 +153,14 @@ namespace GraphicalEditor
             }
         }
 
-        private void ClearSelection()
+        public void ClearSelection()
         {
             foreach(ShapeObject shape in SelectedShapes)
             {
                 shape.IsSelected = false;
             }
 
-            selectedShapes.Clear();
+            SelectedShapes.Clear();
         }
 
         private void AddToSelection(ShapeObject shape)

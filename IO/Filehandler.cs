@@ -13,9 +13,17 @@ namespace GraphicalEditor.IO
             return fileContents;
         }
 
-        public static void SaveToFile(string input, string filePath)
+        public static void SaveToFile(string[] input, string filePath)
         {
-            File.WriteAllText(filePath, input);
+            using (StreamWriter file = new StreamWriter(filePath))
+            {
+                foreach (string line in input)
+                {
+                   file.WriteLine(line);
+                    
+                }
+            }
+          //  File.WriteAllText(filePath, input);
         }
 
     }

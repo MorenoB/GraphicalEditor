@@ -445,11 +445,13 @@ namespace GraphicalEditor
         private void Button_Undo_Click(object sender, EventArgs e)
         {
             commandHandler.Undo();
+            DrawHandlerInstance.ClearSelection();
         }
 
         private void Button_Redo_Click(object sender, EventArgs e)
         {
             commandHandler.Redo();
+            DrawHandlerInstance.ClearSelection();
         }
         #endregion
     }

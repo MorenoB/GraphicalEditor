@@ -9,7 +9,7 @@ namespace GraphicalEditor.IO
     class Parser
     {
         static readonly string testFileString =
-        @"group 2 
+@"group 2 
   ornament top
   ellipse 100 100 20 50 
   group 3 
@@ -56,7 +56,7 @@ namespace GraphicalEditor.IO
                 // Check if a root node has been determined (eg. top most parent).  If not, assign it as the root and set it as the current node.
                 if (root == null)
                 {
-                    root = GetAsElementNode(element);
+                    root = GetAsElementNodeFromString(element);
                     current = root;
                 }
                 // The root has already been determined and set as the current node.  So now we check to see what it's relationship is to the 
@@ -67,7 +67,7 @@ namespace GraphicalEditor.IO
                     previous = current;
 
                     // Create a node out of the string element.
-                    current = GetAsElementNode(element);
+                    current = GetAsElementNodeFromString(element);
 
                     // We use the depth (eg. integer representing how deep into the hierarchy we are, where 0 is the root, and 2 is the first child
                     // (This is determined by the number of dashes prefixing the element. eg. Item0 -> --Item1)) to determine the relationship. 
@@ -136,7 +136,7 @@ namespace GraphicalEditor.IO
         /// </summary>
         /// <param name="element">The parsed string element from the hierarchy string.</param>
         /// <returns></returns>
-        private static BaseNode GetAsElementNode(string element)
+        private static BaseNode GetAsElementNodeFromString(string element)
         {
             int count = element.TakeWhile(char.IsWhiteSpace).Count();
             string elementName = element;
@@ -148,33 +148,96 @@ namespace GraphicalEditor.IO
             return new BaseNode(elementName, count);
         }
 
-        public static string ParseShapeList(List<ShapeObject> shapeList)
+        private static string ParseShapeWithDepth(ShapeObject element)
         {
-            string output = "";
+            int depth = DetermineDepthRecursive(element);
+            int counter = 0;
+            string shapeStringWithDepth = string.Empty;
+
+            Console.WriteLine(string.Format("Parsed shape {0} with depth {1}", element, depth));
+
+            while (counter < depth)
+            {
+                shapeStringWithDepth += " ";
+                counter++;
+            }
+
+            shapeStringWithDepth += ParseShapeToText(element);
+            
+            return shapeStringWithDepth;
+        }
+
+        private static int DetermineDepthRecursive(ShapeObject currentShape, ShapeObject childShapeBuffer = null, int currentDepth = 0)
+        {
+            //First occurence of a group, the parent will also be in the same depth as the children since it is the same group.
+            if (currentShape.ParentShape == null && currentShape.HasChildren)
+                return 1;
+            //Root
+            else if (currentShape.ParentShape == null)
+                return currentDepth;
+            //Is a child
+            else
+            {
+                int newDepth = currentDepth + 1;
+                return DetermineDepthRecursive(currentShape.ParentShape, childShapeBuffer, newDepth);
+            }
+        }
+
+        public static string[] ParseShapeList(List<ShapeObject> shapeList)
+        {
+            List<string> output = new List<string>();
 
             foreach (ShapeObject shape in shapeList)
             {
-                string stringToAdd = "";
+                string shapeLine = ParseShapeWithDepth(shape);
 
-                
-                string suffix = " " + shape.Location.X +
-                    " " + shape.Location.Y +
-                    " " + shape.Bounds.Width +
-                    " " + shape.Bounds.Height +
-                    " " + shape.Color.ToArgb() +
-                    '\r';
+                int depth = shapeLine.TakeWhile(char.IsWhiteSpace).Count();
 
-                if (shape is RectangleShape)
+                if(shape.HasChildren)
                 {
-                    stringToAdd = "rectangle" + suffix;
-                }
-                else if (shape is EllipseShape)
-                {
-                    stringToAdd = "ellipse" + suffix;
+                    //'Group' string is always one layer above the actual depth.
+                    int counter = 0;
+                    string groupString = "";
+
+                    while(counter < depth)
+                    {
+                        groupString += " ";
+                        counter++;
+                    }
+
+                    groupString += "group " + shape.ChildShapes.Count;
+
+                    output.Add(groupString);
                 }
 
-                output += stringToAdd;
+                output.Add(shapeLine);
+
             }
+
+            return output.ToArray();
+        }
+
+        private static string ParseShapeToText(ShapeObject shape)
+        {
+            string output = string.Empty;
+
+            if (shape is RectangleShape)
+            {
+                output += "rectangle";
+            }
+            else if (shape is EllipseShape)
+            {
+                output += "ellipse";
+            }
+
+            // Shape!
+            output += string.Format(" {0} {1} {2} {3} {4}",
+                new object[] { shape.Location.X.ToString(),
+                    shape.Location.Y.ToString(),
+                shape.Bounds.Width.ToString(),
+                shape.Bounds.Height.ToString(),
+                shape.Color.ToArgb().ToString()
+                });
 
             return output;
         }
@@ -205,7 +268,7 @@ namespace GraphicalEditor.IO
                     int width = 100;
                     int height = 100;
                     int argb = 0;
-                    
+
 
                     int.TryParse(splitNodeName[1], out x);
                     int.TryParse(splitNodeName[2], out y);
