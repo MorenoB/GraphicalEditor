@@ -86,7 +86,7 @@ namespace GraphicalEditor
         {
             if (!DrawHandlerInstance.HasSelectedAShape)
             {
-                this.Cursor = Cursors.Default;
+                Cursor = Cursors.Default;
                 return;
             }
 

@@ -6,10 +6,10 @@ namespace GraphicalEditor.Shapes
     {
         public EllipseShape(Color color, Point location, int width, int height)
         {
-            this.Size = new Size(width, height);
-            this.Color = color;
-            this.Location = location;
-            this.MinimumSize = new Size(Constants.SHAPE_MINIMUM_WIDTH, Constants.SHAPE_MINIMUM_HEIGHT);
+            Size = new Size(width, height);
+            Color = color;
+            Location = location;
+            MinimumSize = new Size(Constants.SHAPE_MINIMUM_WIDTH, Constants.SHAPE_MINIMUM_HEIGHT);
         }
 
         public override void Draw(Graphics g)

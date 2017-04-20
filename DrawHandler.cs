@@ -205,35 +205,35 @@ namespace GraphicalEditor
             switch (hitStatus)
             {
                 case HitStatus.ResizeBottomLeft:
-                    this.ResizeBottomLeft(x, y);
+                    ResizeBottomLeft(x, y);
                     break;
 
                 case HitStatus.ResizeBottomRight:
-                    this.ResizeBottomRight(x, y);
+                    ResizeBottomRight(x, y);
                     break;
 
                 case HitStatus.ResizeTopLeft:
-                    this.ResizeTopLeft(x, y);
+                    ResizeTopLeft(x, y);
                     break;
 
                 case HitStatus.ResizeTopRight:
-                    this.ResizeTopRight(x, y);
+                    ResizeTopRight(x, y);
                     break;
 
                 case HitStatus.ResizeLeft:
-                    this.ResizeLeft(x, y);
+                    ResizeLeft(x, y);
                     break;
 
                 case HitStatus.ResizeRight:
-                    this.ResizeRight(x, y);
+                    ResizeRight(x, y);
                     break;
 
                 case HitStatus.ResizeTop:
-                    this.ResizeTop(x, y);
+                    ResizeTop(x, y);
                     break;
 
                 case HitStatus.ResizeBottom:
-                    this.ResizeBottom(x, y);
+                    ResizeBottom(x, y);
                     break;
             }
         }

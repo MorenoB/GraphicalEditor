@@ -1,7 +1,5 @@
 ﻿using GraphicalEditor.Composite;
-using GraphicalEditor.Interfaces;
 using GraphicalEditor.Util;
-using System.Collections.Generic;
 using System.Drawing;
 
 namespace GraphicalEditor.Shapes

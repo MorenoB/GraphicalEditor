@@ -1,5 +1,4 @@
 ﻿using GraphicalEditor.Interfaces;
-using GraphicalEditor.Shapes;
 using System.Drawing;
 
 namespace GraphicalEditor.Commands
