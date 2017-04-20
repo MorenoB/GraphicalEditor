@@ -371,7 +371,7 @@ namespace GraphicalEditor
             o.Filter = "Graphic files|*.graphic";
             if (o.ShowDialog() == DialogResult.OK)
             {
-                commandHandler.AddCommand(new LoadCommand(DrawHandlerInstance.ShapeList, saveLoad.LoadShapes(o.FileName)));
+            //    commandHandler.AddCommand(new LoadCommand(DrawHandlerInstance.ShapeList, saveLoad.LoadShapes(o.FileName)));
             }
         }
 
@@ -387,7 +387,7 @@ namespace GraphicalEditor
                     File.Delete(s.FileName);
                 }
 
-                saveLoad.SaveShapes(DrawHandlerInstance.ShapeList, s.FileName);
+            //    saveLoad.SaveShapes(DrawHandlerInstance.ShapeList, s.FileName);
             }
         }
 

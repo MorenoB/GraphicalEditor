@@ -1,22 +1,18 @@
-﻿using GraphicalEditor.Interfaces;
+﻿using GraphicalEditor.Composite;
+using GraphicalEditor.Interfaces;
 using System.Collections.Generic;
 
 namespace GraphicalEditor.Shapes
 {
     class GroupCommand : ICommand
     {
-        private List<ShapeObject> shapeCollection = new List<ShapeObject>();
-        private ShapeObject parentShape;
-        public GroupCommand(List<ShapeObject> shapeCollection)
+        private List<IShapeComponent> shapeCollection = new List<IShapeComponent>();
+        private ShapeComposite parentShape;
+        public GroupCommand(List<IShapeComponent> shapeCollection)
         {
             this.shapeCollection = shapeCollection;
 
-            if (shapeCollection.Count > 0)
-            {
-                parentShape = shapeCollection.Find(o => o != null);
-
-                shapeCollection.Remove(parentShape);
-            }
+            parentShape = new ShapeComposite();
         }
 
         public void Execute()
@@ -24,10 +20,16 @@ namespace GraphicalEditor.Shapes
             if (shapeCollection.Count < 1)
                 return;
 
-            foreach(ShapeObject shape in shapeCollection)
+            foreach(IShapeComponent shape in shapeCollection)
             {
-                parentShape.AddChild(shape);
+                parentShape.Add(shape);
             }
+
+            DrawHandler.Instance.ClearSelection();
+
+            parentShape.UpdateSelectionBounds();
+
+            DrawHandler.Instance.AddNewShape(parentShape);
         }
 
         public void Undo()
@@ -35,10 +37,14 @@ namespace GraphicalEditor.Shapes
             if (shapeCollection.Count < 1)
                 return;
 
-            foreach (ShapeObject shape in shapeCollection)
+            foreach (IShapeComponent shape in shapeCollection)
             {
-                parentShape.RemoveChild(shape);
+                parentShape.Delete(shape);
             }
+
+            DrawHandler.Instance.ClearSelection();
+            
+            DrawHandler.Instance.DeleteShape(parentShape);
         }
     }
 }

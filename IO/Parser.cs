@@ -169,6 +169,8 @@ namespace GraphicalEditor.IO
 
         private static int DetermineDepthRecursive(ShapeObject currentShape, ShapeObject childShapeBuffer = null, int currentDepth = 0)
         {
+            return 0;
+            /*
             //First occurence of a group, the parent will also be in the same depth as the children since it is the same group.
             if (currentShape.ParentShape == null && currentShape.HasChildren)
                 return 1;
@@ -181,12 +183,13 @@ namespace GraphicalEditor.IO
                 int newDepth = currentDepth + 1;
                 return DetermineDepthRecursive(currentShape.ParentShape, childShapeBuffer, newDepth);
             }
+            */
         }
 
         public static string[] ParseShapeList(List<ShapeObject> shapeList)
         {
             List<string> output = new List<string>();
-
+            /*
             foreach (ShapeObject shape in shapeList)
             {
                 string shapeLine = ParseShapeWithDepth(shape);
@@ -213,7 +216,7 @@ namespace GraphicalEditor.IO
                 output.Add(shapeLine);
 
             }
-
+            */
             return output.ToArray();
         }
 

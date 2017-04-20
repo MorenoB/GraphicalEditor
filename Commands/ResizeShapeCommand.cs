@@ -6,11 +6,11 @@ namespace GraphicalEditor.Commands
 {
     class ResizeShapeCommand : ICommand
     {
-        private ShapeObject shape;
+        private IShapeComponent shape;
         private Rectangle newBounds;
         private Rectangle previousBounds;
 
-        public ResizeShapeCommand(ShapeObject shape, Rectangle previousBounds, Rectangle newBounds)
+        public ResizeShapeCommand(IShapeComponent shape, Rectangle previousBounds, Rectangle newBounds)
         {
             this.shape = shape;
             this.previousBounds = previousBounds;

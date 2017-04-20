@@ -6,11 +6,11 @@ namespace GraphicalEditor.Commands
 {
     class MoveShapeCommand : ICommand
     {
-        private ShapeObject shape;
+        private IShapeComponent shape;
         private Point previousLocation;
         private Point newLocation;
 
-        public MoveShapeCommand(ShapeObject shape, Point previousLocation, Point newLocation)
+        public MoveShapeCommand(IShapeComponent shape, Point previousLocation, Point newLocation)
         {
             this.shape = shape;
             this.previousLocation = previousLocation;

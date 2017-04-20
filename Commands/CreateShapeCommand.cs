@@ -5,10 +5,10 @@ namespace GraphicalEditor.Commands
 {
     class CreateShapeCommand : ICommand
     {
-        ShapeObject shapeToCreate;
+        IShapeComponent shapeToCreate;
 
 
-        public CreateShapeCommand(ShapeObject shapeToCreate)
+        public CreateShapeCommand(IShapeComponent shapeToCreate)
         {
             this.shapeToCreate = shapeToCreate;
         }

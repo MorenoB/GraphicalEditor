@@ -52,6 +52,8 @@
     <Compile Include="Commands\LoadCommand.cs" />
     <Compile Include="Commands\MoveShapeCommand.cs" />
     <Compile Include="Commands\ResizeShapeCommand.cs" />
+    <Compile Include="Composite\ShapeComposite.cs" />
+    <Compile Include="Interfaces\IShapeComponent.cs" />
     <Compile Include="DrawHandler.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>

@@ -1,4 +1,5 @@
-﻿using GraphicalEditor.Shapes;
+﻿using GraphicalEditor.Interfaces;
+using GraphicalEditor.Shapes;
 using GraphicalEditor.Util;
 using System.Collections.Generic;
 using System.Drawing;
@@ -7,8 +8,8 @@ namespace GraphicalEditor
 {
     public sealed class DrawHandler
     {
-        private List<ShapeObject> shapeList = new List<ShapeObject>();
-        public List<ShapeObject> ShapeList
+        private List<IShapeComponent> shapeList = new List<IShapeComponent>();
+        public List<IShapeComponent> ShapeList
         {
             get
             {
@@ -32,8 +33,8 @@ namespace GraphicalEditor
 
         private static readonly DrawHandler instance = new DrawHandler();
 
-        private List<ShapeObject> selectedShapes = new List<ShapeObject>();
-        public List<ShapeObject> SelectedShapes
+        private List<IShapeComponent> selectedShapes = new List<IShapeComponent>();
+        public List<IShapeComponent> SelectedShapes
         {
             get
             {
@@ -41,7 +42,7 @@ namespace GraphicalEditor
             }
         }
 
-        public ShapeObject SelectedShape
+        public IShapeComponent SelectedShape
         {
             get
             {
@@ -132,30 +133,20 @@ namespace GraphicalEditor
             }
         }
 
-        public void AddNewShape(ShapeObject newShape)
+        public void AddNewShape(IShapeComponent newShape)
         {
-            shapeList.Add(newShape);
+            ShapeList.Add(newShape);
             AddToSelection(newShape);
         }
 
-        public void DeleteShape(ShapeObject shapeToDelete)
+        public void DeleteShape(IShapeComponent shapeToDelete)
         {
-            for (int i = 0; i < shapeList.Count; i++)
-            {
-                ShapeObject shape = shapeList[i];
-
-                if (shape == null)
-                    continue;
-
-                if (shape.ID == shapeToDelete.ID)
-                    shapeList.RemoveAt(i);
-
-            }
+            ShapeList.Remove(shapeToDelete);
         }
 
         public void ClearSelection()
         {
-            foreach(ShapeObject shape in SelectedShapes)
+            foreach(IShapeComponent shape in SelectedShapes)
             {
                 shape.IsSelected = false;
             }
@@ -163,7 +154,7 @@ namespace GraphicalEditor
             SelectedShapes.Clear();
         }
 
-        private void AddToSelection(ShapeObject shape)
+        private void AddToSelection(IShapeComponent shape)
         {
             if (SelectedShapes.Contains(shape))
                 return;
@@ -173,28 +164,28 @@ namespace GraphicalEditor
             selectedShapes.Add(shape);
         }
 
-        public ShapeObject SelectShapeFromPoint(Point clickedPoint)
+        public IShapeComponent SelectShapeFromPoint(Point clickedPoint)
         {
-            for (int i = 0; i < shapeList.Count; i++)
+            List<IShapeComponent> clickedShapes = ShapeList.FindAll(o => o.WasClicked(clickedPoint));
+            IShapeComponent groupShape = clickedShapes.Find(o => o.HasChildren);
+
+            if (groupShape != null)
             {
-                ShapeObject shape = shapeList[i];
+                AddToSelection(groupShape);
+                return groupShape;
+            }
+
+            for (int i = 0; i < clickedShapes.Count; i++)
+            {
+                IShapeComponent shape = clickedShapes[i];
                 if (shape == null) continue;
 
-                if (shape.WasClicked(clickedPoint))
-                {
-                    if (selectedShapes.Contains(shape))
+                if (selectedShapes.Contains(shape))
                         continue;
 
-                    if (shape.ParentShape != null)
-                    {
-                        ClearSelection();
-                        AddToSelection(shape.ParentShape);
-                        return shape.ParentShape;
-                    }
-
-                    AddToSelection(shape);
-                    return shape;
-                }
+                AddToSelection(shape);
+                return shape;
+                
             }
 
             //We haven't detected a click on any shape.
@@ -395,7 +386,7 @@ namespace GraphicalEditor
         {
             for (int i = 0; i < shapeList.Count; i++)
             {
-                ShapeObject shape = shapeList[i];
+                IShapeComponent shape = shapeList[i];
 
                 if (shape == null) continue;
 
