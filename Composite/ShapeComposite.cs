@@ -4,6 +4,7 @@ using System.Drawing;
 using GraphicalEditor.Shapes;
 using static GraphicalEditor.DrawHandler;
 using GraphicalEditor.Util;
+using System;
 
 namespace GraphicalEditor.Composite
 {
@@ -81,11 +82,50 @@ namespace GraphicalEditor.Composite
             }
         }
 
+        private Color color;
+        public virtual Color Color
+        {
+            get
+            {
+                return color;
+            }
+            protected set
+            {
+                if (color == value)
+                    return;
+
+                color = value;
+            }
+        }
+
         public bool HasChildren
         {
             get
             {
                 return shapes.Count > 0;
+            }
+        }
+
+        public bool IsRoot
+        {
+            get
+            {
+                return Parent == null;
+            }
+        }
+
+        private IShapeComponent parent;
+        public IShapeComponent Parent
+        {
+            get
+            {
+                return parent;
+            }
+
+            set
+            {
+                if (parent != value)
+                    parent = value;
             }
         }
 
@@ -105,11 +145,14 @@ namespace GraphicalEditor.Composite
         public void Add(IShapeComponent shape)
         {
             shapes.Add(shape);
+            shape.Parent = this;
         }
 
         public void Delete(IShapeComponent shape)
         {
             shapes.Remove(shape);
+
+            shape.Parent = null;
         }
 
         public bool WasClicked(Point p)
@@ -160,6 +203,21 @@ namespace GraphicalEditor.Composite
             Rectangle combinedBounds = Bounds;
 
             GrabHandles.SetBounds(combinedBounds);
+        }
+
+        public virtual List<string> GetNameListByDepth(int depth)
+        {
+            List<string> nameList = new List<string>();
+            string name = new string(' ', depth) + "group " + shapes.Count;
+
+            nameList.Add(name);
+
+            foreach(IShapeComponent shape in shapes)
+            {
+                nameList.AddRange(shape.GetNameListByDepth(depth + 1));
+            }
+
+            return nameList;
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using GraphicalEditor.Shapes;
+﻿using GraphicalEditor.Interfaces;
+using GraphicalEditor.Shapes;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -148,79 +149,20 @@ namespace GraphicalEditor.IO
             return new BaseNode(elementName, count);
         }
 
-        private static string ParseShapeWithDepth(ShapeObject element)
-        {
-            int depth = DetermineDepthRecursive(element);
-            int counter = 0;
-            string shapeStringWithDepth = string.Empty;
-
-            Console.WriteLine(string.Format("Parsed shape {0} with depth {1}", element, depth));
-
-            while (counter < depth)
-            {
-                shapeStringWithDepth += " ";
-                counter++;
-            }
-
-            shapeStringWithDepth += ParseShapeToText(element);
-            
-            return shapeStringWithDepth;
-        }
-
-        private static int DetermineDepthRecursive(ShapeObject currentShape, ShapeObject childShapeBuffer = null, int currentDepth = 0)
-        {
-            return 0;
-            /*
-            //First occurence of a group, the parent will also be in the same depth as the children since it is the same group.
-            if (currentShape.ParentShape == null && currentShape.HasChildren)
-                return 1;
-            //Root
-            else if (currentShape.ParentShape == null)
-                return currentDepth;
-            //Is a child
-            else
-            {
-                int newDepth = currentDepth + 1;
-                return DetermineDepthRecursive(currentShape.ParentShape, childShapeBuffer, newDepth);
-            }
-            */
-        }
-
-        public static string[] ParseShapeList(List<ShapeObject> shapeList)
+        public static string[] ParseShapeList(List<IShapeComponent> shapeList)
         {
             List<string> output = new List<string>();
-            /*
-            foreach (ShapeObject shape in shapeList)
+
+            List<IShapeComponent> rootShapes = shapeList.FindAll(o => o.IsRoot);
+
+            foreach (IShapeComponent rootShape in rootShapes)
             {
-                string shapeLine = ParseShapeWithDepth(shape);
-
-                int depth = shapeLine.TakeWhile(char.IsWhiteSpace).Count();
-
-                if(shape.HasChildren)
-                {
-                    //'Group' string is always one layer above the actual depth.
-                    int counter = 0;
-                    string groupString = "";
-
-                    while(counter < depth)
-                    {
-                        groupString += " ";
-                        counter++;
-                    }
-
-                    groupString += "group " + shape.ChildShapes.Count;
-
-                    output.Add(groupString);
-                }
-
-                output.Add(shapeLine);
-
+                output.AddRange(rootShape.GetNameListByDepth(0));
             }
-            */
             return output.ToArray();
         }
 
-        private static string ParseShapeToText(ShapeObject shape)
+        public static string ParseShapeToText(IShapeComponent shape)
         {
             string output = string.Empty;
 
@@ -246,15 +188,15 @@ namespace GraphicalEditor.IO
         }
 
 
-        public static List<ShapeObject> ParseFileContents(string fileContents)
+        public static List<IShapeComponent> ParseFileContents(string fileContents)
         {
             return ProcessNodesIntoShapelist(Parse(fileContents));
         }
 
 
-        private static List<ShapeObject> ProcessNodesIntoShapelist(Queue<BaseNode> nodes)
+        private static List<IShapeComponent> ProcessNodesIntoShapelist(Queue<BaseNode> nodes)
         {
-            List<ShapeObject> shapeList = new List<ShapeObject>();
+            List<IShapeComponent> shapeList = new List<IShapeComponent>();
 
             while (nodes.Count > 0)
             {

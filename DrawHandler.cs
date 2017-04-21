@@ -120,14 +120,14 @@ namespace GraphicalEditor
             SelectedShape.Location = newPoint;
         }
 
-        public void InsertNewShapeList(List<ShapeObject> newShapeList)
+        public void InsertNewShapeList(List<IShapeComponent> newShapeList)
         {
             if (HasSelectedAShape)
                 ClearSelection();
 
             shapeList.Clear();
 
-            foreach(ShapeObject shape in newShapeList)
+            foreach(IShapeComponent shape in newShapeList)
             {
                 shapeList.Add(shape);
             }

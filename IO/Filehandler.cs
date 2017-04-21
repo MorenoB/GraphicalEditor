@@ -23,7 +23,6 @@ namespace GraphicalEditor.IO
                     
                 }
             }
-          //  File.WriteAllText(filePath, input);
         }
 
     }

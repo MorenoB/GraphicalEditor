@@ -6,10 +6,10 @@ namespace GraphicalEditor.Commands
 {
     class LoadCommand : ICommand
     {
-        List<ShapeObject> oldShapelist = new List<ShapeObject>();
-        List<ShapeObject> newShapelist = new List<ShapeObject>();
+        List<IShapeComponent> oldShapelist = new List<IShapeComponent>();
+        List<IShapeComponent> newShapelist = new List<IShapeComponent>();
 
-        public LoadCommand(List<ShapeObject> oldShapelist, List<ShapeObject> newShapelist)
+        public LoadCommand(List<IShapeComponent> oldShapelist, List<IShapeComponent> newShapelist)
         {
             this.oldShapelist = oldShapelist;
             this.newShapelist = newShapelist;

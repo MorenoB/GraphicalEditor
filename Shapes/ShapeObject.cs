@@ -1,5 +1,7 @@
 ﻿using GraphicalEditor.Composite;
+using GraphicalEditor.IO;
 using GraphicalEditor.Util;
+using System.Collections.Generic;
 using System.Drawing;
 
 namespace GraphicalEditor.Shapes
@@ -23,20 +25,16 @@ namespace GraphicalEditor.Shapes
             }
         }
 
-        private Color color;
-        public virtual Color Color
+        public override List<string> GetNameListByDepth(int depth)
         {
-            get
-            {
-                return color;
-            }
-            protected set
-            {
-                if (color == value)
-                    return;
+            List<string> nameList = new List<string>();
 
-                color = value;
-            }
+            string name = new string(' ', depth);
+            name += Parser.ParseShapeToText(this);
+
+            nameList.Add(name);
+
+            return nameList;
         }
     }
 }

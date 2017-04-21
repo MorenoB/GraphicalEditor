@@ -1,27 +1,22 @@
-﻿using GraphicalEditor.Shapes;
+﻿using GraphicalEditor.Interfaces;
+using GraphicalEditor.Shapes;
 using System.Collections.Generic;
 
 namespace GraphicalEditor.IO
 {
     class SaveLoadController
     {
-
-        public SaveLoadController()
-        {
-
-        }
-
-        public void SaveShapes(List<ShapeObject> shapesList, string filePath)
+        public void SaveShapes(List<IShapeComponent> shapesList, string filePath)
         {
             string[] linesToWrite = Parser.ParseShapeList(shapesList);
 
             Filehandler.SaveToFile(linesToWrite, filePath);
         }
 
-        public List<ShapeObject> LoadShapes(string filePath)
+        public List<IShapeComponent> LoadShapes(string filePath)
         {
             string fileContents = Filehandler.ProcessFile(filePath);
-            List<ShapeObject> shapeList = new List<ShapeObject>();
+            List<IShapeComponent> shapeList = new List<IShapeComponent>();
 
             shapeList = Parser.ParseFileContents(fileContents);
 
