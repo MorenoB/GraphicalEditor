@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
-using System.Drawing.Imaging;
 using System.IO;
-using System.Collections.Generic;
 using GraphicalEditor.Shapes;
 using static GraphicalEditor.DrawHandler;
 using GraphicalEditor.Interfaces;
@@ -44,7 +42,7 @@ namespace GraphicalEditor
 
                 currentTool = value;
 
-                label_SelectedTool.Text = "Selected Tool: " + currentTool.ToString();
+                label_SelectedTool.Text = string.Format("Selected Tool: {0} " , currentTool.ToString());
 
                 UpdateToolButtonsCheckedState();
             }
@@ -74,7 +72,7 @@ namespace GraphicalEditor
 
         public enum ToolItem
         {
-            Rectangle, Ellipse, Line, Brush, Pencil, Eraser, ColorPicker, Selecter, None
+            Rectangle, Ellipse, Line, Brush, Pencil, ColorPicker, Selecter, None
         }
 
         private void UpdateHitStatus(Point currentPoint)
@@ -88,7 +86,7 @@ namespace GraphicalEditor
         {
             if (!DrawHandlerInstance.HasSelectedAShape)
             {
-                this.Cursor = Cursors.Default;
+                Cursor = Cursors.Default;
                 return;
             }
 
@@ -130,7 +128,6 @@ namespace GraphicalEditor
 
             Button_Brush.Checked = false;
             Button_Ellipse.Checked = false;
-            Button_Eraser.Checked = false;
             Button_Line.Checked = false;
             Button_Pencil.Checked = false;
             Button_Rectangle.Checked = false;
@@ -144,10 +141,6 @@ namespace GraphicalEditor
 
                 case ToolItem.Ellipse:
                     Button_Ellipse.Checked = true;
-                    break;
-
-                case ToolItem.Eraser:
-                    Button_Eraser.Checked = true;
                     break;
 
                 case ToolItem.Line:
@@ -287,9 +280,16 @@ namespace GraphicalEditor
                     case ToolItem.None:
 
                         if (DrawHandlerInstance.CurrentHitStatus == HitStatus.Drag)
-                            commandHandler.AddCommand(new MoveShapeCommand(DrawHandlerInstance.SelectedShape, dragMouseLocation, e.Location));
-                        else
-                            commandHandler.AddCommand(new ResizeShapeCommand(DrawHandlerInstance.SelectedShape, previousShapeBounds, newShapeBounds));
+                        {
+                            ICommand MoveCommand = new MoveShapeCommand(DrawHandlerInstance.SelectedShape, dragMouseLocation, e.Location);
+                            commandHandler.AddCommand(MoveCommand);
+
+                        }
+                        else if (DrawHandlerInstance.CurrentHitStatus != HitStatus.None)
+                        {
+                            ICommand ResizeCommand = new ResizeShapeCommand(DrawHandlerInstance.SelectedShape, previousShapeBounds, newShapeBounds);
+                            commandHandler.AddCommand(ResizeCommand);
+                        }
                         break;
                 }
 
@@ -339,9 +339,13 @@ namespace GraphicalEditor
             CurrentTool = ToolItem.Pencil;
         }
 
-        private void Button_Eraser_Click(object sender, EventArgs e)
+        private void Button_Group_Click(object sender, EventArgs e)
         {
-            CurrentTool = ToolItem.Eraser;
+            if (!DrawHandlerInstance.HasSelectedAShape)
+                return;
+
+            ICommand groupCommand = new GroupCommand(DrawHandlerInstance.SelectedShapes);
+            commandHandler.AddCommand(groupCommand);
         }
 
         private void Button_line_Click(object sender, EventArgs e)
@@ -383,7 +387,7 @@ namespace GraphicalEditor
                     File.Delete(s.FileName);
                 }
 
-                saveLoad.SaveShapes(DrawHandlerInstance.ShapeList, s.FileName);
+            saveLoad.SaveShapes(DrawHandlerInstance.ShapeList, s.FileName);
             }
         }
 
@@ -391,21 +395,21 @@ namespace GraphicalEditor
         {
             PaintColor = Color.FromArgb(Trackbar_Colorpicker_Alpha.Value, Trackbar_ColorPicker_Red.Value, Trackbar_Colorpicker_Green.Value, Trackbar_Colorpicker_Blue.Value);
             Picturebox_CurrentColor.BackColor = PaintColor;
-            Label_Colorpicker_redval.Text = "R: " + PaintColor.R.ToString();
+            Label_Colorpicker_redval.Text = string.Format("R: {0} ", PaintColor.R.ToString());
         }
 
         private void Trackbar_ColorPicker_Green_Scroll(object sender, EventArgs e)
         {
             PaintColor = Color.FromArgb(Trackbar_Colorpicker_Alpha.Value, Trackbar_ColorPicker_Red.Value, Trackbar_Colorpicker_Green.Value, Trackbar_Colorpicker_Blue.Value);
             Picturebox_CurrentColor.BackColor = PaintColor;
-            Label_Colorpicker_greenval.Text = "G: " + PaintColor.G.ToString();
+            Label_Colorpicker_greenval.Text = string.Format("G: {0} " , PaintColor.G.ToString());
         }
 
         private void Trackbar_ColorPicker_Blue_Scroll(object sender, EventArgs e)
         {
             PaintColor = Color.FromArgb(Trackbar_Colorpicker_Alpha.Value, Trackbar_ColorPicker_Red.Value, Trackbar_Colorpicker_Green.Value, Trackbar_Colorpicker_Blue.Value);
             Picturebox_CurrentColor.BackColor = PaintColor;
-            Label_Colorpicker_blueval.Text = "B: " + PaintColor.B.ToString();
+            Label_Colorpicker_blueval.Text = string.Format("B: {0} " , PaintColor.B.ToString());
         }
 
         private void PictureBox_DrawArea_MouseClick(object sender, MouseEventArgs e)
@@ -435,17 +439,19 @@ namespace GraphicalEditor
         {
             PaintColor = Color.FromArgb(Trackbar_Colorpicker_Alpha.Value, Trackbar_ColorPicker_Red.Value, Trackbar_Colorpicker_Green.Value, Trackbar_Colorpicker_Blue.Value);
             Picturebox_CurrentColor.BackColor = PaintColor;
-            Label_Colorpicker_alphaval.Text = "A: " + PaintColor.A.ToString();
+            Label_Colorpicker_alphaval.Text = string.Format("A: {0} ", PaintColor.A.ToString());
         }
 
         private void Button_Undo_Click(object sender, EventArgs e)
         {
             commandHandler.Undo();
+            DrawHandlerInstance.ClearSelection();
         }
 
         private void Button_Redo_Click(object sender, EventArgs e)
         {
             commandHandler.Redo();
+            DrawHandlerInstance.ClearSelection();
         }
         #endregion
     }

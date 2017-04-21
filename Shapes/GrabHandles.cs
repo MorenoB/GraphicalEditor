@@ -1,6 +1,6 @@
-﻿using System.Drawing;
+﻿using GraphicalEditor.Interfaces;
+using System.Drawing;
 using System.Windows.Forms;
-using GraphicalEditor.Interfaces;
 using static GraphicalEditor.DrawHandler;
 
 namespace GraphicalEditor.Shapes
@@ -9,10 +9,10 @@ namespace GraphicalEditor.Shapes
     {
         public const int BOX_SIZE = 3;
 
-        public GrabHandles(IShape parentShape)
+        public GrabHandles(IShapeComponent parentShape)
         {
-            this.BorderWidth = 4;
-            this.SetBounds(parentShape.Bounds);
+            BorderWidth = 4;
+            SetBounds(parentShape.Bounds);
         }
 
         public Rectangle BorderBounds { get; private set; }
@@ -21,15 +21,15 @@ namespace GraphicalEditor.Shapes
 
         public Rectangle TotalBounds
         {
-            get { return Rectangle.Union(this.TopLeft, this.BottomRight); }
+            get { return Rectangle.Union(TopLeft, BottomRight); }
         }
 
         public Rectangle TopLeft
         {
             get
             {
-                return new Rectangle(this.BorderBounds.X - BOX_SIZE,
-                                     this.BorderBounds.Y - BOX_SIZE,
+                return new Rectangle(BorderBounds.X - BOX_SIZE,
+                                     BorderBounds.Y - BOX_SIZE,
                                      2 * BOX_SIZE + 1, 2 * BOX_SIZE + 1);
             }
         }
@@ -38,8 +38,8 @@ namespace GraphicalEditor.Shapes
         {
             get
             {
-                return new Rectangle(this.BorderBounds.Right - BOX_SIZE,
-                                     this.BorderBounds.Y - BOX_SIZE,
+                return new Rectangle(BorderBounds.Right - BOX_SIZE,
+                                     BorderBounds.Y - BOX_SIZE,
                                      2 * BOX_SIZE + 1, 2 * BOX_SIZE + 1);
             }
         }
@@ -48,8 +48,8 @@ namespace GraphicalEditor.Shapes
         {
             get
             {
-                return new Rectangle(this.BorderBounds.X + this.BorderBounds.Width / 2 - BOX_SIZE,
-                                     this.BorderBounds.Y - BOX_SIZE,
+                return new Rectangle(BorderBounds.X + BorderBounds.Width / 2 - BOX_SIZE,
+                                     BorderBounds.Y - BOX_SIZE,
                                      2 * BOX_SIZE + 1, 2 * BOX_SIZE + 1);
             }
         }
@@ -58,8 +58,8 @@ namespace GraphicalEditor.Shapes
         {
             get
             {
-                return new Rectangle(this.BorderBounds.X - BOX_SIZE,
-                                     this.BorderBounds.Y + this.BorderBounds.Height / 2 - BOX_SIZE,
+                return new Rectangle(BorderBounds.X - BOX_SIZE,
+                                     BorderBounds.Y + BorderBounds.Height / 2 - BOX_SIZE,
                                      2 * BOX_SIZE + 1, 2 * BOX_SIZE + 1);
             }
         }
@@ -68,8 +68,8 @@ namespace GraphicalEditor.Shapes
         {
             get
             {
-                return new Rectangle(this.BorderBounds.Right - BOX_SIZE,
-                                     this.BorderBounds.Y + this.BorderBounds.Height / 2 - BOX_SIZE,
+                return new Rectangle(BorderBounds.Right - BOX_SIZE,
+                                     BorderBounds.Y + BorderBounds.Height / 2 - BOX_SIZE,
                                      2 * BOX_SIZE + 1, 2 * BOX_SIZE + 1);
             }
         }
@@ -78,8 +78,8 @@ namespace GraphicalEditor.Shapes
         {
             get
             {
-                return new Rectangle(this.BorderBounds.X + this.BorderBounds.Width / 2 - BOX_SIZE,
-                                     this.BorderBounds.Y + this.BorderBounds.Height / 2 - BOX_SIZE,
+                return new Rectangle(BorderBounds.X + BorderBounds.Width / 2 - BOX_SIZE,
+                                     BorderBounds.Y + BorderBounds.Height / 2 - BOX_SIZE,
                                      2 * BOX_SIZE + 1, 2 * BOX_SIZE + 1);
             }
         }
@@ -88,8 +88,8 @@ namespace GraphicalEditor.Shapes
         {
             get
             {
-                return new Rectangle(this.BorderBounds.X - BOX_SIZE,
-                                     this.BorderBounds.Bottom - BOX_SIZE,
+                return new Rectangle(BorderBounds.X - BOX_SIZE,
+                                     BorderBounds.Bottom - BOX_SIZE,
                                      2 * BOX_SIZE + 1, 2 * BOX_SIZE + 1);
             }
         }
@@ -98,8 +98,8 @@ namespace GraphicalEditor.Shapes
         {
             get
             {
-                return new Rectangle(this.BorderBounds.Right - BOX_SIZE,
-                                     this.BorderBounds.Bottom - BOX_SIZE,
+                return new Rectangle(BorderBounds.Right - BOX_SIZE,
+                                     BorderBounds.Bottom - BOX_SIZE,
                                      2 * BOX_SIZE + 1, 2 * BOX_SIZE + 1);
             }
         }
@@ -108,38 +108,38 @@ namespace GraphicalEditor.Shapes
         {
             get
             {
-                return new Rectangle(this.BorderBounds.X + this.BorderBounds.Width / 2 - BOX_SIZE,
-                                     this.BorderBounds.Bottom - BOX_SIZE,
+                return new Rectangle(BorderBounds.X + BorderBounds.Width / 2 - BOX_SIZE,
+                                     BorderBounds.Bottom - BOX_SIZE,
                                      2 * BOX_SIZE + 1, 2 * BOX_SIZE + 1);
             }
         }
 
         public void SetBounds(Rectangle shapeBounds)
         {
-            this.BorderBounds = new Rectangle(shapeBounds.X - this.BorderWidth,
-                                              shapeBounds.Y - this.BorderWidth,
-                                              shapeBounds.Width + 2 * this.BorderWidth,
-                                              shapeBounds.Height + 2 * this.BorderWidth);
+            BorderBounds = new Rectangle(shapeBounds.X - BorderWidth,
+                                              shapeBounds.Y - BorderWidth,
+                                              shapeBounds.Width + 2 * BorderWidth,
+                                              shapeBounds.Height + 2 * BorderWidth);
         }
 
         public void Draw(Graphics g, bool firstSelection)
         {
-            ControlPaint.DrawBorder(g, this.BorderBounds, ControlPaint.ContrastControlDark, ButtonBorderStyle.Dotted);
+            ControlPaint.DrawBorder(g, BorderBounds, ControlPaint.ContrastControlDark, ButtonBorderStyle.Dotted);
 
-            if (this.Locked)
+            if (Locked)
             {
-                this.DrawLock(g);
+                DrawLock(g);
             }
             else
             {
-                this.DrawGrabHandle(g, this.TopLeft, firstSelection);
-                this.DrawGrabHandle(g, this.TopMiddle, firstSelection);
-                this.DrawGrabHandle(g, this.TopRight, firstSelection);
-                this.DrawGrabHandle(g, this.MiddleLeft, firstSelection);
-                this.DrawGrabHandle(g, this.MiddleRight, firstSelection);
-                this.DrawGrabHandle(g, this.BottomLeft, firstSelection);
-                this.DrawGrabHandle(g, this.BottomMiddle, firstSelection);
-                this.DrawGrabHandle(g, this.BottomRight, firstSelection);
+                DrawGrabHandle(g, TopLeft, firstSelection);
+                DrawGrabHandle(g, TopMiddle, firstSelection);
+                DrawGrabHandle(g, TopRight, firstSelection);
+                DrawGrabHandle(g, MiddleLeft, firstSelection);
+                DrawGrabHandle(g, MiddleRight, firstSelection);
+                DrawGrabHandle(g, BottomLeft, firstSelection);
+                DrawGrabHandle(g, BottomMiddle, firstSelection);
+                DrawGrabHandle(g, BottomRight, firstSelection);
             }
         }
 
@@ -168,7 +168,7 @@ namespace GraphicalEditor.Shapes
 
         private void DrawLock(Graphics g)
         {
-            var rect = this.TopLeft;
+            var rect = TopLeft;
             rect.X -= 1;
             rect.Width -= 1;
             rect.Height -= 2;
@@ -205,7 +205,7 @@ namespace GraphicalEditor.Shapes
             if (TotalBounds.Contains(location))
             {
                 // Diagonal resizing (has precedence over normal resizing)
-                if (this.TopLeft.Contains(location))
+                if (TopLeft.Contains(location))
                     return HitStatus.ResizeTopLeft;
                 else if (TopRight.Contains(location))
                     return HitStatus.ResizeTopRight;

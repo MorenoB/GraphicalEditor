@@ -1,6 +1,6 @@
 ﻿using GraphicalEditor.Interfaces;
+using GraphicalEditor.Shapes;
 using GraphicalEditor.Util;
-using System;
 using System.Collections.Generic;
 using System.Drawing;
 
@@ -8,8 +8,8 @@ namespace GraphicalEditor
 {
     public sealed class DrawHandler
     {
-        private List<IShape> shapeList = new List<IShape>();
-        public List<IShape> ShapeList
+        private List<IShapeComponent> shapeList = new List<IShapeComponent>();
+        public List<IShapeComponent> ShapeList
         {
             get
             {
@@ -33,25 +33,23 @@ namespace GraphicalEditor
 
         private static readonly DrawHandler instance = new DrawHandler();
 
-        private IShape selectedShape;
-        public IShape SelectedShape
+        private List<IShapeComponent> selectedShapes = new List<IShapeComponent>();
+        public List<IShapeComponent> SelectedShapes
         {
             get
             {
-                return selectedShape;
+                return selectedShapes;
             }
-            private set
+        }
+
+        public IShapeComponent SelectedShape
+        {
+            get
             {
-                if (selectedShape == value)
-                    return;
-
-                if (selectedShape != null)
-                    selectedShape.IsSelected = false;
-                
-                selectedShape = value;
-
-                if (selectedShape != null)
-                    selectedShape.IsSelected = true;
+                if (selectedShapes.Count > 0)
+                    return selectedShapes[0];
+                else
+                    return null;
             }
         }
 
@@ -122,56 +120,78 @@ namespace GraphicalEditor
             SelectedShape.Location = newPoint;
         }
 
-        public void InsertNewShapeList(List<IShape> newShapeList)
+        public void InsertNewShapeList(List<IShapeComponent> newShapeList)
         {
             if (HasSelectedAShape)
-                SelectedShape = null;
+                ClearSelection();
 
             shapeList.Clear();
 
-            foreach(IShape shape in newShapeList)
+            foreach(IShapeComponent shape in newShapeList)
             {
                 shapeList.Add(shape);
             }
         }
 
-        public void AddNewShape(IShape newShape)
+        public void AddNewShape(IShapeComponent newShape)
         {
-            shapeList.Add(newShape);
-            SelectedShape = newShape;
+            ShapeList.Add(newShape);
+            AddToSelection(newShape);
         }
 
-        public void DeleteShape(IShape shapeToDelete)
+        public void DeleteShape(IShapeComponent shapeToDelete)
         {
-            for (int i = 0; i < shapeList.Count; i++)
+            ShapeList.Remove(shapeToDelete);
+        }
+
+        public void ClearSelection()
+        {
+            foreach(IShapeComponent shape in SelectedShapes)
             {
-                IShape shape = shapeList[i];
-
-                if (shape == null)
-                    continue;
-
-                if (shape.ID == shapeToDelete.ID)
-                    shapeList.RemoveAt(i);
-
+                shape.IsSelected = false;
             }
+
+            SelectedShapes.Clear();
         }
 
-        public void SelectShapeFromPoint(Point clickedPoint)
+        private void AddToSelection(IShapeComponent shape)
         {
-            for (int i = 0; i < shapeList.Count; i++)
+            if (SelectedShapes.Contains(shape))
+                return;
+
+            shape.IsSelected = true;
+
+            selectedShapes.Add(shape);
+        }
+
+        public IShapeComponent SelectShapeFromPoint(Point clickedPoint)
+        {
+            List<IShapeComponent> clickedShapes = ShapeList.FindAll(o => o.WasClicked(clickedPoint));
+            IShapeComponent groupShape = clickedShapes.Find(o => o.HasChildren);
+
+            if (groupShape != null)
             {
-                IShape shape = shapeList[i];
+                AddToSelection(groupShape);
+                return groupShape;
+            }
+
+            for (int i = 0; i < clickedShapes.Count; i++)
+            {
+                IShapeComponent shape = clickedShapes[i];
                 if (shape == null) continue;
 
-                if (shape.WasClicked(clickedPoint))
-                {
-                    SelectedShape = shape;
-                    return;
-                }
+                if (selectedShapes.Contains(shape))
+                        continue;
+
+                AddToSelection(shape);
+                return shape;
+                
             }
 
             //We haven't detected a click on any shape.
-            SelectedShape = null;
+            ClearSelection();
+
+            return null;
         }
 
         #region Resizing
@@ -185,35 +205,35 @@ namespace GraphicalEditor
             switch (hitStatus)
             {
                 case HitStatus.ResizeBottomLeft:
-                    this.ResizeBottomLeft(x, y);
+                    ResizeBottomLeft(x, y);
                     break;
 
                 case HitStatus.ResizeBottomRight:
-                    this.ResizeBottomRight(x, y);
+                    ResizeBottomRight(x, y);
                     break;
 
                 case HitStatus.ResizeTopLeft:
-                    this.ResizeTopLeft(x, y);
+                    ResizeTopLeft(x, y);
                     break;
 
                 case HitStatus.ResizeTopRight:
-                    this.ResizeTopRight(x, y);
+                    ResizeTopRight(x, y);
                     break;
 
                 case HitStatus.ResizeLeft:
-                    this.ResizeLeft(x, y);
+                    ResizeLeft(x, y);
                     break;
 
                 case HitStatus.ResizeRight:
-                    this.ResizeRight(x, y);
+                    ResizeRight(x, y);
                     break;
 
                 case HitStatus.ResizeTop:
-                    this.ResizeTop(x, y);
+                    ResizeTop(x, y);
                     break;
 
                 case HitStatus.ResizeBottom:
-                    this.ResizeBottom(x, y);
+                    ResizeBottom(x, y);
                     break;
             }
         }
@@ -366,7 +386,7 @@ namespace GraphicalEditor
         {
             for (int i = 0; i < shapeList.Count; i++)
             {
-                IShape shape = shapeList[i];
+                IShapeComponent shape = shapeList[i];
 
                 if (shape == null) continue;
 

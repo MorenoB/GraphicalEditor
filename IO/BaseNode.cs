@@ -1,5 +1,4 @@
-﻿using System;
-namespace GraphicalEditor.IO
+﻿namespace GraphicalEditor.IO
 {
     public class BaseNode
     {
@@ -9,8 +8,8 @@ namespace GraphicalEditor.IO
 
         public BaseNode(string elementName, int depth)
         {
-            this.Name = elementName;
-            this.Depth = depth;
+            Name = elementName;
+            Depth = depth;
         }
 
     }

@@ -1,4 +1,5 @@
-﻿using GraphicalEditor.Interfaces;
+﻿using GraphicalEditor.Composite;
+using GraphicalEditor.Interfaces;
 using GraphicalEditor.Shapes;
 using System;
 using System.Collections.Generic;
@@ -10,7 +11,7 @@ namespace GraphicalEditor.IO
     class Parser
     {
         static readonly string testFileString =
-        @"group 2 
+@"group 2 
   ornament top
   ellipse 100 100 20 50 
   group 3 
@@ -57,7 +58,7 @@ namespace GraphicalEditor.IO
                 // Check if a root node has been determined (eg. top most parent).  If not, assign it as the root and set it as the current node.
                 if (root == null)
                 {
-                    root = GetAsElementNode(element);
+                    root = GetAsElementNodeFromString(element);
                     current = root;
                 }
                 // The root has already been determined and set as the current node.  So now we check to see what it's relationship is to the 
@@ -68,7 +69,7 @@ namespace GraphicalEditor.IO
                     previous = current;
 
                     // Create a node out of the string element.
-                    current = GetAsElementNode(element);
+                    current = GetAsElementNodeFromString(element);
 
                     // We use the depth (eg. integer representing how deep into the hierarchy we are, where 0 is the root, and 2 is the first child
                     // (This is determined by the number of dashes prefixing the element. eg. Item0 -> --Item1)) to determine the relationship. 
@@ -137,7 +138,7 @@ namespace GraphicalEditor.IO
         /// </summary>
         /// <param name="element">The parsed string element from the hierarchy string.</param>
         /// <returns></returns>
-        private static BaseNode GetAsElementNode(string element)
+        private static BaseNode GetAsElementNodeFromString(string element)
         {
             int count = element.TakeWhile(char.IsWhiteSpace).Count();
             string elementName = element;
@@ -149,52 +150,74 @@ namespace GraphicalEditor.IO
             return new BaseNode(elementName, count);
         }
 
-        public static string ParseShapeList(List<IShape> shapeList)
+        public static string[] ParseShapeList(List<IShapeComponent> shapeList)
         {
-            string output = "";
+            List<string> output = new List<string>();
 
-            foreach (IShape shape in shapeList)
+            List<IShapeComponent> rootShapes = shapeList.FindAll(o => o.IsRoot);
+
+            foreach (IShapeComponent rootShape in rootShapes)
             {
-                string stringToAdd = "";
-
-                
-                string suffix = " " + shape.Location.X +
-                    " " + shape.Location.Y +
-                    " " + shape.Bounds.Width +
-                    " " + shape.Bounds.Height +
-                    " " + shape.Color.ToArgb() +
-                    '\r';
-
-                if (shape is RectangleShape)
-                {
-                    stringToAdd = "rectangle" + suffix;
-                }
-                else if (shape is EllipseShape)
-                {
-                    stringToAdd = "ellipse" + suffix;
-                }
-
-                output += stringToAdd;
+                output.AddRange(rootShape.GetNameListByDepth(0));
             }
+            return output.ToArray();
+        }
+
+        public static string ParseShapeToText(IShapeComponent shape)
+        {
+            string output = string.Empty;
+
+            if (shape is RectangleShape)
+            {
+                output += "rectangle";
+            }
+            else if (shape is EllipseShape)
+            {
+                output += "ellipse";
+            }
+
+            // Shape!
+            output += string.Format(" {0} {1} {2} {3} {4}",
+                new object[] { shape.Location.X.ToString(),
+                    shape.Location.Y.ToString(),
+                shape.Bounds.Width.ToString(),
+                shape.Bounds.Height.ToString(),
+                shape.Color.ToArgb().ToString()
+                });
 
             return output;
         }
 
 
-        public static List<IShape> ParseFileContents(string fileContents)
+        public static List<IShapeComponent> ParseFileContents(string fileContents)
         {
             return ProcessNodesIntoShapelist(Parse(fileContents));
         }
 
 
-        private static List<IShape> ProcessNodesIntoShapelist(Queue<BaseNode> nodes)
+        private static List<IShapeComponent> ProcessNodesIntoShapelist(Queue<BaseNode> nodes)
         {
-            List<IShape> shapeList = new List<IShape>();
+            List<IShapeComponent> shapeList = new List<IShapeComponent>();
+
+            Dictionary<BaseNode, ShapeComposite> groupDict = new Dictionary<BaseNode, ShapeComposite>();
+
+            foreach(BaseNode node in nodes)
+            {
+                if (node.Name.Contains("group"))
+                {
+                    ShapeComposite composite = new ShapeComposite();
+
+                    //Groups should be handled as Composites, need to make up a method to determine correct depth and group order..
+                    //Eg. two groups can be on the same depth but are seperate objects and have no interaction between eachother.
+                    // We will use a dictionairy for this!
+                    groupDict.Add(node, composite);
+                }
+            }
 
             while (nodes.Count > 0)
             {
                 BaseNode node = nodes.Dequeue();
-                IShape shapeToAdd = null;
+                IShapeComponent shapeToAdd = null;
                 string nodeName = node.Name;
                 string[] splitNodeName = nodeName.Split(' ');
                 bool IsShape = node.Name.Contains("ellipse") || node.Name.Contains("rectangle");
@@ -206,7 +229,7 @@ namespace GraphicalEditor.IO
                     int width = 100;
                     int height = 100;
                     int argb = 0;
-                    
+
 
                     int.TryParse(splitNodeName[1], out x);
                     int.TryParse(splitNodeName[2], out y);
@@ -218,10 +241,33 @@ namespace GraphicalEditor.IO
                         shapeToAdd = new EllipseShape(Color.FromArgb(argb), new Point(x, y), width, height);
                     else
                         shapeToAdd = new RectangleShape(Color.FromArgb(argb), new Point(x, y), width, height);
+
+                    if (shapeToAdd != null)
+                        shapeList.Add(shapeToAdd);
                 }
 
-                if (shapeToAdd != null)
-                    shapeList.Add(shapeToAdd);
+                //Is part of a group!
+                if(node.Parent != null && groupDict.ContainsKey(node.Parent))
+                {
+                    ShapeComposite parent = null;
+                    groupDict.TryGetValue(node.Parent, out parent);
+
+                    //A shapeToAdd is null? Then it is a composite!
+                    if(shapeToAdd == null)
+                    {
+                        ShapeComposite childGroup = null;
+                        groupDict.TryGetValue(node, out childGroup);
+
+                        shapeToAdd = childGroup;
+                    }
+
+                    parent.Add(shapeToAdd);
+                }
+            }
+
+            foreach(ShapeComposite parent in groupDict.Values)
+            {
+                shapeList.Add(parent);
             }
 
             return shapeList;

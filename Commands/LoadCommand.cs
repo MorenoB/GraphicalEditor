@@ -1,14 +1,15 @@
 ﻿using GraphicalEditor.Interfaces;
+using GraphicalEditor.Shapes;
 using System.Collections.Generic;
 
 namespace GraphicalEditor.Commands
 {
     class LoadCommand : ICommand
     {
-        List<IShape> oldShapelist = new List<IShape>();
-        List<IShape> newShapelist = new List<IShape>();
+        List<IShapeComponent> oldShapelist = new List<IShapeComponent>();
+        List<IShapeComponent> newShapelist = new List<IShapeComponent>();
 
-        public LoadCommand(List<IShape> oldShapelist, List<IShape> newShapelist)
+        public LoadCommand(List<IShapeComponent> oldShapelist, List<IShapeComponent> newShapelist)
         {
             this.oldShapelist = oldShapelist;
             this.newShapelist = newShapelist;
