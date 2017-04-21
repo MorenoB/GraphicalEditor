@@ -1,4 +1,5 @@
-﻿using GraphicalEditor.Interfaces;
+﻿using GraphicalEditor.Composite;
+using GraphicalEditor.Interfaces;
 using GraphicalEditor.Shapes;
 using System;
 using System.Collections.Generic;
@@ -198,10 +199,25 @@ namespace GraphicalEditor.IO
         {
             List<IShapeComponent> shapeList = new List<IShapeComponent>();
 
+            Dictionary<BaseNode, ShapeComposite> groupDict = new Dictionary<BaseNode, ShapeComposite>();
+
+            foreach(BaseNode node in nodes)
+            {
+                if (node.Name.Contains("group"))
+                {
+                    ShapeComposite composite = new ShapeComposite();
+
+                    //Groups should be handled as Composites, need to make up a method to determine correct depth and group order..
+                    //Eg. two groups can be on the same depth but are seperate objects and have no interaction between eachother.
+                    // We will use a dictionairy for this!
+                    groupDict.Add(node, composite);
+                }
+            }
+
             while (nodes.Count > 0)
             {
                 BaseNode node = nodes.Dequeue();
-                ShapeObject shapeToAdd = null;
+                IShapeComponent shapeToAdd = null;
                 string nodeName = node.Name;
                 string[] splitNodeName = nodeName.Split(' ');
                 bool IsShape = node.Name.Contains("ellipse") || node.Name.Contains("rectangle");
@@ -225,10 +241,33 @@ namespace GraphicalEditor.IO
                         shapeToAdd = new EllipseShape(Color.FromArgb(argb), new Point(x, y), width, height);
                     else
                         shapeToAdd = new RectangleShape(Color.FromArgb(argb), new Point(x, y), width, height);
+
+                    if (shapeToAdd != null)
+                        shapeList.Add(shapeToAdd);
                 }
 
-                if (shapeToAdd != null)
-                    shapeList.Add(shapeToAdd);
+                //Is part of a group!
+                if(node.Parent != null && groupDict.ContainsKey(node.Parent))
+                {
+                    ShapeComposite parent = null;
+                    groupDict.TryGetValue(node.Parent, out parent);
+
+                    //A shapeToAdd is null? Then it is a composite!
+                    if(shapeToAdd == null)
+                    {
+                        ShapeComposite childGroup = null;
+                        groupDict.TryGetValue(node, out childGroup);
+
+                        shapeToAdd = childGroup;
+                    }
+
+                    parent.Add(shapeToAdd);
+                }
+            }
+
+            foreach(ShapeComposite parent in groupDict.Values)
+            {
+                shapeList.Add(parent);
             }
 
             return shapeList;
