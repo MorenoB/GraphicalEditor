@@ -62,6 +62,8 @@
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="Interfaces\ICommand.cs" />
+    <Compile Include="Interfaces\IShapeElement.cs" />
+    <Compile Include="Interfaces\IShapeElementVisitor.cs" />
     <Compile Include="IO\BaseNode.cs" />
     <Compile Include="IO\Filehandler.cs" />
     <Compile Include="IO\Parser.cs" />
@@ -75,6 +77,8 @@
     <Compile Include="Util\Constants.cs" />
     <Compile Include="Util\ExtensionMethods.cs" />
     <Compile Include="Util\Logger.cs" />
+    <Compile Include="Visitor\ShapeElementMoveVisitor.cs" />
+    <Compile Include="Visitor\ShapeElementResizeVisitor.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
