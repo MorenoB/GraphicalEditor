@@ -1,4 +1,5 @@
 ﻿using GraphicalEditor.Interfaces;
+using GraphicalEditor.Visitor;
 using System.Drawing;
 
 namespace GraphicalEditor.Commands
@@ -18,12 +19,14 @@ namespace GraphicalEditor.Commands
 
         public void Execute()
         {
-            shape.Bounds = newBounds;
+            ShapeElementResizeVisitor resizeVisitor = new ShapeElementResizeVisitor(newBounds);
+            shape.Accept(resizeVisitor);
         }
 
         public void Undo()
         {
-            shape.Bounds = previousBounds;
+            ShapeElementResizeVisitor resizeVisitor = new ShapeElementResizeVisitor(previousBounds);
+            shape.Accept(resizeVisitor);
         }
     }
 }

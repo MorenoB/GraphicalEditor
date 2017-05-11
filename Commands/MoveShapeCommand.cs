@@ -1,4 +1,5 @@
 ﻿using GraphicalEditor.Interfaces;
+using GraphicalEditor.Visitor;
 using System.Drawing;
 
 namespace GraphicalEditor.Commands
@@ -17,12 +18,14 @@ namespace GraphicalEditor.Commands
         }
         public void Execute()
         {
-            shape.Location = newLocation;
+            ShapeElementMoveVisitor moveVisitor = new ShapeElementMoveVisitor(newLocation);
+            shape.Accept(moveVisitor);
         }
 
         public void Undo()
         {
-            shape.Location = previousLocation;
+            ShapeElementMoveVisitor moveVisitor = new ShapeElementMoveVisitor(previousLocation);
+            shape.Accept(moveVisitor);
         }
     }
 }

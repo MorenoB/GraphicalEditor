@@ -18,6 +18,7 @@ namespace GraphicalEditor.Interfaces
         bool HasChildren { get; }
         bool IsRoot { get; }
 
+        void Accept(IShapeElementVisitor visitor);
         void Draw(Graphics g);
         HitStatus GetHitStatus(Point p);
         bool WasClicked(Point p);

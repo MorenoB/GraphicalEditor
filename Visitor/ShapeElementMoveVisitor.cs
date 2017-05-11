@@ -13,14 +13,9 @@ namespace GraphicalEditor.Visitor
             this.newLocation = newLocation;
         }
 
-        public void Visit(EllipseShape ellipseShape)
+        public void Visit(ShapeObject shapeObj)
         {
-            ellipseShape.Location = newLocation;
-        }
-
-        public void Visit(RectangleShape rectangleShape)
-        {
-            rectangleShape.Location = newLocation;
+            shapeObj.Location = newLocation;
         }
     }
 }

@@ -8,12 +8,12 @@ using System;
 
 namespace GraphicalEditor.Composite
 {
-    public class ShapeComposite : IShapeComponent
+    public class ShapeComposite : ShapeObject
     {
         private List<IShapeComponent> shapes = new List<IShapeComponent>();
 
         private Rectangle bounds;
-        public Rectangle Bounds {
+        public override Rectangle Bounds {
             get
             {
                 return GetChildBounds();
@@ -28,77 +28,7 @@ namespace GraphicalEditor.Composite
             }
         }
 
-        private GrabHandles grabHandles;
-        public GrabHandles GrabHandles
-        {
-            get
-            {
-                if (grabHandles == null) grabHandles = new GrabHandles(this);
-                return grabHandles;
-            }
-        }
-
-        public virtual Point Location
-        {
-            get
-            {
-                return Bounds.Location;
-            }
-            set
-            {
-                if (Bounds.Location == value) return;
-                Rectangle rect = Bounds;
-                rect.Location = value;
-                Bounds = rect;
-            }
-        }
-
-
-        private Size minimumSize;
-        public virtual Size MinimumSize
-        {
-            get { return minimumSize; }
-            set
-            {
-                value.Width.Clamp(0, int.MaxValue);
-                value.Height.Clamp(0, int.MaxValue);
-
-                minimumSize = value;
-            }
-        }
-
-        private bool isSelected;
-        public virtual bool IsSelected
-        {
-            get
-            {
-                return isSelected;
-            }
-            set
-            {
-                isSelected = value;
-
-                UpdateSelectionBounds();
-            }
-        }
-
-        private Color color;
-        public virtual Color Color
-        {
-            get
-            {
-                return color;
-            }
-            protected set
-            {
-                if (color == value)
-                    return;
-
-                color = value;
-            }
-        }
-
-        public bool HasChildren
+        public override bool HasChildren
         {
             get
             {
@@ -106,40 +36,14 @@ namespace GraphicalEditor.Composite
             }
         }
 
-        public bool IsRoot
-        {
-            get
-            {
-                return Parent == null;
-            }
-        }
-
-        private IShapeComponent parent;
-        public IShapeComponent Parent
-        {
-            get
-            {
-                return parent;
-            }
-
-            set
-            {
-                if (parent != value)
-                    parent = value;
-            }
-        }
-
-        public virtual void Draw(Graphics g)
+        public override void Draw(Graphics g)
         {
             foreach(IShapeComponent shape in shapes)
             {
                 shape.Draw(g);
             }
 
-            if (IsSelected)
-            {
-                GrabHandles.Draw(g, true);
-            }
+            base.Draw(g);
         }
 
         public void Add(IShapeComponent shape)
@@ -153,12 +57,6 @@ namespace GraphicalEditor.Composite
             shapes.Remove(shape);
 
             shape.Parent = null;
-        }
-
-        public bool WasClicked(Point p)
-        {
-            return p.X >= Bounds.Location.X && p.X < Bounds.Location.X + Bounds.Size.Width
-                && p.Y >= Bounds.Location.Y && p.Y < Bounds.Location.Y + Bounds.Size.Height;
         }
 
         private void SetChildBounds(Rectangle newBounds)
@@ -193,19 +91,7 @@ namespace GraphicalEditor.Composite
             return combinedBounds;
         }
 
-        public HitStatus GetHitStatus(Point p)
-        {
-            return GrabHandles.GetHitTest(p);
-        }
-
-        public void UpdateSelectionBounds()
-        {
-            Rectangle combinedBounds = Bounds;
-
-            GrabHandles.SetBounds(combinedBounds);
-        }
-
-        public virtual List<string> GetNameListByDepth(int depth)
+        public override List<string> GetNameListByDepth(int depth)
         {
             List<string> nameList = new List<string>();
             string name = new string(' ', depth) + "group " + shapes.Count;

@@ -13,14 +13,9 @@ namespace GraphicalEditor.Visitor
             this.newResizeSize = newResizeSize;
         }
 
-        public void Visit(EllipseShape ellipseShape)
+        public void Visit(ShapeObject shapeObj)
         {
-            ellipseShape.Bounds = newResizeSize;
-        }
-      
-        public void Visit(RectangleShape rectangleShape)
-        {
-            rectangleShape.Bounds = newResizeSize;
+            shapeObj.Bounds = newResizeSize;
         }
     }
 }

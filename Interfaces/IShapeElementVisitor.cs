@@ -7,10 +7,8 @@ using System.Threading.Tasks;
 
 namespace GraphicalEditor.Interfaces
 {
-    interface IShapeElementVisitor
+    public interface IShapeElementVisitor
     {
-        void Visit(RectangleShape rectangleShape);
-
-        void Visit(EllipseShape ellipseShape);
+        void Visit(ShapeObject shapeObj);
     }
 }
