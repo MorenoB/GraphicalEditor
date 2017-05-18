@@ -6,9 +6,9 @@ namespace GraphicalEditor.Shapes
 {
     class GroupCommand : ICommand
     {
-        private List<IShapeComponent> shapeCollection = new List<IShapeComponent>();
+        private List<ShapeObject> shapeCollection = new List<ShapeObject>();
         private ShapeComposite parentShape;
-        public GroupCommand(List<IShapeComponent> shapeCollection)
+        public GroupCommand(List<ShapeObject> shapeCollection)
         {
             this.shapeCollection = shapeCollection;
 
@@ -20,7 +20,7 @@ namespace GraphicalEditor.Shapes
             if (shapeCollection.Count < 1)
                 return;
 
-            foreach(IShapeComponent shape in shapeCollection)
+            foreach(ShapeObject shape in shapeCollection)
             {
                 parentShape.Add(shape);
             }
@@ -37,7 +37,7 @@ namespace GraphicalEditor.Shapes
             if (shapeCollection.Count < 1)
                 return;
 
-            foreach (IShapeComponent shape in shapeCollection)
+            foreach (ShapeObject shape in shapeCollection)
             {
                 parentShape.Delete(shape);
             }

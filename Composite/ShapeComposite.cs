@@ -10,7 +10,7 @@ namespace GraphicalEditor.Composite
 {
     public class ShapeComposite : ShapeObject
     {
-        private List<IShapeComponent> shapes = new List<IShapeComponent>();
+        private List<ShapeObject> shapes = new List<ShapeObject>();
 
         private Rectangle bounds;
         public override Rectangle Bounds {
@@ -38,7 +38,7 @@ namespace GraphicalEditor.Composite
 
         public override void Draw(Graphics g)
         {
-            foreach(IShapeComponent shape in shapes)
+            foreach(ShapeObject shape in shapes)
             {
                 shape.Draw(g);
             }
@@ -46,13 +46,13 @@ namespace GraphicalEditor.Composite
             base.Draw(g);
         }
 
-        public void Add(IShapeComponent shape)
+        public void Add(ShapeObject shape)
         {
             shapes.Add(shape);
             shape.Parent = this;
         }
 
-        public void Delete(IShapeComponent shape)
+        public void Delete(ShapeObject shape)
         {
             shapes.Remove(shape);
 
@@ -68,7 +68,7 @@ namespace GraphicalEditor.Composite
             int deltaY = newBounds.Y - oldParentBounds.Y;
 
 
-            foreach (IShapeComponent child in shapes)
+            foreach (ShapeObject child in shapes)
             {
                 int newWidth = child.Bounds.Width + deltaWidth;
                 int newHeight = child.Bounds.Height + deltaHeight;
@@ -83,7 +83,7 @@ namespace GraphicalEditor.Composite
         {
             Rectangle combinedBounds = shapes.Count < 1 ? bounds : shapes.Find(o => o != null).Bounds;
 
-            foreach(IShapeComponent shape in shapes)
+            foreach(ShapeObject shape in shapes)
             {
                 combinedBounds = Rectangle.Union(combinedBounds, shape.Bounds);
             }
@@ -98,7 +98,7 @@ namespace GraphicalEditor.Composite
 
             nameList.Add(name);
 
-            foreach(IShapeComponent shape in shapes)
+            foreach(ShapeObject shape in shapes)
             {
                 nameList.AddRange(shape.GetNameListByDepth(depth + 1));
             }

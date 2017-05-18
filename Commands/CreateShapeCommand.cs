@@ -1,13 +1,14 @@
 ﻿using GraphicalEditor.Interfaces;
+using GraphicalEditor.Shapes;
 
 namespace GraphicalEditor.Commands
 {
     class CreateShapeCommand : ICommand
     {
-        IShapeComponent shapeToCreate;
+        ShapeObject shapeToCreate;
 
 
-        public CreateShapeCommand(IShapeComponent shapeToCreate)
+        public CreateShapeCommand(ShapeObject shapeToCreate)
         {
             this.shapeToCreate = shapeToCreate;
         }

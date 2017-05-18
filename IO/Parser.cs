@@ -150,20 +150,20 @@ namespace GraphicalEditor.IO
             return new BaseNode(elementName, count);
         }
 
-        public static string[] ParseShapeList(List<IShapeComponent> shapeList)
+        public static string[] ParseShapeList(List<ShapeObject> shapeList)
         {
             List<string> output = new List<string>();
 
-            List<IShapeComponent> rootShapes = shapeList.FindAll(o => o.IsRoot);
+            List<ShapeObject> rootShapes = shapeList.FindAll(o => o.IsRoot);
 
-            foreach (IShapeComponent rootShape in rootShapes)
+            foreach (ShapeObject rootShape in rootShapes)
             {
                 output.AddRange(rootShape.GetNameListByDepth(0));
             }
             return output.ToArray();
         }
 
-        public static string ParseShapeToText(IShapeComponent shape)
+        public static string ParseShapeToText(ShapeObject shape)
         {
             string output = string.Empty;
 
@@ -189,15 +189,15 @@ namespace GraphicalEditor.IO
         }
 
 
-        public static List<IShapeComponent> ParseFileContents(string fileContents)
+        public static List<ShapeObject> ParseFileContents(string fileContents)
         {
             return ProcessNodesIntoShapelist(Parse(fileContents));
         }
 
 
-        private static List<IShapeComponent> ProcessNodesIntoShapelist(Queue<BaseNode> nodes)
+        private static List<ShapeObject> ProcessNodesIntoShapelist(Queue<BaseNode> nodes)
         {
-            List<IShapeComponent> shapeList = new List<IShapeComponent>();
+            List<ShapeObject> shapeList = new List<ShapeObject>();
 
             Dictionary<BaseNode, ShapeComposite> groupDict = new Dictionary<BaseNode, ShapeComposite>();
 
@@ -217,7 +217,7 @@ namespace GraphicalEditor.IO
             while (nodes.Count > 0)
             {
                 BaseNode node = nodes.Dequeue();
-                IShapeComponent shapeToAdd = null;
+                ShapeObject shapeToAdd = null;
                 string nodeName = node.Name;
                 string[] splitNodeName = nodeName.Split(' ');
                 bool IsShape = node.Name.Contains("ellipse") || node.Name.Contains("rectangle");

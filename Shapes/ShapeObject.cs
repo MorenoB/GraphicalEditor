@@ -9,7 +9,7 @@ using System;
 
 namespace GraphicalEditor.Shapes
 {
-    public abstract class ShapeObject : IShapeComponent
+    public abstract class ShapeObject
     {
         public virtual Size Size
         {
@@ -129,8 +129,8 @@ namespace GraphicalEditor.Shapes
             }
         }
 
-        private IShapeComponent parent;
-        public IShapeComponent Parent
+        private ShapeObject parent;
+        public ShapeObject Parent
         {
             get
             {
