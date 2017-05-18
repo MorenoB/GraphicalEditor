@@ -1,15 +1,17 @@
 ﻿using GraphicalEditor.Interfaces;
+using GraphicalEditor.Shapes;
+using GraphicalEditor.Visitor;
 using System.Drawing;
 
 namespace GraphicalEditor.Commands
 {
     class MoveShapeCommand : ICommand
     {
-        private IShapeComponent shape;
+        private ShapeObject shape;
         private Point previousLocation;
         private Point newLocation;
 
-        public MoveShapeCommand(IShapeComponent shape, Point previousLocation, Point newLocation)
+        public MoveShapeCommand(ShapeObject shape, Point previousLocation, Point newLocation)
         {
             this.shape = shape;
             this.previousLocation = previousLocation;
@@ -17,12 +19,14 @@ namespace GraphicalEditor.Commands
         }
         public void Execute()
         {
-            shape.Location = newLocation;
+            ShapeElementMoveVisitor moveVisitor = new ShapeElementMoveVisitor(newLocation);
+            shape.Accept(moveVisitor);
         }
 
         public void Undo()
         {
-            shape.Location = previousLocation;
+            ShapeElementMoveVisitor moveVisitor = new ShapeElementMoveVisitor(previousLocation);
+            shape.Accept(moveVisitor);
         }
     }
 }

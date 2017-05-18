@@ -2,18 +2,20 @@
 using System.Collections.Generic;
 using System.Drawing;
 using GraphicalEditor.Shapes;
-using static GraphicalEditor.DrawHandler;
-using GraphicalEditor.Util;
-using System;
 
 namespace GraphicalEditor.Composite
 {
-    public class ShapeComposite : IShapeComponent
+    public class ShapeComposite : ShapeObject
     {
-        private List<IShapeComponent> shapes = new List<IShapeComponent>();
+        private List<ShapeObject> shapes = new List<ShapeObject>();
 
         private Rectangle bounds;
-        public Rectangle Bounds {
+
+        public ShapeComposite(IShape shapeType, int width, int height, Point location, Color color) : base(shapeType, width, height, location, color)
+        {
+        }
+
+        public override Rectangle Bounds {
             get
             {
                 return GetChildBounds();
@@ -28,77 +30,7 @@ namespace GraphicalEditor.Composite
             }
         }
 
-        private GrabHandles grabHandles;
-        public GrabHandles GrabHandles
-        {
-            get
-            {
-                if (grabHandles == null) grabHandles = new GrabHandles(this);
-                return grabHandles;
-            }
-        }
-
-        public virtual Point Location
-        {
-            get
-            {
-                return Bounds.Location;
-            }
-            set
-            {
-                if (Bounds.Location == value) return;
-                Rectangle rect = Bounds;
-                rect.Location = value;
-                Bounds = rect;
-            }
-        }
-
-
-        private Size minimumSize;
-        public virtual Size MinimumSize
-        {
-            get { return minimumSize; }
-            set
-            {
-                value.Width.Clamp(0, int.MaxValue);
-                value.Height.Clamp(0, int.MaxValue);
-
-                minimumSize = value;
-            }
-        }
-
-        private bool isSelected;
-        public virtual bool IsSelected
-        {
-            get
-            {
-                return isSelected;
-            }
-            set
-            {
-                isSelected = value;
-
-                UpdateSelectionBounds();
-            }
-        }
-
-        private Color color;
-        public virtual Color Color
-        {
-            get
-            {
-                return color;
-            }
-            protected set
-            {
-                if (color == value)
-                    return;
-
-                color = value;
-            }
-        }
-
-        public bool HasChildren
+        public override bool HasChildren
         {
             get
             {
@@ -106,59 +38,29 @@ namespace GraphicalEditor.Composite
             }
         }
 
-        public bool IsRoot
+        public override void Draw(Graphics g)
         {
-            get
-            {
-                return Parent == null;
-            }
-        }
-
-        private IShapeComponent parent;
-        public IShapeComponent Parent
-        {
-            get
-            {
-                return parent;
-            }
-
-            set
-            {
-                if (parent != value)
-                    parent = value;
-            }
-        }
-
-        public virtual void Draw(Graphics g)
-        {
-            foreach(IShapeComponent shape in shapes)
+            foreach(ShapeObject shape in shapes)
             {
                 shape.Draw(g);
             }
 
-            if (IsSelected)
-            {
-                GrabHandles.Draw(g, true);
-            }
+            base.Draw(g);
+
+
         }
 
-        public void Add(IShapeComponent shape)
+        public void Add(ShapeObject shape)
         {
             shapes.Add(shape);
             shape.Parent = this;
         }
 
-        public void Delete(IShapeComponent shape)
+        public void Delete(ShapeObject shape)
         {
             shapes.Remove(shape);
 
             shape.Parent = null;
-        }
-
-        public bool WasClicked(Point p)
-        {
-            return p.X >= Bounds.Location.X && p.X < Bounds.Location.X + Bounds.Size.Width
-                && p.Y >= Bounds.Location.Y && p.Y < Bounds.Location.Y + Bounds.Size.Height;
         }
 
         private void SetChildBounds(Rectangle newBounds)
@@ -170,7 +72,7 @@ namespace GraphicalEditor.Composite
             int deltaY = newBounds.Y - oldParentBounds.Y;
 
 
-            foreach (IShapeComponent child in shapes)
+            foreach (ShapeObject child in shapes)
             {
                 int newWidth = child.Bounds.Width + deltaWidth;
                 int newHeight = child.Bounds.Height + deltaHeight;
@@ -185,7 +87,7 @@ namespace GraphicalEditor.Composite
         {
             Rectangle combinedBounds = shapes.Count < 1 ? bounds : shapes.Find(o => o != null).Bounds;
 
-            foreach(IShapeComponent shape in shapes)
+            foreach(ShapeObject shape in shapes)
             {
                 combinedBounds = Rectangle.Union(combinedBounds, shape.Bounds);
             }
@@ -193,26 +95,14 @@ namespace GraphicalEditor.Composite
             return combinedBounds;
         }
 
-        public HitStatus GetHitStatus(Point p)
-        {
-            return GrabHandles.GetHitTest(p);
-        }
-
-        public void UpdateSelectionBounds()
-        {
-            Rectangle combinedBounds = Bounds;
-
-            GrabHandles.SetBounds(combinedBounds);
-        }
-
-        public virtual List<string> GetNameListByDepth(int depth)
+        public override List<string> GetNameListByDepth(int depth)
         {
             List<string> nameList = new List<string>();
             string name = new string(' ', depth) + "group " + shapes.Count;
 
             nameList.Add(name);
 
-            foreach(IShapeComponent shape in shapes)
+            foreach(ShapeObject shape in shapes)
             {
                 nameList.AddRange(shape.GetNameListByDepth(depth + 1));
             }

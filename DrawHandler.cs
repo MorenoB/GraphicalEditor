@@ -1,15 +1,40 @@
-﻿using GraphicalEditor.Interfaces;
-using GraphicalEditor.Shapes;
+﻿using GraphicalEditor.Shapes;
 using GraphicalEditor.Util;
 using System.Collections.Generic;
 using System.Drawing;
+using static GraphicalEditor.Util.Enums;
 
 namespace GraphicalEditor
 {
     public sealed class DrawHandler
     {
-        private List<IShapeComponent> shapeList = new List<IShapeComponent>();
-        public List<IShapeComponent> ShapeList
+        #region Singleton
+        private static readonly DrawHandler instance = new DrawHandler();
+
+        // Explicit static constructor to tell C# compiler
+        // not to mark type as beforefieldinit
+        static DrawHandler()
+        {
+
+        }
+
+        private DrawHandler()
+        {
+        }
+
+        public static DrawHandler Instance
+        {
+            get
+            {
+                return instance;
+            }
+        }
+
+        #endregion
+
+        #region Properties
+        private List<ShapeObject> shapeList = new List<ShapeObject>();
+        public List<ShapeObject> ShapeList
         {
             get
             {
@@ -17,24 +42,8 @@ namespace GraphicalEditor
             }
         }
 
-        public enum HitStatus
-        {
-            None,
-            Drag,
-            ResizeTopLeft,
-            ResizeTopRight,
-            ResizeBottomLeft,
-            ResizeBottomRight,
-            ResizeLeft,
-            ResizeTop,
-            ResizeRight,
-            ResizeBottom
-        }
-
-        private static readonly DrawHandler instance = new DrawHandler();
-
-        private List<IShapeComponent> selectedShapes = new List<IShapeComponent>();
-        public List<IShapeComponent> SelectedShapes
+        private List<ShapeObject> selectedShapes = new List<ShapeObject>();
+        public List<ShapeObject> SelectedShapes
         {
             get
             {
@@ -42,7 +51,7 @@ namespace GraphicalEditor
             }
         }
 
-        public IShapeComponent SelectedShape
+        public ShapeObject SelectedShape
         {
             get
             {
@@ -65,7 +74,6 @@ namespace GraphicalEditor
                 if (value == hitStatus)
                     return;
 
-                Logger.Log("Hitstatus changed to " + hitStatus);
                 hitStatus = value;
             }
         }
@@ -78,24 +86,7 @@ namespace GraphicalEditor
             }
         }
 
-        // Explicit static constructor to tell C# compiler
-        // not to mark type as beforefieldinit
-        static DrawHandler()
-        {
-            
-        }
-
-        private DrawHandler()
-        {
-        }
-
-        public static DrawHandler Instance
-        {
-            get
-            {
-                return instance;
-            }
-        }
+        #endregion
 
         public Rectangle ResizeSelectedShape(Point currentMousePosition)
         {
@@ -120,33 +111,33 @@ namespace GraphicalEditor
             SelectedShape.Location = newPoint;
         }
 
-        public void InsertNewShapeList(List<IShapeComponent> newShapeList)
+        public void InsertNewShapeList(List<ShapeObject> newShapeList)
         {
             if (HasSelectedAShape)
                 ClearSelection();
 
             shapeList.Clear();
 
-            foreach(IShapeComponent shape in newShapeList)
+            foreach(ShapeObject shape in newShapeList)
             {
                 shapeList.Add(shape);
             }
         }
 
-        public void AddNewShape(IShapeComponent newShape)
+        public void AddNewShape(ShapeObject newShape)
         {
             ShapeList.Add(newShape);
             AddToSelection(newShape);
         }
 
-        public void DeleteShape(IShapeComponent shapeToDelete)
+        public void DeleteShape(ShapeObject shapeToDelete)
         {
             ShapeList.Remove(shapeToDelete);
         }
 
         public void ClearSelection()
         {
-            foreach(IShapeComponent shape in SelectedShapes)
+            foreach(ShapeObject shape in SelectedShapes)
             {
                 shape.IsSelected = false;
             }
@@ -154,7 +145,7 @@ namespace GraphicalEditor
             SelectedShapes.Clear();
         }
 
-        private void AddToSelection(IShapeComponent shape)
+        private void AddToSelection(ShapeObject shape)
         {
             if (SelectedShapes.Contains(shape))
                 return;
@@ -164,10 +155,10 @@ namespace GraphicalEditor
             selectedShapes.Add(shape);
         }
 
-        public IShapeComponent SelectShapeFromPoint(Point clickedPoint)
+        public ShapeObject SelectShapeFromPoint(Point clickedPoint)
         {
-            List<IShapeComponent> clickedShapes = ShapeList.FindAll(o => o.WasClicked(clickedPoint));
-            IShapeComponent groupShape = clickedShapes.Find(o => o.HasChildren);
+            List<ShapeObject> clickedShapes = ShapeList.FindAll(o => o.WasClicked(clickedPoint));
+            ShapeObject groupShape = clickedShapes.Find(o => o.HasChildren);
 
             if (groupShape != null)
             {
@@ -177,7 +168,7 @@ namespace GraphicalEditor
 
             for (int i = 0; i < clickedShapes.Count; i++)
             {
-                IShapeComponent shape = clickedShapes[i];
+                ShapeObject shape = clickedShapes[i];
                 if (shape == null) continue;
 
                 if (selectedShapes.Contains(shape))
@@ -386,7 +377,7 @@ namespace GraphicalEditor
         {
             for (int i = 0; i < shapeList.Count; i++)
             {
-                IShapeComponent shape = shapeList[i];
+                ShapeObject shape = shapeList[i];
 
                 if (shape == null) continue;
 

@@ -1,7 +1,6 @@
-﻿using GraphicalEditor.Interfaces;
-using System.Drawing;
+﻿using System.Drawing;
 using System.Windows.Forms;
-using static GraphicalEditor.DrawHandler;
+using static GraphicalEditor.Util.Enums;
 
 namespace GraphicalEditor.Shapes
 {
@@ -9,7 +8,7 @@ namespace GraphicalEditor.Shapes
     {
         public const int BOX_SIZE = 3;
 
-        public GrabHandles(IShapeComponent parentShape)
+        public GrabHandles(ShapeObject parentShape)
         {
             BorderWidth = 4;
             SetBounds(parentShape.Bounds);

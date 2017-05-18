@@ -1,18 +1,19 @@
 ﻿using GraphicalEditor.Composite;
 using GraphicalEditor.Interfaces;
 using System.Collections.Generic;
+using System.Drawing;
 
 namespace GraphicalEditor.Shapes
 {
     class GroupCommand : ICommand
     {
-        private List<IShapeComponent> shapeCollection = new List<IShapeComponent>();
+        private List<ShapeObject> shapeCollection = new List<ShapeObject>();
         private ShapeComposite parentShape;
-        public GroupCommand(List<IShapeComponent> shapeCollection)
+        public GroupCommand(List<ShapeObject> shapeCollection)
         {
             this.shapeCollection = shapeCollection;
 
-            parentShape = new ShapeComposite();
+            parentShape = new ShapeComposite(null, 0, 0, Point.Empty, Color.Black);
         }
 
         public void Execute()
@@ -20,7 +21,7 @@ namespace GraphicalEditor.Shapes
             if (shapeCollection.Count < 1)
                 return;
 
-            foreach(IShapeComponent shape in shapeCollection)
+            foreach(ShapeObject shape in shapeCollection)
             {
                 parentShape.Add(shape);
             }
@@ -37,7 +38,7 @@ namespace GraphicalEditor.Shapes
             if (shapeCollection.Count < 1)
                 return;
 
-            foreach (IShapeComponent shape in shapeCollection)
+            foreach (ShapeObject shape in shapeCollection)
             {
                 parentShape.Delete(shape);
             }

@@ -1,6 +1,6 @@
 ﻿using GraphicalEditor.Composite;
-using GraphicalEditor.Interfaces;
 using GraphicalEditor.Shapes;
+using GraphicalEditor.Strategy;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -150,31 +150,24 @@ namespace GraphicalEditor.IO
             return new BaseNode(elementName, count);
         }
 
-        public static string[] ParseShapeList(List<IShapeComponent> shapeList)
+        public static string[] ParseShapeList(List<ShapeObject> shapeList)
         {
             List<string> output = new List<string>();
 
-            List<IShapeComponent> rootShapes = shapeList.FindAll(o => o.IsRoot);
+            List<ShapeObject> rootShapes = shapeList.FindAll(o => o.IsRoot);
 
-            foreach (IShapeComponent rootShape in rootShapes)
+            foreach (ShapeObject rootShape in rootShapes)
             {
                 output.AddRange(rootShape.GetNameListByDepth(0));
             }
             return output.ToArray();
         }
 
-        public static string ParseShapeToText(IShapeComponent shape)
+        public static string ParseShapeToText(ShapeObject shape)
         {
             string output = string.Empty;
 
-            if (shape is RectangleShape)
-            {
-                output += "rectangle";
-            }
-            else if (shape is EllipseShape)
-            {
-                output += "ellipse";
-            }
+            output += shape.ToString();
 
             // Shape!
             output += string.Format(" {0} {1} {2} {3} {4}",
@@ -189,15 +182,15 @@ namespace GraphicalEditor.IO
         }
 
 
-        public static List<IShapeComponent> ParseFileContents(string fileContents)
+        public static List<ShapeObject> ParseFileContents(string fileContents)
         {
             return ProcessNodesIntoShapelist(Parse(fileContents));
         }
 
 
-        private static List<IShapeComponent> ProcessNodesIntoShapelist(Queue<BaseNode> nodes)
+        private static List<ShapeObject> ProcessNodesIntoShapelist(Queue<BaseNode> nodes)
         {
-            List<IShapeComponent> shapeList = new List<IShapeComponent>();
+            List<ShapeObject> shapeList = new List<ShapeObject>();
 
             Dictionary<BaseNode, ShapeComposite> groupDict = new Dictionary<BaseNode, ShapeComposite>();
 
@@ -205,7 +198,7 @@ namespace GraphicalEditor.IO
             {
                 if (node.Name.Contains("group"))
                 {
-                    ShapeComposite composite = new ShapeComposite();
+                    ShapeComposite composite = new ShapeComposite(null, 0, 0, Point.Empty, Color.Black);
 
                     //Groups should be handled as Composites, need to make up a method to determine correct depth and group order..
                     //Eg. two groups can be on the same depth but are seperate objects and have no interaction between eachother.
@@ -217,7 +210,7 @@ namespace GraphicalEditor.IO
             while (nodes.Count > 0)
             {
                 BaseNode node = nodes.Dequeue();
-                IShapeComponent shapeToAdd = null;
+                ShapeObject shapeToAdd = null;
                 string nodeName = node.Name;
                 string[] splitNodeName = nodeName.Split(' ');
                 bool IsShape = node.Name.Contains("ellipse") || node.Name.Contains("rectangle");
@@ -238,9 +231,9 @@ namespace GraphicalEditor.IO
                     int.TryParse(splitNodeName[5], out argb);
 
                     if (node.Name.Contains("ellipse"))
-                        shapeToAdd = new EllipseShape(Color.FromArgb(argb), new Point(x, y), width, height);
+                        shapeToAdd = new ShapeObject(new EllipseShape(), width, height, new Point(x, y), Color.FromArgb(argb));
                     else
-                        shapeToAdd = new RectangleShape(Color.FromArgb(argb), new Point(x, y), width, height);
+                        shapeToAdd = new ShapeObject(new RectangleShape(), width, height, new Point(x, y), Color.FromArgb(argb));
 
                     if (shapeToAdd != null)
                         shapeList.Add(shapeToAdd);
