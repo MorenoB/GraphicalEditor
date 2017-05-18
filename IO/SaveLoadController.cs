@@ -1,5 +1,4 @@
-﻿using GraphicalEditor.Interfaces;
-using GraphicalEditor.Shapes;
+﻿using GraphicalEditor.Shapes;
 using System.Collections.Generic;
 
 namespace GraphicalEditor.IO

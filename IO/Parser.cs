@@ -1,6 +1,6 @@
 ﻿using GraphicalEditor.Composite;
-using GraphicalEditor.Interfaces;
 using GraphicalEditor.Shapes;
+using GraphicalEditor.Strategy;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -167,14 +167,7 @@ namespace GraphicalEditor.IO
         {
             string output = string.Empty;
 
-            if (shape is RectangleShape)
-            {
-                output += "rectangle";
-            }
-            else if (shape is EllipseShape)
-            {
-                output += "ellipse";
-            }
+            output += shape.ToString();
 
             // Shape!
             output += string.Format(" {0} {1} {2} {3} {4}",
@@ -205,7 +198,7 @@ namespace GraphicalEditor.IO
             {
                 if (node.Name.Contains("group"))
                 {
-                    ShapeComposite composite = new ShapeComposite();
+                    ShapeComposite composite = new ShapeComposite(null, 0, 0, Point.Empty, Color.Black);
 
                     //Groups should be handled as Composites, need to make up a method to determine correct depth and group order..
                     //Eg. two groups can be on the same depth but are seperate objects and have no interaction between eachother.
@@ -238,9 +231,9 @@ namespace GraphicalEditor.IO
                     int.TryParse(splitNodeName[5], out argb);
 
                     if (node.Name.Contains("ellipse"))
-                        shapeToAdd = new EllipseShape(Color.FromArgb(argb), new Point(x, y), width, height);
+                        shapeToAdd = new ShapeObject(new EllipseShape(), width, height, new Point(x, y), Color.FromArgb(argb));
                     else
-                        shapeToAdd = new RectangleShape(Color.FromArgb(argb), new Point(x, y), width, height);
+                        shapeToAdd = new ShapeObject(new RectangleShape(), width, height, new Point(x, y), Color.FromArgb(argb));
 
                     if (shapeToAdd != null)
                         shapeList.Add(shapeToAdd);

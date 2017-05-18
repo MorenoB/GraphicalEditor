@@ -1,16 +1,16 @@
-﻿using GraphicalEditor.Composite;
-using GraphicalEditor.Interfaces;
+﻿using GraphicalEditor.Interfaces;
 using GraphicalEditor.IO;
 using GraphicalEditor.Util;
 using System.Collections.Generic;
 using System.Drawing;
 using static GraphicalEditor.DrawHandler;
-using System;
 
 namespace GraphicalEditor.Shapes
 {
-    public abstract class ShapeObject
+    public class ShapeObject
     {
+
+        #region Properties
         public virtual Size Size
         {
             get { return Bounds.Size; }
@@ -144,12 +144,32 @@ namespace GraphicalEditor.Shapes
             }
         }
 
+        #endregion
+
+        private IShape shapeType = null;
+
+        public ShapeObject(IShape shapeType, int width, int height, Point location, Color color)
+        {
+            Size = new Size(width, height);
+            Location = location;
+            Color = color;
+
+            MinimumSize = new Size(Constants.SHAPE_MINIMUM_WIDTH, Constants.SHAPE_MINIMUM_HEIGHT);
+            this.shapeType = shapeType;
+        }
+
         public virtual void Draw(Graphics g)
         {
+            //Draw the selection box if selected
             if (IsSelected)
             {
                 GrabHandles.Draw(g, true);
             }
+
+            if (shapeType == null)
+                return;
+
+            shapeType.Draw(g, new SolidBrush(Color), Location, Size);
         }
 
         public bool WasClicked(Point p)
@@ -166,6 +186,14 @@ namespace GraphicalEditor.Shapes
         public void UpdateSelectionBounds()
         {
             GrabHandles.SetBounds(Bounds);
+        }
+
+        public override string ToString()
+        {
+            if (shapeType == null)
+                return "SOMETHING WENT HORRIBLY WRONG";
+            else
+                return shapeType.ToString();
         }
 
         public virtual List<string> GetNameListByDepth(int depth)

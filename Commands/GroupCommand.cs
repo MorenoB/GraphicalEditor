@@ -1,6 +1,7 @@
 ﻿using GraphicalEditor.Composite;
 using GraphicalEditor.Interfaces;
 using System.Collections.Generic;
+using System.Drawing;
 
 namespace GraphicalEditor.Shapes
 {
@@ -12,7 +13,7 @@ namespace GraphicalEditor.Shapes
         {
             this.shapeCollection = shapeCollection;
 
-            parentShape = new ShapeComposite();
+            parentShape = new ShapeComposite(null, 0, 0, Point.Empty, Color.Black);
         }
 
         public void Execute()

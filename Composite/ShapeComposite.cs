@@ -2,9 +2,6 @@
 using System.Collections.Generic;
 using System.Drawing;
 using GraphicalEditor.Shapes;
-using static GraphicalEditor.DrawHandler;
-using GraphicalEditor.Util;
-using System;
 
 namespace GraphicalEditor.Composite
 {
@@ -13,6 +10,11 @@ namespace GraphicalEditor.Composite
         private List<ShapeObject> shapes = new List<ShapeObject>();
 
         private Rectangle bounds;
+
+        public ShapeComposite(IShape shapeType, int width, int height, Point location, Color color) : base(shapeType, width, height, location, color)
+        {
+        }
+
         public override Rectangle Bounds {
             get
             {
@@ -44,6 +46,8 @@ namespace GraphicalEditor.Composite
             }
 
             base.Draw(g);
+
+
         }
 
         public void Add(ShapeObject shape)

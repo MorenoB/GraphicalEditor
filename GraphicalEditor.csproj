@@ -61,6 +61,7 @@
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="Interfaces\ICommand.cs" />
+    <Compile Include="Interfaces\IShape.cs" />
     <Compile Include="Interfaces\IShapeElement.cs" />
     <Compile Include="Interfaces\IShapeElementVisitor.cs" />
     <Compile Include="IO\BaseNode.cs" />
@@ -69,10 +70,10 @@
     <Compile Include="IO\SaveLoadController.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Shapes\EllipseShape.cs" />
     <Compile Include="Shapes\GrabHandles.cs" />
-    <Compile Include="Shapes\RectangleShape.cs" />
+    <Compile Include="Strategy\RectangleShape.cs" />
     <Compile Include="Shapes\ShapeObject.cs" />
+    <Compile Include="Strategy\EllipseShape.cs" />
     <Compile Include="Util\Constants.cs" />
     <Compile Include="Util\ExtensionMethods.cs" />
     <Compile Include="Util\Logger.cs" />
@@ -103,9 +104,7 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Strategy\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

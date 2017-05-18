@@ -7,6 +7,7 @@ using static GraphicalEditor.DrawHandler;
 using GraphicalEditor.Interfaces;
 using GraphicalEditor.Commands;
 using GraphicalEditor.IO;
+using GraphicalEditor.Strategy;
 
 namespace GraphicalEditor
 {
@@ -229,7 +230,7 @@ namespace GraphicalEditor
                 {
                     case ToolItem.Rectangle:
 
-                        RectangleShape rectangle = new RectangleShape(PaintColor, e.Location, Constants.SHAPE_DEFAULT_WIDTH, Constants.SHAPE_DEFAULT_HEIGHT);
+                        ShapeObject rectangle = new ShapeObject(new RectangleShape(), Constants.SHAPE_DEFAULT_WIDTH, Constants.SHAPE_DEFAULT_HEIGHT, e.Location, PaintColor);
 
                         commandHandler.AddCommand(new CreateShapeCommand(rectangle));
 
@@ -238,7 +239,7 @@ namespace GraphicalEditor
 
                     case ToolItem.Ellipse:
 
-                        EllipseShape ellipse = new EllipseShape(PaintColor, e.Location, Constants.SHAPE_DEFAULT_WIDTH, Constants.SHAPE_DEFAULT_HEIGHT);
+                        ShapeObject ellipse = new ShapeObject(new EllipseShape(), Constants.SHAPE_DEFAULT_WIDTH, Constants.SHAPE_DEFAULT_HEIGHT, e.Location, PaintColor);
 
                         commandHandler.AddCommand(new CreateShapeCommand(ellipse));
 
