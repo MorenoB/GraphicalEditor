@@ -3,11 +3,11 @@ using System.Drawing;
 using System.Windows.Forms;
 using System.IO;
 using GraphicalEditor.Shapes;
-using static GraphicalEditor.DrawHandler;
 using GraphicalEditor.Interfaces;
 using GraphicalEditor.Commands;
 using GraphicalEditor.IO;
 using GraphicalEditor.Strategy;
+using static GraphicalEditor.Util.Enums;
 
 namespace GraphicalEditor
 {
@@ -69,11 +69,6 @@ namespace GraphicalEditor
             //Register events
             commandHandler.OnExecute += OnCommandExecute;
             commandHandler.OnUndo += OnCommandUndo;
-        }
-
-        public enum ToolItem
-        {
-            Rectangle, Ellipse, Line, Brush, Pencil, ColorPicker, Selecter, None
         }
 
         private void UpdateHitStatus(Point currentPoint)

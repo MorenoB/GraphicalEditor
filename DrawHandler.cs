@@ -1,13 +1,38 @@
-﻿using GraphicalEditor.Interfaces;
-using GraphicalEditor.Shapes;
+﻿using GraphicalEditor.Shapes;
 using GraphicalEditor.Util;
 using System.Collections.Generic;
 using System.Drawing;
+using static GraphicalEditor.Util.Enums;
 
 namespace GraphicalEditor
 {
     public sealed class DrawHandler
     {
+        #region Singleton
+        private static readonly DrawHandler instance = new DrawHandler();
+
+        // Explicit static constructor to tell C# compiler
+        // not to mark type as beforefieldinit
+        static DrawHandler()
+        {
+
+        }
+
+        private DrawHandler()
+        {
+        }
+
+        public static DrawHandler Instance
+        {
+            get
+            {
+                return instance;
+            }
+        }
+
+        #endregion
+
+        #region Properties
         private List<ShapeObject> shapeList = new List<ShapeObject>();
         public List<ShapeObject> ShapeList
         {
@@ -16,22 +41,6 @@ namespace GraphicalEditor
                 return shapeList;
             }
         }
-
-        public enum HitStatus
-        {
-            None,
-            Drag,
-            ResizeTopLeft,
-            ResizeTopRight,
-            ResizeBottomLeft,
-            ResizeBottomRight,
-            ResizeLeft,
-            ResizeTop,
-            ResizeRight,
-            ResizeBottom
-        }
-
-        private static readonly DrawHandler instance = new DrawHandler();
 
         private List<ShapeObject> selectedShapes = new List<ShapeObject>();
         public List<ShapeObject> SelectedShapes
@@ -65,7 +74,6 @@ namespace GraphicalEditor
                 if (value == hitStatus)
                     return;
 
-                Logger.Log("Hitstatus changed to " + hitStatus);
                 hitStatus = value;
             }
         }
@@ -78,24 +86,7 @@ namespace GraphicalEditor
             }
         }
 
-        // Explicit static constructor to tell C# compiler
-        // not to mark type as beforefieldinit
-        static DrawHandler()
-        {
-            
-        }
-
-        private DrawHandler()
-        {
-        }
-
-        public static DrawHandler Instance
-        {
-            get
-            {
-                return instance;
-            }
-        }
+        #endregion
 
         public Rectangle ResizeSelectedShape(Point currentMousePosition)
         {

@@ -1,6 +1,6 @@
 ﻿using System.Drawing;
 using System.Windows.Forms;
-using static GraphicalEditor.DrawHandler;
+using static GraphicalEditor.Util.Enums;
 
 namespace GraphicalEditor.Shapes
 {

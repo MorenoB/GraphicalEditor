@@ -75,8 +75,8 @@
     <Compile Include="Shapes\ShapeObject.cs" />
     <Compile Include="Strategy\EllipseShape.cs" />
     <Compile Include="Util\Constants.cs" />
+    <Compile Include="Util\Enums.cs" />
     <Compile Include="Util\ExtensionMethods.cs" />
-    <Compile Include="Util\Logger.cs" />
     <Compile Include="Visitor\ShapeElementMoveVisitor.cs" />
     <Compile Include="Visitor\ShapeElementResizeVisitor.cs" />
     <EmbeddedResource Include="Form1.resx">

@@ -3,7 +3,7 @@ using GraphicalEditor.IO;
 using GraphicalEditor.Util;
 using System.Collections.Generic;
 using System.Drawing;
-using static GraphicalEditor.DrawHandler;
+using static GraphicalEditor.Util.Enums;
 
 namespace GraphicalEditor.Shapes
 {
