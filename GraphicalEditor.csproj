@@ -62,7 +62,6 @@
     </Compile>
     <Compile Include="Interfaces\ICommand.cs" />
     <Compile Include="Interfaces\IShape.cs" />
-    <Compile Include="Interfaces\IShapeElement.cs" />
     <Compile Include="Interfaces\IShapeElementVisitor.cs" />
     <Compile Include="IO\BaseNode.cs" />
     <Compile Include="IO\Filehandler.cs" />
