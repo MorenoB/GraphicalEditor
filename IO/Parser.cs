@@ -198,7 +198,7 @@ namespace GraphicalEditor.IO
             {
                 if (node.Name.Contains("group"))
                 {
-                    ShapeComposite composite = new ShapeComposite(null, 0, 0, Point.Empty, Color.Black);
+                    ShapeComposite composite = new ShapeComposite();
 
                     //Groups should be handled as Composites, need to make up a method to determine correct depth and group order..
                     //Eg. two groups can be on the same depth but are seperate objects and have no interaction between eachother.

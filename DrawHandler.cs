@@ -60,6 +60,16 @@ namespace GraphicalEditor
                 else
                     return null;
             }
+            private set
+            {
+                int index = shapeList.IndexOf(SelectedShape);
+                if(index != -1)
+                {
+                    shapeList[index] = value;
+                    selectedShapes[0] = value;
+                }
+
+            }
         }
 
         private HitStatus hitStatus = HitStatus.None;
@@ -133,6 +143,16 @@ namespace GraphicalEditor
         public void DeleteShape(ShapeObject shapeToDelete)
         {
             ShapeList.Remove(shapeToDelete);
+        }
+
+        public void AddDecoratorToSelectedShape(Decorator.Decorator decorator)
+        {
+            if (!HasSelectedAShape)
+                return;
+
+            decorator.SetShape(SelectedShape);
+
+            SelectedShape = decorator;
         }
 
         public void ClearSelection()

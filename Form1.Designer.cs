@@ -29,10 +29,8 @@
         private void InitializeComponent()
         {
             this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
-            this.PictureBox_DrawArea = new System.Windows.Forms.PictureBox();
             this.Panel_Colorpicker = new System.Windows.Forms.Panel();
             this.label_SelectedTool = new System.Windows.Forms.Label();
-            this.Picturebox_CurrentColor = new System.Windows.Forms.PictureBox();
             this.Trackbar_Colorpicker_Alpha = new System.Windows.Forms.TrackBar();
             this.Trackbar_Colorpicker_Blue = new System.Windows.Forms.TrackBar();
             this.Trackbar_Colorpicker_Green = new System.Windows.Forms.TrackBar();
@@ -45,8 +43,17 @@
             this.Label_Colorpicker_B = new System.Windows.Forms.Label();
             this.Label_Colorpicker_G = new System.Windows.Forms.Label();
             this.Label_ColorPicker_R = new System.Windows.Forms.Label();
-            this.PictureBox_ColorPicker = new System.Windows.Forms.PictureBox();
             this.toolStrip4 = new System.Windows.Forms.ToolStrip();
+            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.toolStrip2 = new System.Windows.Forms.ToolStrip();
+            this.Label_BrushSize = new System.Windows.Forms.ToolStripLabel();
+            this.Textbox_BrushSize = new System.Windows.Forms.ToolStripTextBox();
+            this.toolStrip_Decorator = new System.Windows.Forms.ToolStrip();
+            this.label_Decorator = new System.Windows.Forms.ToolStripLabel();
+            this.textbox_DecoratorText = new System.Windows.Forms.ToolStripTextBox();
+            this.PictureBox_DrawArea = new System.Windows.Forms.PictureBox();
+            this.Picturebox_CurrentColor = new System.Windows.Forms.PictureBox();
+            this.PictureBox_ColorPicker = new System.Windows.Forms.PictureBox();
             this.Button_Rectangle = new System.Windows.Forms.ToolStripButton();
             this.Button_Ellipse = new System.Windows.Forms.ToolStripButton();
             this.Button_Group = new System.Windows.Forms.ToolStripButton();
@@ -54,31 +61,32 @@
             this.Button_Line = new System.Windows.Forms.ToolStripButton();
             this.Button_Brush = new System.Windows.Forms.ToolStripButton();
             this.Button_Pencil = new System.Windows.Forms.ToolStripButton();
-            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.Button_New = new System.Windows.Forms.ToolStripButton();
             this.Button_Load = new System.Windows.Forms.ToolStripButton();
             this.Button_Save = new System.Windows.Forms.ToolStripButton();
-            this.toolStrip2 = new System.Windows.Forms.ToolStrip();
-            this.Label_BrushSize = new System.Windows.Forms.ToolStripLabel();
-            this.Textbox_BrushSize = new System.Windows.Forms.ToolStripTextBox();
             this.Button_Apply_BrushSize = new System.Windows.Forms.ToolStripButton();
             this.Button_Undo = new System.Windows.Forms.ToolStripButton();
             this.Button_Redo = new System.Windows.Forms.ToolStripButton();
+            this.button_Top_Decorator = new System.Windows.Forms.ToolStripButton();
+            this.button_Bottom_Decorator = new System.Windows.Forms.ToolStripButton();
+            this.button_Left_Decorator = new System.Windows.Forms.ToolStripButton();
+            this.button_Right_Decorator = new System.Windows.Forms.ToolStripButton();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.LeftToolStripPanel.SuspendLayout();
             this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
             this.toolStripContainer1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.PictureBox_DrawArea)).BeginInit();
             this.Panel_Colorpicker.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.Picturebox_CurrentColor)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Trackbar_Colorpicker_Alpha)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Trackbar_Colorpicker_Blue)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Trackbar_Colorpicker_Green)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Trackbar_ColorPicker_Red)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.PictureBox_ColorPicker)).BeginInit();
             this.toolStrip4.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.toolStrip2.SuspendLayout();
+            this.toolStrip_Decorator.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.PictureBox_DrawArea)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Picturebox_CurrentColor)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PictureBox_ColorPicker)).BeginInit();
             this.SuspendLayout();
             // 
             // toolStripContainer1
@@ -89,7 +97,7 @@
             this.toolStripContainer1.ContentPanel.Controls.Add(this.PictureBox_DrawArea);
             this.toolStripContainer1.ContentPanel.Controls.Add(this.Panel_Colorpicker);
             this.toolStripContainer1.ContentPanel.Margin = new System.Windows.Forms.Padding(4);
-            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(1381, 707);
+            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(1396, 680);
             this.toolStripContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
             // 
             // toolStripContainer1.LeftToolStripPanel
@@ -106,22 +114,7 @@
             // 
             this.toolStripContainer1.TopToolStripPanel.Controls.Add(this.toolStrip1);
             this.toolStripContainer1.TopToolStripPanel.Controls.Add(this.toolStrip2);
-            // 
-            // PictureBox_DrawArea
-            // 
-            this.PictureBox_DrawArea.BackColor = System.Drawing.Color.White;
-            this.PictureBox_DrawArea.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.PictureBox_DrawArea.Location = new System.Drawing.Point(0, 0);
-            this.PictureBox_DrawArea.Margin = new System.Windows.Forms.Padding(4);
-            this.PictureBox_DrawArea.Name = "PictureBox_DrawArea";
-            this.PictureBox_DrawArea.Size = new System.Drawing.Size(1004, 707);
-            this.PictureBox_DrawArea.TabIndex = 1;
-            this.PictureBox_DrawArea.TabStop = false;
-            this.PictureBox_DrawArea.Paint += new System.Windows.Forms.PaintEventHandler(this.PictureBox_DrawArea_Paint);
-            this.PictureBox_DrawArea.MouseClick += new System.Windows.Forms.MouseEventHandler(this.PictureBox_DrawArea_MouseClick);
-            this.PictureBox_DrawArea.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Picturebox_DrawArea_MouseDown);
-            this.PictureBox_DrawArea.MouseMove += new System.Windows.Forms.MouseEventHandler(this.PictureBox_DrawArea_MouseMove);
-            this.PictureBox_DrawArea.MouseUp += new System.Windows.Forms.MouseEventHandler(this.PictureBox_DrawArea_MouseUp);
+            this.toolStripContainer1.TopToolStripPanel.Controls.Add(this.toolStrip_Decorator);
             // 
             // Panel_Colorpicker
             // 
@@ -141,10 +134,10 @@
             this.Panel_Colorpicker.Controls.Add(this.Label_ColorPicker_R);
             this.Panel_Colorpicker.Controls.Add(this.PictureBox_ColorPicker);
             this.Panel_Colorpicker.Dock = System.Windows.Forms.DockStyle.Right;
-            this.Panel_Colorpicker.Location = new System.Drawing.Point(1004, 0);
+            this.Panel_Colorpicker.Location = new System.Drawing.Point(1019, 0);
             this.Panel_Colorpicker.Margin = new System.Windows.Forms.Padding(4);
             this.Panel_Colorpicker.Name = "Panel_Colorpicker";
-            this.Panel_Colorpicker.Size = new System.Drawing.Size(377, 707);
+            this.Panel_Colorpicker.Size = new System.Drawing.Size(377, 680);
             this.Panel_Colorpicker.TabIndex = 0;
             // 
             // label_SelectedTool
@@ -155,15 +148,6 @@
             this.label_SelectedTool.Size = new System.Drawing.Size(184, 17);
             this.label_SelectedTool.TabIndex = 14;
             this.label_SelectedTool.Text = "Selected tool will show here!";
-            // 
-            // Picturebox_CurrentColor
-            // 
-            this.Picturebox_CurrentColor.Location = new System.Drawing.Point(25, 63);
-            this.Picturebox_CurrentColor.Margin = new System.Windows.Forms.Padding(4);
-            this.Picturebox_CurrentColor.Name = "Picturebox_CurrentColor";
-            this.Picturebox_CurrentColor.Size = new System.Drawing.Size(155, 160);
-            this.Picturebox_CurrentColor.TabIndex = 13;
-            this.Picturebox_CurrentColor.TabStop = false;
             // 
             // Trackbar_Colorpicker_Alpha
             // 
@@ -289,19 +273,6 @@
             this.Label_ColorPicker_R.TabIndex = 1;
             this.Label_ColorPicker_R.Text = "R:";
             // 
-            // PictureBox_ColorPicker
-            // 
-            this.PictureBox_ColorPicker.Image = global::GraphicalEditor.Properties.Resources.wheel;
-            this.PictureBox_ColorPicker.Location = new System.Drawing.Point(188, 62);
-            this.PictureBox_ColorPicker.Margin = new System.Windows.Forms.Padding(4);
-            this.PictureBox_ColorPicker.Name = "PictureBox_ColorPicker";
-            this.PictureBox_ColorPicker.Size = new System.Drawing.Size(173, 161);
-            this.PictureBox_ColorPicker.TabIndex = 0;
-            this.PictureBox_ColorPicker.TabStop = false;
-            this.PictureBox_ColorPicker.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PictureBox_ColorPicker_MouseDown);
-            this.PictureBox_ColorPicker.MouseMove += new System.Windows.Forms.MouseEventHandler(this.PictureBox_ColorPicker_MouseMove);
-            this.PictureBox_ColorPicker.MouseUp += new System.Windows.Forms.MouseEventHandler(this.PictureBox_ColorPicker_MouseUp);
-            // 
             // toolStrip4
             // 
             this.toolStrip4.Dock = System.Windows.Forms.DockStyle.None;
@@ -316,84 +287,8 @@
             this.Button_Pencil});
             this.toolStrip4.Location = new System.Drawing.Point(0, 3);
             this.toolStrip4.Name = "toolStrip4";
-            this.toolStrip4.Size = new System.Drawing.Size(40, 224);
+            this.toolStrip4.Size = new System.Drawing.Size(25, 200);
             this.toolStrip4.TabIndex = 0;
-            // 
-            // Button_Rectangle
-            // 
-            this.Button_Rectangle.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.Button_Rectangle.Image = global::GraphicalEditor.Properties.Resources.drawrect;
-            this.Button_Rectangle.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.Button_Rectangle.Name = "Button_Rectangle";
-            this.Button_Rectangle.Size = new System.Drawing.Size(38, 24);
-            this.Button_Rectangle.Text = "Draw rectangle";
-            this.Button_Rectangle.Click += new System.EventHandler(this.Button_Rectangle_Click);
-            // 
-            // Button_Ellipse
-            // 
-            this.Button_Ellipse.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.Button_Ellipse.Image = global::GraphicalEditor.Properties.Resources.drawellip;
-            this.Button_Ellipse.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.Button_Ellipse.Name = "Button_Ellipse";
-            this.Button_Ellipse.Size = new System.Drawing.Size(38, 24);
-            this.Button_Ellipse.Text = "Draw ellipse";
-            this.Button_Ellipse.Click += new System.EventHandler(this.Button_Ellipse_Click);
-            // 
-            // Button_Group
-            // 
-            this.Button_Group.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.Button_Group.Image = global::GraphicalEditor.Properties.Resources.rectsel;
-            this.Button_Group.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.Button_Group.Name = "Button_Group";
-            this.Button_Group.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.Button_Group.RightToLeftAutoMirrorImage = true;
-            this.Button_Group.Size = new System.Drawing.Size(38, 24);
-            this.Button_Group.Text = "Group";
-            this.Button_Group.Click += new System.EventHandler(this.Button_Group_Click);
-            // 
-            // Button_ColorPicker
-            // 
-            this.Button_ColorPicker.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.Button_ColorPicker.Enabled = false;
-            this.Button_ColorPicker.Image = global::GraphicalEditor.Properties.Resources.colorp;
-            this.Button_ColorPicker.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.Button_ColorPicker.Name = "Button_ColorPicker";
-            this.Button_ColorPicker.Size = new System.Drawing.Size(38, 24);
-            this.Button_ColorPicker.Text = "Color picker";
-            this.Button_ColorPicker.Click += new System.EventHandler(this.Button_ColorPicker_Click);
-            // 
-            // Button_Line
-            // 
-            this.Button_Line.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.Button_Line.Enabled = false;
-            this.Button_Line.Image = global::GraphicalEditor.Properties.Resources.line;
-            this.Button_Line.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.Button_Line.Name = "Button_Line";
-            this.Button_Line.Size = new System.Drawing.Size(38, 24);
-            this.Button_Line.Text = "Draw line";
-            this.Button_Line.Click += new System.EventHandler(this.Button_line_Click);
-            // 
-            // Button_Brush
-            // 
-            this.Button_Brush.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.Button_Brush.Enabled = false;
-            this.Button_Brush.Image = global::GraphicalEditor.Properties.Resources.brush;
-            this.Button_Brush.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.Button_Brush.Name = "Button_Brush";
-            this.Button_Brush.Size = new System.Drawing.Size(38, 24);
-            this.Button_Brush.Text = "Brush";
-            this.Button_Brush.Click += new System.EventHandler(this.Button_Brush_Click);
-            // 
-            // Button_Pencil
-            // 
-            this.Button_Pencil.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.Button_Pencil.Enabled = false;
-            this.Button_Pencil.Image = global::GraphicalEditor.Properties.Resources.pencil;
-            this.Button_Pencil.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.Button_Pencil.Name = "Button_Pencil";
-            this.Button_Pencil.Size = new System.Drawing.Size(38, 24);
-            this.Button_Pencil.Text = "Pencil";
-            this.Button_Pencil.Click += new System.EventHandler(this.Button_Pencil_Click);
             // 
             // toolStrip1
             // 
@@ -407,6 +302,175 @@
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Size = new System.Drawing.Size(84, 27);
             this.toolStrip1.TabIndex = 0;
+            // 
+            // toolStrip2
+            // 
+            this.toolStrip2.Dock = System.Windows.Forms.DockStyle.None;
+            this.toolStrip2.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.toolStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.Label_BrushSize,
+            this.Textbox_BrushSize,
+            this.Button_Apply_BrushSize,
+            this.Button_Undo,
+            this.Button_Redo});
+            this.toolStrip2.Location = new System.Drawing.Point(87, 0);
+            this.toolStrip2.Name = "toolStrip2";
+            this.toolStrip2.Size = new System.Drawing.Size(263, 27);
+            this.toolStrip2.TabIndex = 1;
+            // 
+            // Label_BrushSize
+            // 
+            this.Label_BrushSize.Enabled = false;
+            this.Label_BrushSize.Name = "Label_BrushSize";
+            this.Label_BrushSize.Size = new System.Drawing.Size(77, 24);
+            this.Label_BrushSize.Text = "Brush size:";
+            // 
+            // Textbox_BrushSize
+            // 
+            this.Textbox_BrushSize.Enabled = false;
+            this.Textbox_BrushSize.Name = "Textbox_BrushSize";
+            this.Textbox_BrushSize.Size = new System.Drawing.Size(100, 27);
+            // 
+            // toolStrip_Decorator
+            // 
+            this.toolStrip_Decorator.Dock = System.Windows.Forms.DockStyle.None;
+            this.toolStrip_Decorator.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.toolStrip_Decorator.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.label_Decorator,
+            this.textbox_DecoratorText,
+            this.button_Top_Decorator,
+            this.button_Bottom_Decorator,
+            this.button_Left_Decorator,
+            this.button_Right_Decorator});
+            this.toolStrip_Decorator.Location = new System.Drawing.Point(3, 27);
+            this.toolStrip_Decorator.Name = "toolStrip_Decorator";
+            this.toolStrip_Decorator.Size = new System.Drawing.Size(363, 27);
+            this.toolStrip_Decorator.TabIndex = 2;
+            // 
+            // label_Decorator
+            // 
+            this.label_Decorator.Name = "label_Decorator";
+            this.label_Decorator.Size = new System.Drawing.Size(114, 24);
+            this.label_Decorator.Text = "Decorator Text :";
+            // 
+            // textbox_DecoratorText
+            // 
+            this.textbox_DecoratorText.Name = "textbox_DecoratorText";
+            this.textbox_DecoratorText.Size = new System.Drawing.Size(100, 27);
+            // 
+            // PictureBox_DrawArea
+            // 
+            this.PictureBox_DrawArea.BackColor = System.Drawing.Color.White;
+            this.PictureBox_DrawArea.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.PictureBox_DrawArea.Location = new System.Drawing.Point(0, 0);
+            this.PictureBox_DrawArea.Margin = new System.Windows.Forms.Padding(4);
+            this.PictureBox_DrawArea.Name = "PictureBox_DrawArea";
+            this.PictureBox_DrawArea.Size = new System.Drawing.Size(1019, 680);
+            this.PictureBox_DrawArea.TabIndex = 1;
+            this.PictureBox_DrawArea.TabStop = false;
+            this.PictureBox_DrawArea.Paint += new System.Windows.Forms.PaintEventHandler(this.PictureBox_DrawArea_Paint);
+            this.PictureBox_DrawArea.MouseClick += new System.Windows.Forms.MouseEventHandler(this.PictureBox_DrawArea_MouseClick);
+            this.PictureBox_DrawArea.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Picturebox_DrawArea_MouseDown);
+            this.PictureBox_DrawArea.MouseMove += new System.Windows.Forms.MouseEventHandler(this.PictureBox_DrawArea_MouseMove);
+            this.PictureBox_DrawArea.MouseUp += new System.Windows.Forms.MouseEventHandler(this.PictureBox_DrawArea_MouseUp);
+            // 
+            // Picturebox_CurrentColor
+            // 
+            this.Picturebox_CurrentColor.Location = new System.Drawing.Point(25, 63);
+            this.Picturebox_CurrentColor.Margin = new System.Windows.Forms.Padding(4);
+            this.Picturebox_CurrentColor.Name = "Picturebox_CurrentColor";
+            this.Picturebox_CurrentColor.Size = new System.Drawing.Size(155, 160);
+            this.Picturebox_CurrentColor.TabIndex = 13;
+            this.Picturebox_CurrentColor.TabStop = false;
+            // 
+            // PictureBox_ColorPicker
+            // 
+            this.PictureBox_ColorPicker.Image = global::GraphicalEditor.Properties.Resources.wheel;
+            this.PictureBox_ColorPicker.Location = new System.Drawing.Point(188, 62);
+            this.PictureBox_ColorPicker.Margin = new System.Windows.Forms.Padding(4);
+            this.PictureBox_ColorPicker.Name = "PictureBox_ColorPicker";
+            this.PictureBox_ColorPicker.Size = new System.Drawing.Size(173, 161);
+            this.PictureBox_ColorPicker.TabIndex = 0;
+            this.PictureBox_ColorPicker.TabStop = false;
+            this.PictureBox_ColorPicker.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PictureBox_ColorPicker_MouseDown);
+            this.PictureBox_ColorPicker.MouseMove += new System.Windows.Forms.MouseEventHandler(this.PictureBox_ColorPicker_MouseMove);
+            this.PictureBox_ColorPicker.MouseUp += new System.Windows.Forms.MouseEventHandler(this.PictureBox_ColorPicker_MouseUp);
+            // 
+            // Button_Rectangle
+            // 
+            this.Button_Rectangle.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.Button_Rectangle.Image = global::GraphicalEditor.Properties.Resources.drawrect;
+            this.Button_Rectangle.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.Button_Rectangle.Name = "Button_Rectangle";
+            this.Button_Rectangle.Size = new System.Drawing.Size(23, 24);
+            this.Button_Rectangle.Text = "Draw rectangle";
+            this.Button_Rectangle.Click += new System.EventHandler(this.Button_Rectangle_Click);
+            // 
+            // Button_Ellipse
+            // 
+            this.Button_Ellipse.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.Button_Ellipse.Image = global::GraphicalEditor.Properties.Resources.drawellip;
+            this.Button_Ellipse.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.Button_Ellipse.Name = "Button_Ellipse";
+            this.Button_Ellipse.Size = new System.Drawing.Size(23, 24);
+            this.Button_Ellipse.Text = "Draw ellipse";
+            this.Button_Ellipse.Click += new System.EventHandler(this.Button_Ellipse_Click);
+            // 
+            // Button_Group
+            // 
+            this.Button_Group.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.Button_Group.Image = global::GraphicalEditor.Properties.Resources.rectsel;
+            this.Button_Group.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.Button_Group.Name = "Button_Group";
+            this.Button_Group.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.Button_Group.RightToLeftAutoMirrorImage = true;
+            this.Button_Group.Size = new System.Drawing.Size(23, 24);
+            this.Button_Group.Text = "Group";
+            this.Button_Group.Click += new System.EventHandler(this.Button_Group_Click);
+            // 
+            // Button_ColorPicker
+            // 
+            this.Button_ColorPicker.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.Button_ColorPicker.Enabled = false;
+            this.Button_ColorPicker.Image = global::GraphicalEditor.Properties.Resources.colorp;
+            this.Button_ColorPicker.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.Button_ColorPicker.Name = "Button_ColorPicker";
+            this.Button_ColorPicker.Size = new System.Drawing.Size(23, 24);
+            this.Button_ColorPicker.Text = "Color picker";
+            this.Button_ColorPicker.Click += new System.EventHandler(this.Button_ColorPicker_Click);
+            // 
+            // Button_Line
+            // 
+            this.Button_Line.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.Button_Line.Enabled = false;
+            this.Button_Line.Image = global::GraphicalEditor.Properties.Resources.line;
+            this.Button_Line.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.Button_Line.Name = "Button_Line";
+            this.Button_Line.Size = new System.Drawing.Size(23, 24);
+            this.Button_Line.Text = "Draw line";
+            this.Button_Line.Click += new System.EventHandler(this.Button_line_Click);
+            // 
+            // Button_Brush
+            // 
+            this.Button_Brush.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.Button_Brush.Enabled = false;
+            this.Button_Brush.Image = global::GraphicalEditor.Properties.Resources.brush;
+            this.Button_Brush.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.Button_Brush.Name = "Button_Brush";
+            this.Button_Brush.Size = new System.Drawing.Size(23, 24);
+            this.Button_Brush.Text = "Brush";
+            this.Button_Brush.Click += new System.EventHandler(this.Button_Brush_Click);
+            // 
+            // Button_Pencil
+            // 
+            this.Button_Pencil.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.Button_Pencil.Enabled = false;
+            this.Button_Pencil.Image = global::GraphicalEditor.Properties.Resources.pencil;
+            this.Button_Pencil.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.Button_Pencil.Name = "Button_Pencil";
+            this.Button_Pencil.Size = new System.Drawing.Size(23, 24);
+            this.Button_Pencil.Text = "Pencil";
+            this.Button_Pencil.Click += new System.EventHandler(this.Button_Pencil_Click);
             // 
             // Button_New
             // 
@@ -438,34 +502,6 @@
             this.Button_Save.Text = "Save";
             this.Button_Save.Click += new System.EventHandler(this.Button_Save_Click);
             // 
-            // toolStrip2
-            // 
-            this.toolStrip2.Dock = System.Windows.Forms.DockStyle.None;
-            this.toolStrip2.ImageScalingSize = new System.Drawing.Size(20, 20);
-            this.toolStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.Label_BrushSize,
-            this.Textbox_BrushSize,
-            this.Button_Apply_BrushSize,
-            this.Button_Undo,
-            this.Button_Redo});
-            this.toolStrip2.Location = new System.Drawing.Point(87, 0);
-            this.toolStrip2.Name = "toolStrip2";
-            this.toolStrip2.Size = new System.Drawing.Size(263, 27);
-            this.toolStrip2.TabIndex = 1;
-            // 
-            // Label_BrushSize
-            // 
-            this.Label_BrushSize.Enabled = false;
-            this.Label_BrushSize.Name = "Label_BrushSize";
-            this.Label_BrushSize.Size = new System.Drawing.Size(77, 24);
-            this.Label_BrushSize.Text = "Brush size:";
-            // 
-            // Textbox_BrushSize
-            // 
-            this.Textbox_BrushSize.Enabled = false;
-            this.Textbox_BrushSize.Name = "Textbox_BrushSize";
-            this.Textbox_BrushSize.Size = new System.Drawing.Size(100, 27);
-            // 
             // Button_Apply_BrushSize
             // 
             this.Button_Apply_BrushSize.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
@@ -496,6 +532,46 @@
             this.Button_Redo.Text = "Redo";
             this.Button_Redo.Click += new System.EventHandler(this.Button_Redo_Click);
             // 
+            // button_Top_Decorator
+            // 
+            this.button_Top_Decorator.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.button_Top_Decorator.Image = global::GraphicalEditor.Properties.Resources.upArrow;
+            this.button_Top_Decorator.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.button_Top_Decorator.Name = "button_Top_Decorator";
+            this.button_Top_Decorator.Size = new System.Drawing.Size(24, 24);
+            this.button_Top_Decorator.Text = "Apply Decorator to Top";
+            this.button_Top_Decorator.Click += new System.EventHandler(this.button_Top_Decorator_Click);
+            // 
+            // button_Bottom_Decorator
+            // 
+            this.button_Bottom_Decorator.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.button_Bottom_Decorator.Image = global::GraphicalEditor.Properties.Resources.downArrow;
+            this.button_Bottom_Decorator.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.button_Bottom_Decorator.Name = "button_Bottom_Decorator";
+            this.button_Bottom_Decorator.Size = new System.Drawing.Size(24, 24);
+            this.button_Bottom_Decorator.Text = "Apply Decorator to Bottom";
+            this.button_Bottom_Decorator.Click += new System.EventHandler(this.button_Bottom_Decorator_Click);
+            // 
+            // button_Left_Decorator
+            // 
+            this.button_Left_Decorator.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.button_Left_Decorator.Image = global::GraphicalEditor.Properties.Resources.leftArrow;
+            this.button_Left_Decorator.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.button_Left_Decorator.Name = "button_Left_Decorator";
+            this.button_Left_Decorator.Size = new System.Drawing.Size(24, 24);
+            this.button_Left_Decorator.Text = "Apply Decorator to Left";
+            this.button_Left_Decorator.Click += new System.EventHandler(this.button_Left_Decorator_Click);
+            // 
+            // button_Right_Decorator
+            // 
+            this.button_Right_Decorator.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.button_Right_Decorator.Image = global::GraphicalEditor.Properties.Resources.rightArrow;
+            this.button_Right_Decorator.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.button_Right_Decorator.Name = "button_Right_Decorator";
+            this.button_Right_Decorator.Size = new System.Drawing.Size(24, 24);
+            this.button_Right_Decorator.Text = "Apply Decorator to Right";
+            this.button_Right_Decorator.Click += new System.EventHandler(this.button_Right_Decorator_Click);
+            // 
             // Form
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -517,21 +593,23 @@
             this.toolStripContainer1.TopToolStripPanel.PerformLayout();
             this.toolStripContainer1.ResumeLayout(false);
             this.toolStripContainer1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.PictureBox_DrawArea)).EndInit();
             this.Panel_Colorpicker.ResumeLayout(false);
             this.Panel_Colorpicker.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.Picturebox_CurrentColor)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Trackbar_Colorpicker_Alpha)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Trackbar_Colorpicker_Blue)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Trackbar_Colorpicker_Green)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Trackbar_ColorPicker_Red)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.PictureBox_ColorPicker)).EndInit();
             this.toolStrip4.ResumeLayout(false);
             this.toolStrip4.PerformLayout();
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
             this.toolStrip2.ResumeLayout(false);
             this.toolStrip2.PerformLayout();
+            this.toolStrip_Decorator.ResumeLayout(false);
+            this.toolStrip_Decorator.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.PictureBox_DrawArea)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Picturebox_CurrentColor)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PictureBox_ColorPicker)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -574,6 +652,13 @@
         private System.Windows.Forms.Label label_SelectedTool;
         private System.Windows.Forms.ToolStripButton Button_Undo;
         private System.Windows.Forms.ToolStripButton Button_Redo;
+        private System.Windows.Forms.ToolStrip toolStrip_Decorator;
+        private System.Windows.Forms.ToolStripLabel label_Decorator;
+        private System.Windows.Forms.ToolStripTextBox textbox_DecoratorText;
+        private System.Windows.Forms.ToolStripButton button_Top_Decorator;
+        private System.Windows.Forms.ToolStripButton button_Bottom_Decorator;
+        private System.Windows.Forms.ToolStripButton button_Left_Decorator;
+        private System.Windows.Forms.ToolStripButton button_Right_Decorator;
     }
 }
 
