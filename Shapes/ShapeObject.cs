@@ -104,7 +104,7 @@ namespace GraphicalEditor.Shapes
             {
                 return color;
             }
-            protected set
+            set
             {
                 if (color == value)
                     return;
@@ -146,8 +146,7 @@ namespace GraphicalEditor.Shapes
 
         #endregion
 
-        private IShape shapeType = null;
-
+        public IShape ShapeType = null;
         public ShapeObject()
         {
 
@@ -160,7 +159,7 @@ namespace GraphicalEditor.Shapes
             Color = color;
 
             MinimumSize = new Size(Constants.SHAPE_MINIMUM_WIDTH, Constants.SHAPE_MINIMUM_HEIGHT);
-            this.shapeType = shapeType;
+            this.ShapeType = shapeType;
         }
 
         public virtual void Draw(Graphics g)
@@ -171,10 +170,10 @@ namespace GraphicalEditor.Shapes
                 GrabHandles.Draw(g, true);
             }
 
-            if (shapeType == null)
+            if (ShapeType == null)
                 return;
 
-            shapeType.Draw(g, new SolidBrush(Color), Location, Size);
+            ShapeType.Draw(g, new SolidBrush(Color), Location, Size);
         }
 
         public bool WasClicked(Point p)
@@ -195,10 +194,10 @@ namespace GraphicalEditor.Shapes
 
         public override string ToString()
         {
-            if (shapeType == null)
+            if (ShapeType == null)
                 return "SOMETHING WENT HORRIBLY WRONG";
             else
-                return shapeType.ToString();
+                return ShapeType.ToString();
         }
 
         public virtual List<string> GetNameListByDepth(int depth)
@@ -211,6 +210,14 @@ namespace GraphicalEditor.Shapes
             nameList.Add(name);
 
             return nameList;
+        }
+
+        public void AddDecorator(Decorator.Decorator decorator)
+        {
+            if (decorator == null)
+                return;
+
+            decorator.SetShape(this);
         }
 
         public void Accept(IShapeElementVisitor visitor)

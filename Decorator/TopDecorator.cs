@@ -11,7 +11,7 @@ namespace GraphicalEditor.Decorator
         public override void Draw(Graphics g)
         {
             base.Draw(g);
-            g.DrawString(text, SystemFonts.DefaultFont, Brushes.Black, ShapeLocationX, ShapeTop + C_HEIGHT_OFFSET);
+            g.DrawString(text, SystemFonts.DefaultFont, Brushes.Black, ShapeLocationX, ShapeTop - C_HEIGHT_OFFSET);
         }
     }
 }

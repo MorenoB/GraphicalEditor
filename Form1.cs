@@ -8,6 +8,7 @@ using GraphicalEditor.Commands;
 using GraphicalEditor.IO;
 using GraphicalEditor.Strategy;
 using static GraphicalEditor.Util.Enums;
+using GraphicalEditor.Decorator;
 
 namespace GraphicalEditor
 {
@@ -449,6 +450,52 @@ namespace GraphicalEditor
             commandHandler.Redo();
             DrawHandlerInstance.ClearSelection();
         }
+
+        private void button_Top_Decorator_Click(object sender, EventArgs e)
+        {
+            if (!DrawHandlerInstance.HasSelectedAShape)
+                return;
+
+            if (string.IsNullOrWhiteSpace(textbox_DecoratorText.Text))
+                return;
+
+            DrawHandlerInstance.AddDecoratorToSelectedShape(new TopDecorator(textbox_DecoratorText.Text));
+        }
+
+        private void button_Bottom_Decorator_Click(object sender, EventArgs e)
+        {
+            if (!DrawHandlerInstance.HasSelectedAShape)
+                return;
+
+            if (string.IsNullOrWhiteSpace(textbox_DecoratorText.Text))
+                return;
+
+            DrawHandlerInstance.AddDecoratorToSelectedShape(new BottomDecorator(textbox_DecoratorText.Text));
+        }
+
+        private void button_Left_Decorator_Click(object sender, EventArgs e)
+        {
+            if (!DrawHandlerInstance.HasSelectedAShape)
+                return;
+
+            if (string.IsNullOrWhiteSpace(textbox_DecoratorText.Text))
+                return;
+
+            DrawHandlerInstance.AddDecoratorToSelectedShape(new LeftDecorator(textbox_DecoratorText.Text));
+        }
+
+        private void button_Right_Decorator_Click(object sender, EventArgs e)
+        {
+            if (!DrawHandlerInstance.HasSelectedAShape)
+                return;
+
+            if (string.IsNullOrWhiteSpace(textbox_DecoratorText.Text))
+                return;
+
+            DrawHandlerInstance.AddDecoratorToSelectedShape(new RightDecorator(textbox_DecoratorText.Text));
+        }
         #endregion
+
+
     }
 }
