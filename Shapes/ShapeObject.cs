@@ -148,6 +148,11 @@ namespace GraphicalEditor.Shapes
 
         private IShape shapeType = null;
 
+        public ShapeObject()
+        {
+
+        }
+
         public ShapeObject(IShape shapeType, int width, int height, Point location, Color color)
         {
             Size = new Size(width, height);

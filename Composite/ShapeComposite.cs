@@ -11,10 +11,6 @@ namespace GraphicalEditor.Composite
 
         private Rectangle bounds;
 
-        public ShapeComposite(IShape shapeType, int width, int height, Point location, Color color) : base(shapeType, width, height, location, color)
-        {
-        }
-
         public override Rectangle Bounds {
             get
             {

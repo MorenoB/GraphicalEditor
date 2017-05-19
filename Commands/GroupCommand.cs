@@ -13,7 +13,7 @@ namespace GraphicalEditor.Shapes
         {
             this.shapeCollection = shapeCollection;
 
-            parentShape = new ShapeComposite(null, 0, 0, Point.Empty, Color.Black);
+            parentShape = new ShapeComposite();
         }
 
         public void Execute()
